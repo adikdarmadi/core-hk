@@ -53,22 +53,22 @@ public class LoggingAdvise {
 	@Before("controller() && allMethod() && args(..,request)")
 	public void logBefore(JoinPoint joinPoint, HttpServletRequest request) {
 
-		LOG.debug("Entering in Method :  " + joinPoint.getSignature().getName());
-		LOG.debug("Class Name :  " + joinPoint.getSignature().getDeclaringTypeName());
-		LOG.debug("Arguments :  " + Arrays.toString(joinPoint.getArgs()));
-		LOG.debug("Target class : " + joinPoint.getTarget().getClass().getName());
+		LOG.info("Entering in Method :  " + joinPoint.getSignature().getName());
+		LOG.info("Class Name :  " + joinPoint.getSignature().getDeclaringTypeName());
+		LOG.info("Arguments :  " + Arrays.toString(joinPoint.getArgs()));
+		LOG.info("Target class : " + joinPoint.getTarget().getClass().getName());
 
 		if (null != request) {
-			LOG.debug("Start Header Section of request ");
-			LOG.debug("Method Type : " + request.getMethod());
+			LOG.info("Start Header Section of request ");
+			LOG.info("Method Type : " + request.getMethod());
 			Enumeration headerNames = request.getHeaderNames();
 			while (headerNames.hasMoreElements()) {
 				String headerName = headerNames.nextElement().toString();
 				String headerValue = request.getHeader(headerName);
-				LOG.debug("Header Name: " + headerName + " Header Value : " + headerValue);
+				LOG.info("Header Name: " + headerName + " Header Value : " + headerValue);
 			}
-			LOG.debug("Request Path info :" + request.getServletPath());
-			LOG.debug("End Header Section of request ");
+			LOG.info("Request Path info :" + request.getServletPath());
+			LOG.info("End Header Section of request ");
 		}
 	}
 	//After -> All method within resource annotated with @Controller annotation 
@@ -76,7 +76,7 @@ public class LoggingAdvise {
 	@AfterReturning(pointcut = "controller() && allMethod()", returning = "result")
 	public void logAfter(JoinPoint joinPoint, Object result) {
 		String returnValue = this.getValue(result);
-		LOG.debug("Method Return value : " + returnValue);
+		LOG.info("Method Return value : " + returnValue);
 	}
 	//After -> Any method within resource annotated with @Controller annotation 
 	// throws an exception ...Log it
@@ -95,7 +95,7 @@ public class LoggingAdvise {
 			String methodName = joinPoint.getSignature().getName();
 			Object result = joinPoint.proceed();
 			long elapsedTime = System.currentTimeMillis() - start;
-			LOG.debug("Method " + className + "." + methodName + " ()" + " execution time : "
+			LOG.info("Method " + className + "." + methodName + " ()" + " execution time : "
 					+ elapsedTime + " ms");
 		
 			return result;

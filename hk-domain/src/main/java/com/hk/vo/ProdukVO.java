@@ -1,5 +1,9 @@
 package com.hk.vo;
 
+import javax.validation.Valid;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
 import com.hk.entities.DetailJenisProduk;
 
 /**
@@ -11,18 +15,11 @@ public class ProdukVO {
 	
 	private Integer id;
 
-	private DetailJenisProduk detailJenisProduk;
+	@NotEmpty(message="Detail Jenis Produk Harus Diisi")
+	private DetailJenisProdukVO detailJenisProduk;
 
 	private String namaProduk;
 
-
-	public DetailJenisProduk getDetailJenisProduk() {
-		return detailJenisProduk;
-	}
-
-	public void setDetailJenisProduk(DetailJenisProduk detailJenisProduk) {
-		this.detailJenisProduk = detailJenisProduk;
-	}
 
 	public String getNamaProduk() {
 		return namaProduk;
@@ -38,6 +35,14 @@ public class ProdukVO {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public DetailJenisProdukVO getDetailJenisProduk() {
+		return detailJenisProduk;
+	}
+
+	public void setDetailJenisProduk(DetailJenisProdukVO detailJenisProduk) {
+		this.detailJenisProduk = detailJenisProduk;
 	}
 
 	

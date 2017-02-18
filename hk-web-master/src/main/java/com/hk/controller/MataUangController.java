@@ -18,23 +18,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.hk.constant.BaseConstant;
 import com.hk.controller.base.LocaleController;
 import com.hk.security.AppPermission;
-import com.hk.service.ProdukService;
+import com.hk.service.MataUangService;
 import com.hk.util.rest.RestUtil;
-import com.hk.vo.ProdukVO;
+import com.hk.vo.MataUangVO;
 
 @SuppressWarnings("rawtypes")
 @Controller
-@RequestMapping("/produk")
-public class ProdukController extends LocaleController{
+@RequestMapping("/mataUang")
+public class MataUangController extends LocaleController{
+	
+	//12313123
 	
 	@Autowired
-	private ProdukService produkService;
+	private MataUangService mataUangService;
 	
 	@SuppressWarnings("unchecked")
 	@AppPermission(hakAkses="IS_ADD")
 	@RequestMapping(value = "/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Map<String,Object>> saveProduk(@Valid @RequestBody ProdukVO entity,HttpServletRequest request) {
-		Map<String, Object> result = produkService.saveProduk(entity);
+	public ResponseEntity<Map<String,Object>> saveMataUang(@Valid @RequestBody MataUangVO entity,HttpServletRequest request) {
+		Map<String, Object> result = mataUangService.saveMataUang(entity);
 		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
 		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.CREATED.toString());
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
@@ -43,9 +45,9 @@ public class ProdukController extends LocaleController{
 	}
 
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/produks",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/mataUangs",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> getStrukOrder() {
-		Map<String, Object> result = produkService.findAllProduk();
+		Map<String, Object> result = mataUangService.findAllMataUang();
 		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
 		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
@@ -53,9 +55,9 @@ public class ProdukController extends LocaleController{
 	}
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/produk/{id}",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Map<String, Object>> finProdukById(@PathVariable("id") Integer id) {
-		Map<String, Object> result = produkService.findById(id);
+	@RequestMapping(value = "/mataUang/{id}",method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, Object>> finMataUangById(@PathVariable("id") String id) {
+		Map<String, Object> result = mataUangService.findById(id);
 		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
 		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);

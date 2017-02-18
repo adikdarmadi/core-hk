@@ -3,6 +3,7 @@
 	<name>hk-business-master</name>
 	<comment>Module MainHk untuk Service, Business &amp; Reposirtory. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
 	<projects>
+		<project>hk-business-base</project>
 		<project>hk-domain</project>
 		<project>hk-config</project>
 	</projects>
@@ -23,6 +24,11 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
+			<name>org.hibernate.eclipse.console.hibernateBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
 			<name>org.eclipse.m2e.core.maven2Builder</name>
 			<arguments>
 			</arguments>
@@ -34,5 +40,6 @@
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
+		<nature>org.hibernate.eclipse.console.hibernateNature</nature>
 	</natures>
 </projectDescription>

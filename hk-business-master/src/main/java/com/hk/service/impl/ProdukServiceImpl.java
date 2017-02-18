@@ -39,8 +39,6 @@ public class ProdukServiceImpl implements ProdukService {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("id", produk.getId());
 		result.put("namaProduk", produk.getNamaProduk());
-		Integer a=null;
-		Integer b=a/100;
 		return result;
 	}
 	
@@ -49,6 +47,7 @@ public class ProdukServiceImpl implements ProdukService {
 	public Map<String,Object> findAllProduk() {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("listProduk", produkDao.findAllProduk());
+		result.put("jenisProduk", produkDao.findAllProduk());
 		return result;
 	}
 	

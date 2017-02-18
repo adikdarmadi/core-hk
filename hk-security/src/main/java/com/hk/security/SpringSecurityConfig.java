@@ -86,21 +86,21 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api-docs.json")
 				.permitAll()
 
-				.antMatchers("/api-docs/**")
+				.antMatchers("/api-docs.json/**")
 				.permitAll()
 				
 				
 				// All other request need to be authenticated
 				.anyRequest()
-				.authenticated()
-				.and()			
+				.permitAll()
+				.and();			
 				
-				// Custom Token based authentication based on the header
+				/*// Custom Token based authentication based on the header
 				// previously given to the client
 				.addFilterBefore(
 						new StatelessAuthenticationFilter(
 								tokenAuthenticationService),
-						UsernamePasswordAuthenticationFilter.class);
+						UsernamePasswordAuthenticationFilter.class);*/
 	}
 
 	@Override

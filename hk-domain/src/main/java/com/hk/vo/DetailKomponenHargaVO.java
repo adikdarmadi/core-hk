@@ -2,9 +2,12 @@ package com.hk.vo;
 
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class DetailKomponenHargaVO {
 
-	@NotNull(message="Deskripsi Harus Diisi")
+	@NotEmpty(message="Deskripsi Tidak Boleh Kosong")
 	private String deskripsi;
 
 	public String getDeskripsi() {

@@ -3,11 +3,11 @@
 	<name>hk-web-sales</name>
 	<comment>Module MainHk untuk Web / Controller. Tempat API diexpose oleh REST Client. NO_M2ECLIPSE_SUPPORT: Project files created with the maven-eclipse-plugin are not supported in M2Eclipse.</comment>
 	<projects>
-		<project>hk-business-sales</project>
 		<project>hk-config</project>
-		<project>hk-web-base</project>
-		<project>hk-security</project>
 		<project>hk-domain</project>
+		<project>hk-security</project>
+		<project>hk-business-sales</project>
+		<project>hk-web-base</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -31,7 +31,17 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
+			<name>org.hibernate.eclipse.console.hibernateBuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
 			<name>org.eclipse.m2e.core.maven2Builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.zeroturnaround.eclipse.rebelXmlBuilder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
@@ -43,5 +53,7 @@
 		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 		<nature>org.eclipse.wst.jsdt.core.jsNature</nature>
+		<nature>org.hibernate.eclipse.console.hibernateNature</nature>
+		<nature>org.zeroturnaround.eclipse.jrebelNature</nature>
 	</natures>
 </projectDescription>
