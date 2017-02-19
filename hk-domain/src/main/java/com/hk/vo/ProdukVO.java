@@ -1,10 +1,6 @@
 package com.hk.vo;
 
-import javax.validation.Valid;
-
-import org.hibernate.validator.constraints.NotEmpty;
-
-import com.hk.entities.DetailJenisProduk;
+import javax.validation.constraints.NotNull;
 
 /**
  * class Produk
@@ -15,7 +11,7 @@ public class ProdukVO {
 	
 	private Integer id;
 
-	@NotEmpty(message="Detail Jenis Produk Harus Diisi")
+	@NotNull(message="Detail Jenis Produk Harus Diisi")
 	private DetailJenisProdukVO detailJenisProduk;
 
 	private String namaProduk;
