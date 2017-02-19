@@ -40,6 +40,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
+
 		http.exceptionHandling()
 				//restAuthenticationEntryPoint
 				.authenticationEntryPoint(restAuthenticationEntryPoint)
@@ -68,39 +69,25 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				// Allow anonymous logins
 				.antMatchers("/auth/**")
 				.permitAll()
-
-				// Allow SMS gateway
-				.antMatchers("/registrasi-pasien-sms/**")
-				.permitAll()
-				
-				// Allow SMS gateway
-				.antMatchers("/report/**")
-				.permitAll()
-
-				// URL tanpa auth deklarasikan di sini
-				.antMatchers("/test-tanpa-auth/**")
-				.permitAll()
-				.antMatchers("/test/**")
-				.permitAll()
-				
 				.antMatchers("/api-docs.json")
 				.permitAll()
 
-				.antMatchers("/api-docs.json/**")
+				.antMatchers("/api-docs/**")
 				.permitAll()
-				
+								
 				
 				// All other request need to be authenticated
 				.anyRequest()
-				.permitAll()
-				.and();			
+				.authenticated()
+				.and()			
 				
-				/*// Custom Token based authentication based on the header
+				// Custom Token based authentication based on the header
 				// previously given to the client
 				.addFilterBefore(
 						new StatelessAuthenticationFilter(
 								tokenAuthenticationService),
-						UsernamePasswordAuthenticationFilter.class);*/
+						UsernamePasswordAuthenticationFilter.class);
+	
 	}
 
 	@Override

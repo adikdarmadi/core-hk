@@ -3,8 +3,6 @@ package com.hk.security;
 import io.jsonwebtoken.MalformedJwtException;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -13,20 +11,17 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hk.constant.SecurityConstant;
-import com.hk.util.CommonUtil;
 
 /**
  * StatelessAuthenticationFilter class
  * 
- * @author Adik
+ * @author Roberto
  */
 public class StatelessAuthenticationFilter extends GenericFilterBean {
 	private final TokenAuthenticationService authenticationService;
@@ -55,39 +50,22 @@ public class StatelessAuthenticationFilter extends GenericFilterBean {
 		Authentication authentication = null;
 		try {
 		
-			authentication = authenticationService.getAuthentication(httpRequest);
-			if(CommonUtil.isNullOrEmpty(authentication)){
-				if(httpRequest.getRequestURI().equalsIgnoreCase("/hk-web-master/auth/sign-in") || httpRequest.getRequestURI().equalsIgnoreCase("/hk-web/auth/sign-in/")){
-					SecurityContextHolder.getContext().setAuthentication(authentication);
-					filterChain.doFilter(request, response);
-					SecurityContextHolder.getContext().setAuthentication(null);
-				}else{
-					ObjectMapper mapper = new ObjectMapper();
-					String json = "";
-					Map<String, Object> map = new HashMap<String, Object>();
-					map.put(SecurityConstant.STATUS, HttpStatus.UNAUTHORIZED.name());
-					map.put(SecurityConstant.STATUS_CODE, HttpStatus.UNAUTHORIZED.toString());
-					map.put(SecurityConstant.MESSAGE, HttpStatus.UNAUTHORIZED.toString());
-
-					// convert map to JSON string
-					json = mapper.writeValueAsString(map);
-					json = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(map);
-					res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-					res.setContentType("application/json");
-					res.getWriter().write(json);
-					res.getWriter().flush();
-					res.getWriter().close();
-				}
-				
-			}else{
-				SecurityContextHolder.getContext().setAuthentication(authentication);
-				filterChain.doFilter(request, response);
-				SecurityContextHolder.getContext().setAuthentication(null);
-			}
+			authentication = authenticationService
+					.getAuthentication(httpRequest);
 		} catch (JsonParseException | MalformedJwtException e) {
 			HttpServletResponse httpResponse = (HttpServletResponse) response;
-			httpResponse.addHeader(SecurityConstant.MessageInfo.ERROR_MESSAGE,"Error Token (Not Valid Token)");
+			httpResponse.addHeader(SecurityConstant.MessageInfo.ERROR_MESSAGE,
+					"Error Token (Not Valid Token)");
 			filterChain.doFilter(request, response);
 		}
+		try {
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+			filterChain.doFilter(request, response);
+			SecurityContextHolder.getContext().setAuthentication(null);
+		} catch (Exception e) {
+			// TODO: handle exception
+			logger.info("not found for url : "+req.getRequestURI());
+		}
+	
 	}
 }
