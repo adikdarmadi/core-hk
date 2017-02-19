@@ -9,19 +9,16 @@ import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hk.dao.StrukOrderDao;
 import com.hk.entities.DetailKomponenHarga;
-import com.hk.entities.Produk;
 import com.hk.entities.StrukOrder;
 import com.hk.entities.StrukOrderDetail;
 import com.hk.service.StrukOrderService;
 import com.hk.util.CommonUtil;
 import com.hk.vo.DetailKomponenHargaVO;
-import com.hk.vo.ProdukVO;
 import com.hk.vo.StrukOrderDetailVO;
 import com.hk.vo.StrukOrderVO;
 
@@ -30,21 +27,21 @@ public class StrukOrderServiceImpl implements StrukOrderService {
 
 	@Autowired
 	private StrukOrderDao strukOrderDao;
-	
+
 	private ModelMapper modelMapper = new ModelMapper();
 
 	@Override
-	public Map<String,Object> saveStrukOrder(StrukOrderVO strukOrderVo) {
-		StrukOrder strukOrder=new StrukOrder();
-		List<StrukOrderDetail> tmpStrukOrderDetail=new ArrayList<StrukOrderDetail>();
-		if(CommonUtil.isNotNullOrEmpty(strukOrderVo.getStrukOrders())){
-			for(StrukOrderDetailVO strukOrderDetailVO:strukOrderVo.getStrukOrders()){
+	public Map<String, Object> saveStrukOrder(StrukOrderVO strukOrderVo) {
+		StrukOrder strukOrder = new StrukOrder();
+		List<StrukOrderDetail> tmpStrukOrderDetail = new ArrayList<StrukOrderDetail>();
+		if (CommonUtil.isNotNullOrEmpty(strukOrderVo.getStrukOrders())) {
+			for (StrukOrderDetailVO strukOrderDetailVO : strukOrderVo.getStrukOrders()) {
 				StrukOrderDetail strukOrderDetail = modelMapper.map(strukOrderDetailVO, StrukOrderDetail.class);
 				strukOrderDetail.setStrukOrder(strukOrder);
-				Set<DetailKomponenHarga> detailKomponenHarga=new HashSet<DetailKomponenHarga>();
-				if(CommonUtil.isNotNullOrEmpty(strukOrderDetailVO.getDetailKomponenHarga())){
-					for(DetailKomponenHargaVO detailKomponenHargaVO:strukOrderDetailVO.getDetailKomponenHarga()){
-						DetailKomponenHarga model=modelMapper.map(detailKomponenHargaVO, DetailKomponenHarga.class);
+				Set<DetailKomponenHarga> detailKomponenHarga = new HashSet<DetailKomponenHarga>();
+				if (CommonUtil.isNotNullOrEmpty(strukOrderDetailVO.getDetailKomponenHarga())) {
+					for (DetailKomponenHargaVO detailKomponenHargaVO : strukOrderDetailVO.getDetailKomponenHarga()) {
+						DetailKomponenHarga model = modelMapper.map(detailKomponenHargaVO, DetailKomponenHarga.class);
 						model.setStrukOrderDetail(strukOrderDetail);
 						detailKomponenHarga.add(model);
 					}
@@ -56,32 +53,19 @@ public class StrukOrderServiceImpl implements StrukOrderService {
 		}
 		strukOrder.getStrukOrders().clear();
 		strukOrder.getStrukOrders().addAll(tmpStrukOrderDetail);
-		strukOrder=strukOrderDao.save(strukOrder);
-		
-		Map<String,Object> result=new HashMap<String,Object>(); 
+		strukOrder = strukOrderDao.save(strukOrder);
+
+		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("id", strukOrder.getId());
 		return result;
 	}
 
 	@Override
-	@Transactional(readOnly=true)
+	@Transactional(readOnly = true)
 	public Map<String, Object> findAll() {
-		Map<String,Object> result=new HashMap<String,Object>();
-		List<Map<String,Object>> hasil=new ArrayList<Map<String,Object>>();
-		try {
-			for(Map<String,Object> data:strukOrderDao.listStrukOrder()){
-				if(CommonUtil.isNotNullOrEmpty(data.get("produk"))){
-					result.put("data", modelMapper.map(data.get("produk"),ProdukVO.class ));
-				}
-				hasil.add(result);
-			}
-		} catch (Exception e) {
-		
-		}
-		
-		result.put("strukOrderList",hasil.get(0));
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("data", strukOrderDao.listStrukOrder());
 		return result;
 	}
-
 
 }
