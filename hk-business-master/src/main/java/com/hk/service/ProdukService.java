@@ -18,4 +18,6 @@ public interface ProdukService {
 
 	Map<String, Object> findById(Integer id);
 
+	Map<String, Object> saveProdukRollBack(ProdukVO entity);
+
 }
