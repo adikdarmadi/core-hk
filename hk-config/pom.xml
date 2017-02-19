@@ -239,6 +239,13 @@
 			<version>${commons-dbcp.version}</version>
 		</dependency>
 		
+		<!-- Database Connection Pool -->
+		<dependency>
+			<groupId>com.zaxxer</groupId>
+			<artifactId>HikariCP-java7</artifactId>
+			<version>${hikari-cp.version}</version>
+		</dependency>
+		
 		<!-- Spring MVC -->
 		<dependency>
 			<groupId>org.springframework</groupId>
