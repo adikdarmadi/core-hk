@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
  * 
  * @author Adik
  */
-@Component
+/*@Component*/
 @Aspect
 public class LoggingAdvise {
 	
