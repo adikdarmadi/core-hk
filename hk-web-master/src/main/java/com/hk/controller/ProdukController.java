@@ -62,4 +62,15 @@ public class ProdukController extends LocaleController{
 		return RestUtil.getJsonResponse(result, HttpStatus.OK, mapHeaderMessage);
 	}
 
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/saveProdukRollBack", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String,Object>> saveProdukRollBack(@Valid @RequestBody ProdukVO entity,HttpServletRequest request) {
+		Map<String, Object> result = produkService.saveProdukRollBack(entity);
+		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
+		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.CREATED.toString());
+		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
+		return RestUtil.getJsonResponse(result, HttpStatus.CREATED, mapHeaderMessage);
+	
+	}
+
 }
