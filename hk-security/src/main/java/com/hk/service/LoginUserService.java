@@ -1,8 +1,10 @@
 package com.hk.service;
 
 import com.hk.entities.LoginUser;
+import com.hk.entities.User;
 import com.hk.vo.AuthVO;
 import com.hk.vo.LoginUserVO;
+import com.hk.vo.UserVO;
 
 
 /**
@@ -12,8 +14,8 @@ import com.hk.vo.LoginUserVO;
  */
 public interface LoginUserService{
 	
-	LoginUserVO signIn(AuthVO authVO);
+	UserVO signIn(AuthVO authVO);
 	
-	LoginUser getLoginUser();
+	User getUser();
 
 }

@@ -28,7 +28,7 @@ public class JenisProdukServiceImpl implements JenisProdukService {
 	@Override
 	@Transactional(readOnly=false)
 	public Map<String,Object> saveJenisProduk() {
-		LOGGER.info(userService.getLoginUser().getNamaUser() +"save Jenis Produk");
+		LOGGER.info(userService.getUser().getId() +"save Jenis Produk");
 
 		/*
 		 * Sample Excetion when save detail Jenis Produk

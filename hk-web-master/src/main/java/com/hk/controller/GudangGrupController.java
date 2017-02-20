@@ -18,23 +18,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.hk.constant.BaseConstant;
 import com.hk.controller.base.LocaleController;
 import com.hk.security.AppPermission;
-import com.hk.service.MataUangService;
+import com.hk.service.GudangGrupService;
 import com.hk.util.rest.RestUtil;
-import com.hk.vo.MataUangVO;
+import com.hk.vo.GudangGrupVO;
 
 @SuppressWarnings("rawtypes")
 @Controller
-@RequestMapping("/mataUang")
-public class MataUangController extends LocaleController {
+@RequestMapping("/gudangGrup")
+public class GudangGrupController extends LocaleController {
 
 	@Autowired
-	private MataUangService mataUangService;
+	private GudangGrupService gudangGrupService;
 
 	@SuppressWarnings("unchecked")
 	@AppPermission(hakAkses = "IS_ADD")
 	@RequestMapping(value = "/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Map<String, Object>> Save(@Valid @RequestBody MataUangVO entity, HttpServletRequest request) {
-		Map<String, Object> result = mataUangService.saveMataUang(entity);
+	public ResponseEntity<Map<String, Object>> Save(@Valid @RequestBody GudangGrupVO entity, HttpServletRequest request) {
+		Map<String, Object> result = gudangGrupService.saveGudangGrup(entity);
 		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
 		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.CREATED.toString());
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
@@ -48,9 +48,9 @@ public class MataUangController extends LocaleController {
 	 * @RequestMapping(value = "/edit/{id}", method = RequestMethod.PUT,
 	 * consumes = MediaType.APPLICATION_JSON_VALUE,produces=MediaType.
 	 * APPLICATION_JSON_VALUE) public ResponseEntity<Map<String,Object>>
-	 * Save(@PathVariable("id") String id,@Valid @RequestBody MataUangVO
+	 * Save(@PathVariable("id") String id,@Valid @RequestBody GudangGrupVO
 	 * entity,HttpServletRequest request) { Map<String, Object> result =
-	 * mataUangService.saveMataUang(entity);
+	 * gudangGrupService.saveGudangGrup(entity);
 	 * mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
 	 * mapHeaderMessage.put(BaseConstant.STATUS_CODE,
 	 * HttpStatus.CREATED.toString());
@@ -64,7 +64,7 @@ public class MataUangController extends LocaleController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/del/{id}")
 	public ResponseEntity<Map<String, Object>> DeleteById(@PathVariable("id") String id) {
-		Map<String, Object> result = mataUangService.deleteMataUang(id);
+		Map<String, Object> result = gudangGrupService.deleteGudangGrup(id);
 		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
 		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
@@ -74,7 +74,7 @@ public class MataUangController extends LocaleController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/all")
 	public ResponseEntity<Map<String, Object>> FindAll() {
-		Map<String, Object> result = mataUangService.findAllMataUang();
+		Map<String, Object> result = gudangGrupService.findAllGudangGrup();
 		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
 		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
@@ -84,7 +84,7 @@ public class MataUangController extends LocaleController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> FindById(@PathVariable("id") String id) {
-		Map<String, Object> result = mataUangService.findById(id);
+		Map<String, Object> result = gudangGrupService.findById(id);
 		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
 		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);

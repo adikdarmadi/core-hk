@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hk.dao.UserDao;
 import com.hk.entities.LoginUser;
+import com.hk.entities.User;
 import com.hk.service.UserService;
 import com.hk.util.PasswordUtil;
 import com.hk.vo.AuthVO;
@@ -28,20 +29,19 @@ public class UserServiceImpl implements UserService {
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
 	@Autowired
-	private UserDao loginUserDao;
-
+	private UserDao userDao;
 	
 	@Override
-	public LoginUser getLoginUser() {
-		List<LoginUser> loginUser = null;
+	public User getUser() {
+		List<User> user = null;
         try {
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            String namaUser = principal.toString();
-            loginUser = loginUserDao.findByNamaUser(namaUser);
+            String id = principal.toString();
+            user = userDao.findById(id);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return loginUser.get(0);
+        return user.get(0);
     }
 	
 	

@@ -14,7 +14,7 @@ import com.hk.dao.MataUangDao;
 import com.hk.entities.MataUang;
 import com.hk.service.MataUangService;
 import com.hk.service.UserService;
-import com.hk.util.HibernateInitialize;
+import com.hk.util.DateUtil;
 import com.hk.vo.MataUangVO;
 
 @Service("mataUangService")
@@ -35,6 +35,10 @@ public class MataUangServiceImpl implements MataUangService {
 	public Map<String,Object> saveMataUang(MataUangVO p) {
 		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save mataUang execute");
 		MataUang model=modelMapper.map(p, MataUang.class);
+		model.setId(model.getId().toUpperCase());
+		model.setCreateBy(userService.getUser().getId());
+		model.setCreateDate(DateUtil.now());
+		model.setIsActive(true);
 		MataUang mataUang=mataUangDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("id", mataUang.getId());
@@ -59,7 +63,14 @@ public class MataUangServiceImpl implements MataUangService {
 		return result;
 	}
 	
-	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> deleteMataUang(String id) {
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		mataUangDao.delete(id);
+		result.put("id", id);
+		return result;
+	}
 
 
 }

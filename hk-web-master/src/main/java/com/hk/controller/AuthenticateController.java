@@ -30,6 +30,7 @@ import com.hk.util.DateUtil;
 import com.hk.util.rest.RestUtil;
 import com.hk.vo.AuthVO;
 import com.hk.vo.LoginUserVO;
+import com.hk.vo.UserVO;
 
 /**
  * Controller class for Authenticate Business
@@ -41,7 +42,7 @@ import com.hk.vo.LoginUserVO;
 public class AuthenticateController {
 
 	@Autowired
-	private LoginUserService loginUserService;
+	private LoginUserService userService;
 	protected Map<String, String> mapHeaderMessage = new HashMap<String, String>();
 	
 	@Autowired
@@ -52,38 +53,42 @@ public class AuthenticateController {
 	
 	@RequestMapping(value = "/sign-in", method = RequestMethod.POST)
 	@ResponseBody
-	public ResponseEntity<LoginUserVO> signIn(@RequestBody AuthVO vo, HttpServletRequest request, HttpServletResponse httpResponse) {
+	public ResponseEntity<UserVO> signIn(@RequestBody AuthVO vo, HttpServletRequest request, HttpServletResponse httpResponse) {
 
-		if (vo.getNamaUser() == null || vo.getKataSandi() == null) {
+		if (vo.getId() == null || vo.getPassword() == null) {
 			return RestUtil.getJsonHttptatus(HttpStatus.BAD_REQUEST);
 		}
 
-		LOGGER.info("starting logging {}", vo.getNamaUser() + " at " + DateUtil.getIndonesianStringDate(new Date()));
+		LOGGER.info("starting logging {}", vo.getId() + " at " + DateUtil.getIndonesianStringDate(new Date()));
 		
-		LoginUserVO loginUserVo = loginUserService.signIn(vo);
-		if (loginUserVo == null) {
+		UserVO userVo = userService.signIn(vo);
+		
+		mapHeaderMessage.clear();
+		
+		if (userVo == null) {
 			mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.UNAUTHORIZED.name());
 			mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.UNAUTHORIZED.toString());
+			mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_ERROR);
+			return RestUtil.getJsonResponse(userVo, HttpStatus.UNAUTHORIZED, mapHeaderMessage);
+		}else{
+			GrantedAuthority authority = new SimpleGrantedAuthority("USER");
+			String token = tokenAuthenticationService.addAuthentication(httpResponse, new UserAuthentication(
+					new User(userVo.getId(), userVo.getPassword(), Arrays.asList(authority))));
+
+			mapHeaderMessage.put("X-AUTH-TOKEN", token);
+			
+			mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
+			mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
 			mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
-			return RestUtil.getJsonResponse(loginUserVo, HttpStatus.UNAUTHORIZED, mapHeaderMessage);
+			return RestUtil.getJsonResponse(userVo, HttpStatus.OK, mapHeaderMessage);
 		}
-		GrantedAuthority authority = new SimpleGrantedAuthority("USER");
-		String token = tokenAuthenticationService.addAuthentication(httpResponse, new UserAuthentication(
-				new User(loginUserVo.getNamaUser(), loginUserVo.getKataSandi(), Arrays.asList(authority))));
-
-		mapHeaderMessage.put("X-AUTH-TOKEN", token);
-
-		return RestUtil.getJsonResponse(loginUserVo, HttpStatus.OK, mapHeaderMessage);
-
 	}
 	
-
-
 	@RequestMapping(value = "/sign-out", method = RequestMethod.POST)
 	@ResponseBody
 	public void signOut(@RequestBody AuthVO vo) {
 
-		LOGGER.info("starting logout{}", vo.getNamaUser() + " at " + DateUtil.getIndonesianStringDate(new Date()));
+		LOGGER.info("starting logout{}", vo.getId() + " at " + DateUtil.getIndonesianStringDate(new Date()));
 
 		// misal call service logout dan seterusnya
 		// Karena Stateless tidak perlu set " session user " menjadi tidak

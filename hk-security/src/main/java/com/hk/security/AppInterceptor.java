@@ -23,7 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hk.constant.SecurityConstant;
-import com.hk.dao.LoginUserDao;
+import com.hk.dao.UserDao;
 import com.hk.entities.LoginUser;
 import com.hk.util.CommonUtil;
 
@@ -40,7 +40,7 @@ public class AppInterceptor implements HandlerInterceptor {
 	private TokenAuthenticationService tokenAuthenticationService;
 
 	@Autowired
-	private LoginUserDao loginUserDao;
+	private UserDao loginUserDao;
 
 	public AppInterceptor() {
 	}

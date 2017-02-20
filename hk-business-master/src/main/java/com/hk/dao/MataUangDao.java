@@ -13,7 +13,7 @@ import com.hk.entities.Produk;
 @Repository("MataUangDao")
 public interface MataUangDao extends PagingAndSortingRepository<MataUang, String> {
 
-	@Query("select new map (m.id as id,m.isActive as isActive) from MataUang m where m.isActive = true ")
+	@Query("select new map (m.id as id, m.isActive as isActive, m.version as version, m.createBy as createBy, m.createDate as createDate) from MataUang m ")
 	List<Map<String,Object>> findAllMataUang();
 	
 	MataUang findById(String id);

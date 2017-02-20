@@ -7,12 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import com.hk.dao.LoginUserDao;
+import com.hk.dao.UserDao;
 import com.hk.entities.LoginUser;
+import com.hk.entities.User;
 
 /**
  * UserService implements org.springframework.security.core.userdetails.UserDetailsService
@@ -23,7 +23,7 @@ public class UserService implements
 		org.springframework.security.core.userdetails.UserDetailsService {
 
 	@Autowired
-	private LoginUserDao loginUserDao;
+	private UserDao userDao;
 
 	private final AccountStatusUserDetailsChecker detailsChecker = new AccountStatusUserDetailsChecker();
 
@@ -37,19 +37,19 @@ public class UserService implements
 	 * @author Adik
 	 */
 	@Override
-	public final User loadUserByUsername(String username) throws UsernameNotFoundException {
-		List<LoginUser> loginUsers = loginUserDao.findByNamaUser(username);
-		if (loginUsers.isEmpty()) {
+	public final org.springframework.security.core.userdetails.User loadUserByUsername(String id) throws UsernameNotFoundException {
+		List<User> users = userDao.findById(id);
+		if (users.isEmpty()) {
 			throw new UsernameNotFoundException("user not found");
 		}
-		LoginUser loginUser = loginUsers.get(0);
+		User user = users.get(0);
 		//validasi tambahan lakukan di sini
 		
 //		GrantedAuthority authority = new SimpleGrantedAuthority(loginUser
 //				.getKelompokUser().getKelompokUser());
 		GrantedAuthority authority = new SimpleGrantedAuthority("USER");
-		UserDetails userDetails = (UserDetails) new User(loginUser.getNamaUser(), loginUser.getKataSandi(),Arrays.asList(authority));
+		UserDetails userDetails = (UserDetails) new org.springframework.security.core.userdetails.User(user.getId(), user.getPassword(),Arrays.asList(authority));
 		detailsChecker.check(userDetails);
-		return (User) userDetails;
+		return (org.springframework.security.core.userdetails.User) userDetails;
 	}
 }

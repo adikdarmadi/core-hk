@@ -6,6 +6,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import com.hk.entities.LoginUser;
+import com.hk.entities.User;
 
 
 /**
@@ -13,9 +14,9 @@ import com.hk.entities.LoginUser;
  * 
  * @author Adik
  */
-@Repository("LoginUserDao")
-public interface LoginUserDao extends PagingAndSortingRepository<LoginUser, Integer> {
+@Repository("UserDao")
+public interface UserDao extends PagingAndSortingRepository<User, String> {
 
-	List<LoginUser> findByNamaUser(String username);
+	List<User> findById(String id);
 	
 }

@@ -19,4 +19,6 @@ public interface MataUangService {
 
 	Map<String, Object> findById(String id);
 
+	Map<String, Object> deleteMataUang(String id);
+
 }

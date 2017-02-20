@@ -1,6 +1,7 @@
 package com.hk.service;
 
 import com.hk.entities.LoginUser;
+import com.hk.entities.User;
 import com.hk.vo.AuthVO;
 import com.hk.vo.LoginUserVO;
 
@@ -12,6 +13,6 @@ import com.hk.vo.LoginUserVO;
  */
 public interface UserService{
 	
-	LoginUser getLoginUser();
+	User getUser();
 
 }

@@ -10,23 +10,23 @@ public class AuthVO implements Serializable {
 	 * serialVersionUID
 	 */
 	private static final long serialVersionUID = 7391557986006113925L;
-	private String namaUser;
-	private String kataSandi;
-
-	public String getNamaUser() {
-		return namaUser;
+	private String id;
+	private String password;
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
-	public void setNamaUser(String namaUser) {
-		this.namaUser = namaUser;
-	}
-
-	public String getKataSandi() {
-		return kataSandi;
-	}
-
-	public void setKataSandi(String kataSandi) {
-		this.kataSandi = kataSandi;
-	}
-
+	
 }
