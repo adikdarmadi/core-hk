@@ -23,7 +23,7 @@ import com.hk.entities.MataUang;
 public class KasBankVO {
 	
 
-	@NotNull(message = "ID Tidak Boleh Kosong")
+	@NotEmpty(message = "ID Tidak Boleh Kosong")
 	private String id;
 
 	@NotEmpty(message = "Deskripsi tidak boleh kosong")
@@ -32,7 +32,7 @@ public class KasBankVO {
 	@NotEmpty(message = "Grup tidak boleh kosong")
 	private String groupId;
 	
-	@NotEmpty(message = "Plafon Kredit tidak boleh kosong")
+	@NotNull(message = "Plafon Kredit tidak boleh kosong")
 	private BigDecimal plafonKredit;
 
 	private String bank;
@@ -43,19 +43,19 @@ public class KasBankVO {
 	
 	private String noRek;
 	
-	@NotEmpty(message = "Perlu Password tidak boleh kosong")
+	@NotNull(message = "Perlu Password tidak boleh kosong")
 	private Boolean perluPassword;
 	
-	@NotEmpty(message = "Sales Biling tidak boleh kosong")
+	@NotNull(message = "Sales Biling tidak boleh kosong")
 	private Boolean salesBiling;
 	
-	@NotEmpty(message = "Saldo Awal tidak boleh kosong")
+	@NotNull(message = "Saldo Awal tidak boleh kosong")
 	private BigDecimal saldoAwal;
 	
-	@NotEmpty(message = "Kurs tidak boleh kosong")
+	@NotNull(message = "Kurs tidak boleh kosong")
 	private BigDecimal kurs;
 	
-	@NotEmpty(message = "Saldo Awal Rp tidak boleh kosong")
+	@NotNull(message = "Saldo Awal Rp tidak boleh kosong")
 	private BigDecimal saldoAwalRp;
 
 	private Date tanggalRegistrasi;

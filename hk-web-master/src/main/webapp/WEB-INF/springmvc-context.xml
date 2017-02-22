@@ -21,6 +21,7 @@
 		<mvc:argument-resolvers>
 			<bean class="org.springframework.data.web.PageableArgumentResolver" />
 		</mvc:argument-resolvers>
+		<mvc:path-matching registered-suffixes-only="true"/>
 	</mvc:annotation-driven>
 
 

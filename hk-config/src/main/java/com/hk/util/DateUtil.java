@@ -9,7 +9,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import org.joda.time.DateTime;
 
 /**
  * The Class DateUtil.
@@ -42,6 +41,16 @@ public final class DateUtil implements Serializable {
 	/** The Constant DATE_FORMAT. */
 	private static final Format DATE_FORMAT = new SimpleDateFormat(DATE_PATTERN);
 
+	private static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
+	private static final String DEFAULT_DATETIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+	private static final String INDO_DATE_FORMAT = "dd-MM-yyyy";
+	private static final String INDO_DATE_FORMAT_SLASH = "dd/MM/yyyy";
+	private static final String DEFAULT_DATE_TIME_FORMAT = "dd-MM-yyyy HH:mm:ss";
+	private static final String VERSION_DATE_TIME_FORMAT = "ddMMyyyyHHmmss";
+	private static final String DEFAULT_TIME_FORMAT = "HH:mm";
+	private static final String DEFAULT_DATE_DETAIL_MONTH = "dd MMMM yyyy";
+	private static final String DEFAULT_DATETIME_DETAIL_MONTH = "dd MMMM yyyy HH:mm:ss";
+	
 	private DateUtil() {
 		// To prevent instantiation of this class.
 	}
@@ -368,5 +377,40 @@ public final class DateUtil implements Serializable {
 			e.printStackTrace();
 		}
         return tglReg;
+	}
+	
+	public static synchronized String defaultFormatDatetime(Date date){
+		return new SimpleDateFormat(DEFAULT_DATETIME_FORMAT).format(date);
+	}
+
+	public static synchronized String defaultFormatDate(Date date){
+		return new SimpleDateFormat(DEFAULT_DATE_FORMAT).format(date);
+	}
+	
+	public static synchronized String indoFormatDate(Date date){
+		return new SimpleDateFormat(INDO_DATE_FORMAT).format(date);
+	}
+	
+	public static synchronized String indoFormatDateSlash(Date date){
+		return new SimpleDateFormat(INDO_DATE_FORMAT_SLASH).format(date);
+	}
+	
+	public static synchronized String formatDateTime(Date date){
+		return new SimpleDateFormat(DEFAULT_DATE_TIME_FORMAT).format(date);
+	}
+	
+	public static synchronized String dateDetailMonth(Date date){
+		return new SimpleDateFormat(DEFAULT_DATE_DETAIL_MONTH).format(date);
+	}
+	
+	public static synchronized String dateTimeDetailMonth(Date date){
+		return new SimpleDateFormat(DEFAULT_DATETIME_DETAIL_MONTH).format(date);
+	}
+	
+	public static synchronized String defaultTimeFormat(Date date){
+		return new SimpleDateFormat(DEFAULT_TIME_FORMAT).format(date);
+	}
+	public static synchronized String nowVersion(){
+		return new SimpleDateFormat(VERSION_DATE_TIME_FORMAT).format(now());
 	}
 }

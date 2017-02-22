@@ -1,7 +1,6 @@
 package com.hk.service.impl;
 
 import java.io.IOException;
-import java.util.List;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -14,13 +13,11 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hk.dao.UserDao;
-import com.hk.entities.LoginUser;
-import com.hk.entities.Produk;
 import com.hk.entities.User;
 import com.hk.service.LoginUserService;
+import com.hk.util.CommonUtil;
 import com.hk.util.PasswordUtil;
 import com.hk.vo.AuthVO;
-import com.hk.vo.LoginUserVO;
 import com.hk.vo.UserVO;
 
 /**
@@ -41,10 +38,10 @@ public class LoginUserServiceImpl implements LoginUserService {
 	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
 	public UserVO signIn(AuthVO authVO)  {
 
-		List<User> users = userDao.findById(authVO.getId());
-		if (!users.isEmpty()) {
+		User users = userDao.findById(authVO.getId());
+		if (CommonUtil.isNotNullOrEmpty(users)) {
 
-			User user = users.get(0);
+			User user = users;
 			PasswordUtil passwordUtil = new PasswordUtil();
 			Boolean isValidPassword = false;
 			try {
@@ -75,7 +72,7 @@ public class LoginUserServiceImpl implements LoginUserService {
 
 	@Override
 	public User getUser() {
-		List<User> user = null;
+		User user = null;
         try {
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
             String id = principal.toString();
@@ -83,7 +80,7 @@ public class LoginUserServiceImpl implements LoginUserService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return user.get(0);
+        return user;
     }
 	
 	

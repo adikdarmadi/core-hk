@@ -4,21 +4,14 @@
  */
 package com.hk.entities;
 
-import java.io.Serializable;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
-import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -40,7 +33,7 @@ public class Role extends BaseModel {
 	@Column(name = "ROLE_ID", nullable = false,length=50)
 	private String id;
 	
-	@NotEmpty(message = "Is Active tidak boleh kosong")
+	@NotNull(message = "Is Active tidak boleh kosong")
 	@Column(name = "IS_ACTIVE", nullable = false)
 	private Boolean isActive;
 

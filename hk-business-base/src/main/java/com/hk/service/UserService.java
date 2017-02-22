@@ -1,15 +1,15 @@
 package com.hk.service;
 
-import com.hk.entities.LoginUser;
+import java.util.Map;
+
 import com.hk.entities.User;
-import com.hk.vo.AuthVO;
-import com.hk.vo.LoginUserVO;
+import com.hk.vo.UserVO;
 
 
 /**
- * LoginUser Service
+ * User Service
  * 
- * @author Adik
+ * @author Adhityarismawan
  */
 public interface UserService{
 	

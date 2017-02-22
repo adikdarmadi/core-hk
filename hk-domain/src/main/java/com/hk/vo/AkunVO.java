@@ -3,6 +3,7 @@ package com.hk.vo;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -22,19 +23,19 @@ public class AkunVO {
 	@NotEmpty(message = "Posisi DK tidak boleh kosong")
 	private String positionDk;
 	
-	@NotEmpty(message = "Level Akun tidak boleh kosong")
+	@NotNull(message = "Level Akun tidak boleh kosong")
 	private Integer levelAkun;
 	
 	@NotEmpty(message = "Tipe Akun tidak boleh kosong")
 	private String tipeAkun;
 	
-	@NotEmpty(message = "Saldo Awal tidak boleh kosong")
+	@NotNull(message = "Saldo Awal tidak boleh kosong")
 	private BigDecimal saldoAwal;
 	
-	@NotEmpty(message = "Saldo Ytd tidak boleh kosong")
+	@NotNull(message = "Saldo Ytd tidak boleh kosong")
 	private BigDecimal saldoYtd;
 	
-	private String akunId;
+	private String akunParentId;
 	
 	@NotEmpty(message = "Akun Grup tidak boleh kosong")
 	private String akunGrupId;
@@ -95,12 +96,13 @@ public class AkunVO {
 		this.saldoYtd = saldoYtd;
 	}
 
-	public String getAkunId() {
-		return akunId;
+	
+	public String getAkunParentId() {
+		return akunParentId;
 	}
 
-	public void setAkunId(String akunId) {
-		this.akunId = akunId;
+	public void setAkunParentId(String akunParentId) {
+		this.akunParentId = akunParentId;
 	}
 
 	public String getAkunGrupId() {

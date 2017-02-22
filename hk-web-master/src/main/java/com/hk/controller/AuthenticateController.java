@@ -75,7 +75,9 @@ public class AuthenticateController {
 			String token = tokenAuthenticationService.addAuthentication(httpResponse, new UserAuthentication(
 					new User(userVo.getId(), userVo.getPassword(), Arrays.asList(authority))));
 
-			mapHeaderMessage.put("X-AUTH-TOKEN", token);
+			userVo.setPassword(null);
+			
+			mapHeaderMessage.put("TOKEN", token);
 			
 			mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
 			mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());

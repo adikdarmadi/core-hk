@@ -15,7 +15,7 @@ import com.hk.dao.ProdukDao;
 import com.hk.entities.Produk;
 import com.hk.service.JenisProdukService;
 import com.hk.service.ProdukService;
-import com.hk.service.UserService;
+import com.hk.service.UserMasterService;
 import com.hk.util.HibernateInitialize;
 import com.hk.vo.ProdukVO;
 
@@ -28,7 +28,7 @@ public class ProdukServiceImpl implements ProdukService {
 	private ProdukDao produkDao;
 	
 	@Autowired
-	private UserService userService;
+	private UserMasterService userService;
 	
 	@Autowired
 	private JenisProdukService jenisProdukService;

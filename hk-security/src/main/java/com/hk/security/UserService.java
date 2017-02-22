@@ -1,7 +1,6 @@
 package com.hk.security;
 
 import java.util.Arrays;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
@@ -11,8 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import com.hk.dao.UserDao;
-import com.hk.entities.LoginUser;
 import com.hk.entities.User;
+import com.hk.util.CommonUtil;
 
 /**
  * UserService implements org.springframework.security.core.userdetails.UserDetailsService
@@ -38,11 +37,11 @@ public class UserService implements
 	 */
 	@Override
 	public final org.springframework.security.core.userdetails.User loadUserByUsername(String id) throws UsernameNotFoundException {
-		List<User> users = userDao.findById(id);
-		if (users.isEmpty()) {
+		User users = userDao.findById(id);
+		if (CommonUtil.isNullOrEmpty(users)) {
 			throw new UsernameNotFoundException("user not found");
 		}
-		User user = users.get(0);
+		User user = users;
 		//validasi tambahan lakukan di sini
 		
 //		GrantedAuthority authority = new SimpleGrantedAuthority(loginUser

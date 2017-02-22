@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class UserVO {
 	
 
-	@NotNull(message = "ID Tidak Boleh Kosong")
+	@NotEmpty(message = "ID Tidak Boleh Kosong")
 	private String id;
 
 	@NotEmpty(message = "Nama tidak boleh kosong")
@@ -23,37 +23,37 @@ public class UserVO {
 	@NotEmpty(message = "Password tidak boleh kosong")
 	private String password;
 	
-	@NotEmpty(message = "MRU Limit tidak boleh kosong")
+	@NotNull(message = "MRU Limit tidak boleh kosong")
 	private Integer mruLimit;
 	
-	@NotEmpty(message = "Is Create tidak boleh kosong")
+	@NotNull(message = "Is Create tidak boleh kosong")
 	private Boolean isCreate;
 	
-	@NotEmpty(message = "Is Update tidak boleh kosong")
+	@NotNull(message = "Is Update tidak boleh kosong")
 	private Boolean isUpdate;
 	
-	@NotEmpty(message = "Is Delete tidak boleh kosong")
+	@NotNull(message = "Is Delete tidak boleh kosong")
 	private Boolean isDelete;
 	
-	@NotEmpty(message = "Is Print tidak boleh kosong")
+	@NotNull(message = "Is Print tidak boleh kosong")
 	private Boolean isPrint;
 	
-	@NotEmpty(message = "Is Cancel tidak boleh kosong")
+	@NotNull(message = "Is Cancel tidak boleh kosong")
 	private Boolean isCancel;
 	
-	@NotEmpty(message = "Is Report tidak boleh kosong")
+	@NotNull(message = "Is Report tidak boleh kosong")
 	private Boolean isReport;
 	
-	@NotEmpty(message = "Is Supervisor tidak boleh kosong")
+	@NotNull(message = "Is Supervisor tidak boleh kosong")
 	private Boolean isSupervisor;
 	
-	@NotEmpty(message = "Is Confirm tidak boleh kosong")
+	@NotNull(message = "Is Confirm tidak boleh kosong")
 	private Boolean isConfirm;
 	
-	@NotEmpty(message = "Is Unconfirm tidak boleh kosong")
+	@NotNull(message = "Is Unconfirm tidak boleh kosong")
 	private Boolean isUnconfirm;
 	
-	@NotEmpty(message = "Is Superuser tidak boleh kosong")
+	@NotNull(message = "Is Superuser tidak boleh kosong")
 	private Boolean isSuperuser;
 
 	private String pegawaiId;

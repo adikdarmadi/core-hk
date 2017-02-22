@@ -155,10 +155,10 @@ public class Pegawai extends BaseModel {
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "DEPARTMENT_HDR_FK")
-	@NotEmpty(message = "Department tidak boleh kosong")
+	//@NotEmpty(message = "Department tidak boleh kosong")
 	private DepartmentHdr department;
 
-	@Column(name = "DEPARTMENT_HDR_FK", nullable=false, insertable = false, updatable = false)
+	@Column(name = "DEPARTMENT_HDR_FK", insertable = false, updatable = false)
 	private String departmentId;
 	
 	public String getId() {

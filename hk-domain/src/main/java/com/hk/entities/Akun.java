@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -50,7 +51,7 @@ public class Akun extends BaseModel {
 	@Column(name = "POSISI_DK", nullable = false,length=1)
 	private String positionDk;
 
-	@NotEmpty(message = "Level Akun tidak boleh kosong")
+	@NotNull(message = "Level Akun tidak boleh kosong")
 	@Column(name = "LEVEL_AKUN", nullable = false,length=1)
 	private Integer levelAkun;
 	
@@ -58,21 +59,21 @@ public class Akun extends BaseModel {
 	@Column(name = "TIPE_AKUN", nullable = false,length=1)
 	private String tipeAkun;
 	
-	@NotEmpty(message = "Saldo Awal tidak boleh kosong")
+	@NotNull(message = "Saldo Awal tidak boleh kosong")
 	@Column(name = "SALDO_AWAL", nullable = false)
 	private BigDecimal saldoAwal;
 	
-	@NotEmpty(message = "Saldo Ytd tidak boleh kosong")
+	@NotNull(message = "Saldo Ytd tidak boleh kosong")
 	@Column(name = "SALDO_YTD", nullable = false)
 	private BigDecimal saldoYtd;
 	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "AKUN_FK")
-	private Akun akun;
+	private Akun akunParent;
 	
 	@Column(name = "AKUN_FK", insertable = false, updatable = false)
-	private String akunId;
+	private String akunParentId;
 
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -84,7 +85,7 @@ public class Akun extends BaseModel {
 	private String akunGrupId;
 
 	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "akun", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "akunParent", cascade = CascadeType.ALL)
 	private List<Akun> listAkun = new ArrayList<Akun>();
 
 	@JsonIgnore
@@ -163,20 +164,21 @@ public class Akun extends BaseModel {
 		this.saldoYtd = saldoYtd;
 	}
 
-	public Akun getAkun() {
-		return akun;
+	
+	public Akun getAkunParent() {
+		return akunParent;
 	}
 
-	public void setAkun(Akun akun) {
-		this.akun = akun;
+	public void setAkunParent(Akun akunParent) {
+		this.akunParent = akunParent;
 	}
 
-	public String getAkunId() {
-		return akunId;
+	public String getAkunParentId() {
+		return akunParentId;
 	}
 
-	public void setAkunId(String akunId) {
-		this.akunId = akunId;
+	public void setAkunParentId(String akunParentId) {
+		this.akunParentId = akunParentId;
 	}
 
 	public AkunGrup getAkunGrup() {

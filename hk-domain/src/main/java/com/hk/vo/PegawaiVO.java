@@ -39,7 +39,7 @@ public class PegawaiVO {
 	@NotNull(message = "Kota tidak boleh null")
 	private String kota;
 
-	@NotEmpty(message = "Tanggal Lahir tidak boleh kosong")
+	@NotNull(message = "Tanggal Lahir tidak boleh kosong")
 	private Date tanggalLahir;
 
 	@NotNull(message = "No.HP tidak boleh null")
@@ -82,19 +82,19 @@ public class PegawaiVO {
 
 	private String noRekening;
 	
-	@NotEmpty(message = "Plafon Rp tidak boleh kosong")
+	@NotNull(message = "Plafon Rp tidak boleh kosong")
 	private BigDecimal  plafonRp;
 
-	@NotEmpty(message = "Gaji Pokok tidak boleh kosong")
+	@NotNull(message = "Gaji Pokok tidak boleh kosong")
 	private BigDecimal  gajiPokok;
 
-	@NotEmpty(message = "Uang Jabatan tidak boleh kosong")
+	@NotNull(message = "Uang Jabatan tidak boleh kosong")
 	private BigDecimal  uangJabatan;
 
-	@NotEmpty(message = "Uang Hadir tidak boleh kosong")
+	@NotNull(message = "Uang Hadir tidak boleh kosong")
 	private BigDecimal  uangHadir;
 
-	@NotEmpty(message = "Bonus tidak boleh kosong")
+	@NotNull(message = "Bonus tidak boleh kosong")
 	private BigDecimal  bonus;
 	
 	@NotEmpty(message = "Mata Uang tidak boleh kosong")
@@ -103,7 +103,7 @@ public class PegawaiVO {
 	@NotEmpty(message = "Akun tidak boleh kosong")
 	private String akunId;
 
-	@NotEmpty(message = "Department tidak boleh kosong")
+	//@NotEmpty(message = "Department tidak boleh kosong")
 	private String departmentId;
 
 	public String getId() {

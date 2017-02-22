@@ -1,6 +1,5 @@
 package com.hk.vo;
 
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -12,7 +11,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 public class RoleVO {
 	
 
-	@NotNull(message = "ID Tidak Boleh Kosong")
+	@NotEmpty(message = "ID Tidak Boleh Kosong")
 	private String id;
 
 	@NotEmpty(message = "Nama tidak boleh kosong")

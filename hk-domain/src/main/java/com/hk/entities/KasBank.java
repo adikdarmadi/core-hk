@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -36,7 +37,7 @@ public class KasBank extends BaseModel {
 	@Column(name = "KAS_BANK_ID", nullable = false,length=50)
 	private String id;
 	
-	@NotEmpty(message = "Is Active tidak boleh kosong")
+	@NotNull(message = "Is Active tidak boleh kosong")
 	@Column(name = "IS_ACTIVE", nullable = false)
 	private Boolean isActive;
 
@@ -51,7 +52,7 @@ public class KasBank extends BaseModel {
 	@Column(name = "GROUP_ID", nullable = false,length=50)
 	private String groupId;
 	
-	@NotEmpty(message = "Plafon Kredit tidak boleh kosong")
+	@NotNull(message = "Plafon Kredit tidak boleh kosong")
 	@Column(name = "PLAFON_KREDIT", nullable = false)
 	private BigDecimal plafonKredit;
 
@@ -67,23 +68,23 @@ public class KasBank extends BaseModel {
 	@Column(name = "NO_REK",length=50)
 	private String noRek;
 	
-	@NotEmpty(message = "Perlu Password tidak boleh kosong")
+	@NotNull(message = "Perlu Password tidak boleh kosong")
 	@Column(name = "PERLU_PASSWORD", nullable = false)
 	private Boolean perluPassword;
 	
-	@NotEmpty(message = "Sales Biling tidak boleh kosong")
+	@NotNull(message = "Sales Biling tidak boleh kosong")
 	@Column(name = "SALES_BILING", nullable = false)
 	private Boolean salesBiling;
 	
-	@NotEmpty(message = "Saldo Awal tidak boleh kosong")
+	@NotNull(message = "Saldo Awal tidak boleh kosong")
 	@Column(name = "SALDO_AWAL", nullable = false)
 	private BigDecimal saldoAwal;
 	
-	@NotEmpty(message = "Kurs tidak boleh kosong")
+	@NotNull(message = "Kurs tidak boleh kosong")
 	@Column(name = "KURS", nullable = false)
 	private BigDecimal kurs;
 	
-	@NotEmpty(message = "Saldo Awal Rp tidak boleh kosong")
+	@NotNull(message = "Saldo Awal Rp tidak boleh kosong")
 	@Column(name = "SALDO_AWAL_RP", nullable = false)
 	private BigDecimal saldoAwalRp;
 

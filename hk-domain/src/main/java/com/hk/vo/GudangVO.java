@@ -24,18 +24,20 @@ public class GudangVO {
 	@NotNull(message = "Alamat tidak boleh null")
 	private String alamat;
 
-	@NotEmpty(message = "Tanggal Awal Stock tidak boleh kosong")
+	@NotNull(message = "Tanggal Awal Stock tidak boleh kosong")
 	private Date tglAwalStock;
 
-	@NotEmpty(message = "Is Booked tidak boleh kosong")
+	@NotNull(message = "Is Booked tidak boleh kosong")
 	private Boolean isBooked;
 	
-	@NotEmpty(message = "Is Putihkan tidak boleh kosong")
+	@NotNull(message = "Is Putihkan tidak boleh kosong")
 	private Boolean isPutihkan;
 	
 	@NotEmpty(message = "Gudang Grup tidak boleh kosong")
 	private String gudangGrupId;
 
+	private Integer version;
+	
 	public String getId() {
 		return id;
 	}
@@ -90,6 +92,14 @@ public class GudangVO {
 
 	public void setGudangGrupId(String gudangGrupId) {
 		this.gudangGrupId = gudangGrupId;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
 	}
 
 	
