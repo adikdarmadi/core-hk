@@ -1,6 +1,8 @@
 package com.hk.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.modelmapper.ModelMapper;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hk.dao.ModuleDao;
 import com.hk.entities.Module;
 import com.hk.service.ModuleService;
@@ -80,5 +83,12 @@ public class ModuleServiceImpl implements ModuleService {
 		return result;
 	}
 
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> findByAccessUser(String userId) {
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("listModule", moduleDao.findAllModule());
+		return result;
+	}
 
 }

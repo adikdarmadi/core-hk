@@ -18,23 +18,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.hk.constant.BaseConstant;
 import com.hk.controller.base.LocaleController;
 import com.hk.security.AppPermission;
-import com.hk.service.ModuleService;
+import com.hk.service.UnitService;
 import com.hk.util.rest.RestUtil;
-import com.hk.vo.ModuleVO;
+import com.hk.vo.UnitVO;
 
 @SuppressWarnings("rawtypes")
 @Controller
-@RequestMapping("/module")
-public class ModuleController extends LocaleController {
+@RequestMapping("/unit")
+public class UnitController extends LocaleController {
 
 	@Autowired
-	private ModuleService moduleService;
+	private UnitService unitService;
 
 	@SuppressWarnings("unchecked")
 	@AppPermission(hakAkses = "IS_ADD")
 	@RequestMapping(value = "/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Map<String, Object>> Save(@Valid @RequestBody ModuleVO entity, HttpServletRequest request) {
-		Map<String, Object> result = moduleService.saveModule(entity);
+	public ResponseEntity<Map<String, Object>> Save(@Valid @RequestBody UnitVO entity, HttpServletRequest request) {
+		Map<String, Object> result = unitService.saveUnit(entity);
 		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
 		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.CREATED.toString());
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
@@ -48,9 +48,9 @@ public class ModuleController extends LocaleController {
 	 * @RequestMapping(value = "/edit/{id}", method = RequestMethod.PUT,
 	 * consumes = MediaType.APPLICATION_JSON_VALUE,produces=MediaType.
 	 * APPLICATION_JSON_VALUE) public ResponseEntity<Map<String,Object>>
-	 * Save(@PathVariable("id") String id,@Valid @RequestBody ModuleVO
+	 * Save(@PathVariable("id") String id,@Valid @RequestBody UnitVO
 	 * entity,HttpServletRequest request) { Map<String, Object> result =
-	 * moduleService.saveModule(entity);
+	 * unitService.saveUnit(entity);
 	 * mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
 	 * mapHeaderMessage.put(BaseConstant.STATUS_CODE,
 	 * HttpStatus.CREATED.toString());
@@ -64,7 +64,7 @@ public class ModuleController extends LocaleController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/del/{id}")
 	public ResponseEntity<Map<String, Object>> DeleteById(@PathVariable("id") String id) {
-		Map<String, Object> result = moduleService.deleteModule(id);
+		Map<String, Object> result = unitService.deleteUnit(id);
 		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
 		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
@@ -74,7 +74,7 @@ public class ModuleController extends LocaleController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/all")
 	public ResponseEntity<Map<String, Object>> FindAll() {
-		Map<String, Object> result = moduleService.findAllModule();
+		Map<String, Object> result = unitService.findAllUnit();
 		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
 		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
@@ -84,17 +84,7 @@ public class ModuleController extends LocaleController {
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> FindById(@PathVariable("id") String id) {
-		Map<String, Object> result = moduleService.findById(id);
-		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
-		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
-		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
-		return RestUtil.getJsonResponse(result, HttpStatus.OK, mapHeaderMessage);
-	}
-	
-	@SuppressWarnings("unchecked")
-	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/user/{id}")
-	public ResponseEntity<Map<String, Object>> FindByAccessUser(@PathVariable("id") String id) {
-		Map<String, Object> result = moduleService.findByAccessUser(id);
+		Map<String, Object> result = unitService.findById(id);
 		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
 		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
