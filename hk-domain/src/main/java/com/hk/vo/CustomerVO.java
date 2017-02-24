@@ -1,124 +1,115 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-package com.hk.entities;
+package com.hk.vo;
 
+
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-
+import com.hk.entities.Akun;
+import com.hk.entities.KasBank;
+import com.hk.entities.Prospek;
+import com.hk.entities.Sales;
 
 /**
- *
- * @author Adhityarismawan
+ * class Role
+ * 
+ * @author Generator
  */
+public class CustomerVO {
+	
 
-@Entity
-@Table(name = "M_PROSPEK")
-@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-public class Prospek extends BaseModel {
- 
-	@Id
 	@NotEmpty(message = "ID tidak boleh kosong")
-	@Column(name = "PROSPEK_ID", nullable = false,length=50)
 	private String id;
 	
-	@NotEmpty(message = "Is Active tidak boleh kosong")
-	@Column(name = "IS_ACTIVE", nullable = false)
-	private Boolean isActive;
-
-	@Column(name = "DATE_NON_ACTIVE")
-	private Date dateNonActive;
+	private String barcode;
 	
 	@NotEmpty(message = "Nama tidak boleh kosong")
-	@Column(name = "NAMA", nullable = false,length=100)
 	private String nama;
 	
 	@NotEmpty(message = "Alamat tidak boleh kosong")
-	@Column(name = "ALAMAT", nullable = false)
 	private String alamat;
 	
 	@NotEmpty(message = "Daerah tidak boleh kosong")
-	@Column(name = "DAERAH", nullable = false,length=50)
 	private String daerah;
 	
 	@NotEmpty(message = "Kode Pos tidak boleh kosong")
-	@Column(name = "KODE_POS", nullable = false,length=50)
 	private String kodePos;
 	
 	@NotEmpty(message = "Kota tidak boleh kosong")
-	@Column(name = "KOTA", nullable = false,length=50)
 	private String kota;
 	
 	@NotEmpty(message = "Provinsi tidak boleh kosong")
-	@Column(name = "PROVINSI", nullable = false,length=50)
 	private String provinsi;
 	
 	@NotEmpty(message = "Grup ID tidak boleh kosong")
-	@Column(name = "GRUP_ID", nullable = false,length=50)
 	private String grupId;
 	
 	@NotEmpty(message = "Tipe ID tidak boleh kosong")
-	@Column(name = "TIPE_ID", nullable = false,length=50)
 	private String tipeId;
 	
 	@NotEmpty(message = "Kategori ID tidak boleh kosong")
-	@Column(name = "KATEGORI_ID", nullable = false,length=50)
 	private String kategoriId;
 	
-	@Column(name = "NAMA_PKP",length=50)
+	@NotNull(message = "Saldo Awal tidak boleh kosong")
+	private BigDecimal saldoAwal;
+
+	@NotNull(message = "Plafon Rp tidak boleh kosong")
+	private BigDecimal plafonRp;
+	
+	@NotNull(message = "Plafon Faktur tidak boleh kosong")
+	private BigDecimal plafonFaktur; 
+	
+	@NotNull(message = "Lama Bayar tidak boleh kosong")
+	private Integer lamaBayar;
+	
+	@NotNull(message = "Hari Tagih tidak boleh kosong")
+	private String hariTagih;
+	
+	@NotNull(message = "Nama Di Faktur tidak boleh kosong")
+	private String namaFaktur;
+	
 	private String namaPkp;
 	
-	@Column(name = "ALAMAT_PKP",length=255)
 	private String alamatPkp;
 	
-	@Column(name = "NPWP",length=50)
 	private String npwp;
 	
-	@Column(name = "PEMILIK",length=50)
 	private String pemilik;
 	
-	@Column(name = "TANGGAL_LAHIR")
 	private Date tanggalLahir;
 	
-	@Column(name = "HARI_RAYA",length=30)
 	private String hariRaya;
 	
-	@Column(name = "STATUS_PROPERTY",length=10)
 	private String statusProperty;
 	
-	@Column(name = "TANGGAL_DIDIRIKAN")
 	private Date tanggalDidirikan;
 	
-	@JsonIgnore
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "SALES_FK")
 	@NotEmpty(message = "Follow Up / Sales tidak boleh kosong")
-	private Sales sales;
-
-	@Column(name = "SALES_FK", nullable = false, insertable = false, updatable = false)
 	private String salesId;
 	
-	@JsonIgnore
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "prospek", cascade = CascadeType.ALL)
-	private List<ProspekContact> listProspekContact = new ArrayList<ProspekContact>();
+	@NotEmpty(message = "Prospek tidak boleh kosong")
+	private String prospekId;
+	
+	@NotEmpty(message = "Kas Bank tidak boleh kosong")
+	private String kasBankId;
+	
+	@NotEmpty(message = "Akun tidak boleh kosong")
+	private String akunId;
+
+	@NotEmpty(message="Detail Kontak harus diisi")
+	//@Valid
+	private List<CustomerContactVO> listCustomerContactVO = new ArrayList<CustomerContactVO>();
 
 	public String getId() {
 		return id;
@@ -128,20 +119,12 @@ public class Prospek extends BaseModel {
 		this.id = id;
 	}
 
-	public Boolean getIsActive() {
-		return isActive;
+	public String getBarcode() {
+		return barcode;
 	}
 
-	public void setIsActive(Boolean isActive) {
-		this.isActive = isActive;
-	}
-
-	public Date getDateNonActive() {
-		return dateNonActive;
-	}
-
-	public void setDateNonActive(Date dateNonActive) {
-		this.dateNonActive = dateNonActive;
+	public void setBarcode(String barcode) {
+		this.barcode = barcode;
 	}
 
 	public String getNama() {
@@ -216,6 +199,54 @@ public class Prospek extends BaseModel {
 		this.kategoriId = kategoriId;
 	}
 
+	public BigDecimal getSaldoAwal() {
+		return saldoAwal;
+	}
+
+	public void setSaldoAwal(BigDecimal saldoAwal) {
+		this.saldoAwal = saldoAwal;
+	}
+
+	public BigDecimal getPlafonRp() {
+		return plafonRp;
+	}
+
+	public void setPlafonRp(BigDecimal plafonRp) {
+		this.plafonRp = plafonRp;
+	}
+
+	public BigDecimal getPlafonFaktur() {
+		return plafonFaktur;
+	}
+
+	public void setPlafonFaktur(BigDecimal plafonFaktur) {
+		this.plafonFaktur = plafonFaktur;
+	}
+
+	public Integer getLamaBayar() {
+		return lamaBayar;
+	}
+
+	public void setLamaBayar(Integer lamaBayar) {
+		this.lamaBayar = lamaBayar;
+	}
+
+	public String getHariTagih() {
+		return hariTagih;
+	}
+
+	public void setHariTagih(String hariTagih) {
+		this.hariTagih = hariTagih;
+	}
+
+	public String getNamaFaktur() {
+		return namaFaktur;
+	}
+
+	public void setNamaFaktur(String namaFaktur) {
+		this.namaFaktur = namaFaktur;
+	}
+
 	public String getNamaPkp() {
 		return namaPkp;
 	}
@@ -280,14 +311,6 @@ public class Prospek extends BaseModel {
 		this.tanggalDidirikan = tanggalDidirikan;
 	}
 
-	public Sales getSales() {
-		return sales;
-	}
-
-	public void setSales(Sales sales) {
-		this.sales = sales;
-	}
-
 	public String getSalesId() {
 		return salesId;
 	}
@@ -296,13 +319,36 @@ public class Prospek extends BaseModel {
 		this.salesId = salesId;
 	}
 
-	public List<ProspekContact> getListProspekContact() {
-		return listProspekContact;
+	public String getProspekId() {
+		return prospekId;
 	}
 
-	public void setListProspekContact(List<ProspekContact> listProspekContact) {
-		this.listProspekContact = listProspekContact;
+	public void setProspekId(String prospekId) {
+		this.prospekId = prospekId;
 	}
-	
-	
+
+	public String getKasBankId() {
+		return kasBankId;
+	}
+
+	public void setKasBankId(String kasBankId) {
+		this.kasBankId = kasBankId;
+	}
+
+	public String getAkunId() {
+		return akunId;
+	}
+
+	public void setAkunId(String akunId) {
+		this.akunId = akunId;
+	}
+
+	public List<CustomerContactVO> getListCustomerContactVO() {
+		return listCustomerContactVO;
+	}
+
+	public void setListCustomerContactVO(List<CustomerContactVO> listCustomerContactVO) {
+		this.listCustomerContactVO = listCustomerContactVO;
+	}
+
 }

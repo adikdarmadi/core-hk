@@ -18,7 +18,7 @@ public abstract class BaseModel {
 	private Integer version;
 	
 	@NotEmpty(message = "Create By tidak boleh kosong")
-	@Column(name = "CREATE_BY",length=50)
+	@Column(name = "CREATE_BY", nullable = false,length=50)
 	private String createBy;
 	
 	@NotEmpty(message = "Create Date tidak boleh kosong")

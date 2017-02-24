@@ -6,8 +6,10 @@ package com.hk.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -141,9 +143,10 @@ public class Customer extends BaseModel {
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SALES_FK")
+	@NotEmpty(message = "Follow Up / Sales tidak boleh kosong")
 	private Sales sales;
 
-	@Column(name = "SALES_FK", insertable = false, updatable = false)
+	@Column(name = "SALES_FK",nullable = false, insertable = false, updatable = false)
 	private String salesId;
 	
 	@JsonIgnore
@@ -173,8 +176,9 @@ public class Customer extends BaseModel {
 	@Column(name = "AKUN_FK",nullable = false, insertable = false, updatable = false)
 	private String akunId;
 	
+	@JsonIgnore
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "customer", cascade = CascadeType.ALL)
-	private Set<CustomerContact> customerContactSet = new HashSet<CustomerContact>();
+	private List<CustomerContact> listCustomerContact = new ArrayList<CustomerContact>();
 
 	public String getId() {
 		return id;
@@ -456,14 +460,13 @@ public class Customer extends BaseModel {
 		this.akunId = akunId;
 	}
 
-	public Set<CustomerContact> getCustomerContactSet() {
-		return customerContactSet;
+	public List<CustomerContact> getListCustomerContact() {
+		return listCustomerContact;
 	}
 
-	public void setCustomerContactSet(Set<CustomerContact> customerContactSet) {
-		this.customerContactSet = customerContactSet;
+	public void setListCustomerContact(List<CustomerContact> listCustomerContact) {
+		this.listCustomerContact = listCustomerContact;
 	}
-	
-	
+
 	
 }

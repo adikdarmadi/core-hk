@@ -1,0 +1,23 @@
+package com.hk.service;
+
+import java.util.Map;
+
+import com.hk.vo.BarangMerkVO;
+
+/**
+ * Barang Merk Service
+ * 
+ * @author Adhityarismawan
+ */
+
+public interface BarangMerkService {
+
+	Map<String, Object> findAllBarangMerk();
+
+	Map<String, Object> saveBarangMerk(BarangMerkVO p);
+
+	Map<String, Object> findById(String id);
+
+	Map<String, Object> deleteBarangMerk(String id);
+
+}

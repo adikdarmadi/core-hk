@@ -11,10 +11,6 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 public class SupplierContactVO {
 	
-
-	@NotEmpty(message = "ID tidak boleh kosong")
-	private String id;
-	
 	@NotEmpty(message = "PIC tidak boleh kosong")
 	private String pic;
 	
@@ -30,14 +26,8 @@ public class SupplierContactVO {
 	private String fax;
 	
 	private String email;
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
+	
+	private String supplierId;
 
 	public String getPic() {
 		return pic;
@@ -93,6 +83,14 @@ public class SupplierContactVO {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
 	}
 	
 	

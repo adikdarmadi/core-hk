@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.NotEmpty;
  * @author Generator
  */
 
-public class ProspekContactVO {
+public class CustomerContactVO {
 	
 	@NotEmpty(message = "PIC tidak boleh kosong")
 	private String pic;
@@ -27,7 +27,7 @@ public class ProspekContactVO {
 	
 	private String email;
 
-	private String prospekId;
+	private String customerId;
 	
 	public String getPic() {
 		return pic;
@@ -85,12 +85,12 @@ public class ProspekContactVO {
 		this.email = email;
 	}
 
-	public String getProspekId() {
-		return prospekId;
+	public String getCustomerId() {
+		return customerId;
 	}
 
-	public void setProspekId(String prospekId) {
-		this.prospekId = prospekId;
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
 	}
 	
 	
