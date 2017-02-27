@@ -1,6 +1,8 @@
 package com.hk.vo;
 
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -57,6 +59,12 @@ public class UserVO {
 	private Boolean isSuperuser;
 
 	private String pegawaiId;
+	
+	private List<String> roles;
+	
+	private List<String> gudangs;
+	
+	private List<String> kasBanks;
 	
 	public String getId() {
 		return id;
@@ -176,6 +184,30 @@ public class UserVO {
 
 	public void setPegawaiId(String pegawaiId) {
 		this.pegawaiId = pegawaiId;
+	}
+
+	public List<String> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<String> roles) {
+		this.roles = roles;
+	}
+
+	public List<String> getGudangs() {
+		return gudangs;
+	}
+
+	public void setGudangs(List<String> gudangs) {
+		this.gudangs = gudangs;
+	}
+
+	public List<String> getKasBanks() {
+		return kasBanks;
+	}
+
+	public void setKasBanks(List<String> kasBanks) {
+		this.kasBanks = kasBanks;
 	}
 
 	

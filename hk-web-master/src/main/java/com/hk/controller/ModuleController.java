@@ -91,14 +91,4 @@ public class ModuleController extends LocaleController {
 		return RestUtil.getJsonResponse(result, HttpStatus.OK, mapHeaderMessage);
 	}
 	
-	@SuppressWarnings("unchecked")
-	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/user/{id}")
-	public ResponseEntity<Map<String, Object>> FindByAccessUser(@PathVariable("id") String id) {
-		Map<String, Object> result = moduleService.findByAccessUser(id);
-		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
-		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
-		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
-		return RestUtil.getJsonResponse(result, HttpStatus.OK, mapHeaderMessage);
-	}
-
 }

@@ -4,7 +4,9 @@
  */
 package com.hk.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -90,6 +92,23 @@ public class User extends BaseModel {
 
 	@Column(name = "PEGAWAI_FK", insertable = false, updatable = false)
 	private String pegawaiId;
+	
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user",cascade=CascadeType.ALL)
+	private List<AccessUser> listAccessUser = new ArrayList<AccessUser>();
+
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade=CascadeType.ALL)
+	private List<UserRole> listUserRole=new ArrayList<UserRole>();
+	
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade=CascadeType.ALL)
+	private List<UserGudang> listUserGudang=new ArrayList<UserGudang>();
+	
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade=CascadeType.ALL)
+	private List<UserKasBank> listUserKasBank=new ArrayList<UserKasBank>();
+	
 	
 	public String getId() {
 		return id;
@@ -235,17 +254,37 @@ public class User extends BaseModel {
 		this.pegawaiId = pegawaiId;
 	}
 
-	/*@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.user", cascade=CascadeType.ALL)
-	private Set<AccessUser> accessUserSet=new HashSet<AccessUser>();
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.user", cascade=CascadeType.ALL)
-	private Set<UserRole> userRoleSet=new HashSet<UserRole>();
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.user", cascade=CascadeType.ALL)
-	private Set<UserGudang> userGudangSet=new HashSet<UserGudang>();
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.user", cascade=CascadeType.ALL)
-	private Set<UserKasBank> userKasBankSet=new HashSet<UserKasBank>();*/
+	public List<AccessUser> getListAccessUser() {
+		return listAccessUser;
+	}
+
+	public void setListAccessUser(List<AccessUser> listAccessUser) {
+		this.listAccessUser = listAccessUser;
+	}
+
+	public List<UserRole> getListUserRole() {
+		return listUserRole;
+	}
+
+	public void setListUserRole(List<UserRole> listUserRole) {
+		this.listUserRole = listUserRole;
+	}
+
+	public List<UserGudang> getListUserGudang() {
+		return listUserGudang;
+	}
+
+	public void setListUserGudang(List<UserGudang> listUserGudang) {
+		this.listUserGudang = listUserGudang;
+	}
+
+	public List<UserKasBank> getListUserKasBank() {
+		return listUserKasBank;
+	}
+
+	public void setListUserKasBank(List<UserKasBank> listUserKasBank) {
+		this.listUserKasBank = listUserKasBank;
+	}
 	
 	
 }	

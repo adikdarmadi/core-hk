@@ -83,12 +83,4 @@ public class ModuleServiceImpl implements ModuleService {
 		return result;
 	}
 
-	@Override
-	@Transactional(readOnly=false)
-	public Map<String,Object> findByAccessUser(String userId) {
-		Map<String,Object> result=new HashMap<String,Object>(); 
-		result.put("listModule", moduleDao.findAllModule());
-		return result;
-	}
-
 }

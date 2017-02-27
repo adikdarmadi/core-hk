@@ -6,13 +6,18 @@ package com.hk.entities;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -109,6 +114,10 @@ public class KasBank extends BaseModel {
 	@Column(name = "AKUN_FK", nullable=false, insertable = false, updatable = false)
 	private String akunId;
 
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "kasBank", cascade=CascadeType.ALL)
+	private List<UserKasBank> listUserKasBank=new ArrayList<UserKasBank>();
+	
 	public String getId() {
 		return id;
 	}
@@ -267,6 +276,14 @@ public class KasBank extends BaseModel {
 
 	public void setDateNonActive(Date dateNonActive) {
 		this.dateNonActive = dateNonActive;
+	}
+
+	public List<UserKasBank> getListUserKasBank() {
+		return listUserKasBank;
+	}
+
+	public void setListUserKasBank(List<UserKasBank> listUserKasBank) {
+		this.listUserKasBank = listUserKasBank;
 	}
 	
 	

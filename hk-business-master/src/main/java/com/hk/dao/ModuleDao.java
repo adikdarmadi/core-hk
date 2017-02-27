@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.hk.entities.Module;
@@ -20,4 +21,9 @@ public interface ModuleDao extends PagingAndSortingRepository<Module, String> {
 	
 	Module findById(String id);
 
+	@Query("select x from Module x where x.status = '0' and x.moduleParentId is null and x.isActive =true order by x.urutan asc")
+	List<Module> parentNode();
+
+	@Query("select x from Module x where x.moduleParentId =:moduleParentId and x.isActive =true order by x.urutan asc ")
+	List<Module> childNode(@Param("moduleParentId") String moduleParentId);
 }

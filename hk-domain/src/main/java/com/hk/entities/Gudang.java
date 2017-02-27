@@ -4,14 +4,18 @@
  */
 package com.hk.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -72,6 +76,10 @@ public class Gudang extends BaseModel {
 	@Column(name = "GUDANG_GRUP_FK", nullable=false, insertable = false, updatable = false)
 	private String gudangGrupId;
 
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "gudang", cascade=CascadeType.ALL)
+	private List<UserGudang> listUserGudang=new ArrayList<UserGudang>();
+	
 	public String getId() {
 		return id;
 	}
@@ -151,8 +159,14 @@ public class Gudang extends BaseModel {
 	public void setGudangGrupId(String gudangGrupId) {
 		this.gudangGrupId = gudangGrupId;
 	}
+
+	public List<UserGudang> getListUserGudang() {
+		return listUserGudang;
+	}
+
+	public void setListUserGudang(List<UserGudang> listUserGudang) {
+		this.listUserGudang = listUserGudang;
+	}
 	
-	/*@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.gudang", cascade=CascadeType.ALL,orphanRemoval=true)
-	private Set<UserGudang> userGudangSet=new HashSet<UserGudang>();*/
 	
 }

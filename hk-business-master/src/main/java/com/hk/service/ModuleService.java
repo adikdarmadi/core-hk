@@ -20,6 +20,4 @@ public interface ModuleService {
 
 	Map<String, Object> deleteModule(String id);
 
-	Map<String, Object> findByAccessUser(String id);
-
 }

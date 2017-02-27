@@ -1,6 +1,8 @@
 package com.hk.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.modelmapper.ModelMapper;
@@ -12,7 +14,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hk.dao.GudangDao;
 import com.hk.dao.GudangGrupDao;
+import com.hk.dao.UserDao;
 import com.hk.entities.Gudang;
+import com.hk.entities.UserGudang;
 import com.hk.service.GudangService;
 import com.hk.service.UserMasterService;
 import com.hk.service.UserService;
@@ -27,6 +31,9 @@ public class GudangServiceImpl implements GudangService {
 
 	@Autowired
 	private GudangDao gudangDao;
+	
+	@Autowired
+	private UserDao userDao;
 	
 	@Autowired
 	private GudangGrupDao gudangGrupDao;
@@ -51,6 +58,19 @@ public class GudangServiceImpl implements GudangService {
 		if (CommonUtil.isNotNullOrEmpty(model.getGudangGrupId())) {
 			model.setGudangGrup(gudangGrupDao.findById(model.getGudangGrupId()));
 		}
+		
+		List<UserGudang> listUserGudang = new ArrayList<UserGudang>();
+		for(String user : p.getUsers()){
+			UserGudang userGudang=new UserGudang();
+			if(CommonUtil.isNotNullOrEmpty(user)){
+				userGudang.setUser(userDao.findById(user));
+				userGudang.setGudang(model);
+				listUserGudang.add(userGudang);
+			}
+		}
+		
+		model.getListUserGudang().clear();
+		model.setListUserGudang(listUserGudang);
 		
 		Gudang gudang=gudangDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 

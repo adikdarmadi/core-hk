@@ -73,6 +73,10 @@ public class Module extends BaseModel{
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "moduleParent",cascade=CascadeType.ALL)
 	private List<Module> listModule = new ArrayList<Module>();
 
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "module",cascade=CascadeType.ALL)
+	private List<AccessUser> listAccessUser = new ArrayList<AccessUser>();
+	
 	public String getId() {
 		return id;
 	}
@@ -159,6 +163,14 @@ public class Module extends BaseModel{
 
 	public void setListModule(List<Module> listModule) {
 		this.listModule = listModule;
+	}
+
+	public List<AccessUser> getListAccessUser() {
+		return listAccessUser;
+	}
+
+	public void setListAccessUser(List<AccessUser> listAccessUser) {
+		this.listAccessUser = listAccessUser;
 	}
 
 	

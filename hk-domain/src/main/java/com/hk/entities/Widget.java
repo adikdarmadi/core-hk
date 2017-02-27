@@ -1,15 +1,21 @@
 package com.hk.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /**
@@ -38,6 +44,10 @@ public class Widget extends BaseModel {
 	@Column(name = "DATE_NON_ACTIVE")
 	private Date dateNonActive;
 
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "widget", cascade=CascadeType.ALL)
+	private List<RoleWidget> listRoleWidget=new ArrayList<RoleWidget>();
+	
 	public String getId() {
 		return id;
 	}
@@ -70,8 +80,14 @@ public class Widget extends BaseModel {
 		this.dateNonActive = dateNonActive;
 	}
 
-	/*@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.widget", cascade=CascadeType.ALL,orphanRemoval=true)
-	private Set<RoleWidget> roleWidgetSet=new HashSet<RoleWidget>();*/
+	public List<RoleWidget> getListRoleWidget() {
+		return listRoleWidget;
+	}
+
+	public void setListRoleWidget(List<RoleWidget> listRoleWidget) {
+		this.listRoleWidget = listRoleWidget;
+	}
+
 	
 	
 	

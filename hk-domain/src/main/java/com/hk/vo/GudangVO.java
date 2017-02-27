@@ -2,6 +2,7 @@ package com.hk.vo;
 
 
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -37,6 +38,8 @@ public class GudangVO {
 	private String gudangGrupId;
 
 	private Integer version;
+	
+	private List<String> users;
 	
 	public String getId() {
 		return id;
@@ -100,6 +103,14 @@ public class GudangVO {
 
 	public void setVersion(Integer version) {
 		this.version = version;
+	}
+
+	public List<String> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<String> users) {
+		this.users = users;
 	}
 
 	

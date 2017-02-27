@@ -1,6 +1,8 @@
 package com.hk.vo;
 
 
+import java.util.List;
+
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -16,6 +18,8 @@ public class RoleVO {
 
 	@NotEmpty(message = "Nama tidak boleh kosong")
 	private String nama;
+	
+	private List<String> widgets;
 	
 	public String getId() {
 		return id;
@@ -33,6 +37,15 @@ public class RoleVO {
 		this.nama = nama;
 	}
 
+	public List<String> getWidgets() {
+		return widgets;
+	}
+
+	public void setWidgets(List<String> widgets) {
+		this.widgets = widgets;
+	}
+
+	
 	
 	
 }

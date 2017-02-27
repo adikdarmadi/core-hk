@@ -1,7 +1,11 @@
 package com.hk.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -10,10 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.hk.dao.RoleDao;
 import com.hk.dao.WidgetDao;
+import com.hk.entities.RoleWidget;
 import com.hk.entities.Widget;
 import com.hk.service.WidgetService;
 import com.hk.service.UserService;
+import com.hk.util.CommonUtil;
 import com.hk.util.DateUtil;
 import com.hk.vo.WidgetVO;
 
@@ -24,6 +31,9 @@ public class WidgetServiceImpl implements WidgetService {
 
 	@Autowired
 	private WidgetDao widgetDao;
+	
+	@Autowired
+	private RoleDao roleDao;
 	
 	@Autowired
 	private UserService userService;
@@ -39,6 +49,20 @@ public class WidgetServiceImpl implements WidgetService {
 		model.setCreateBy(userService.getUser().getId());
 		model.setCreateDate(DateUtil.now());
 		model.setIsActive(true);
+		
+		List<RoleWidget> listRoleWidget = new ArrayList<RoleWidget>();
+		for(String role : p.getRoles()){
+			RoleWidget roleWidget=new RoleWidget();
+			if(CommonUtil.isNotNullOrEmpty(role)){
+				roleWidget.setRole(roleDao.findById(role));
+				roleWidget.setWidget(model);
+				listRoleWidget.add(roleWidget);
+			}
+		}
+		
+		model.getListRoleWidget().clear();
+		model.setListRoleWidget(listRoleWidget);
+		
 		Widget widget=widgetDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("id", widget.getId());
