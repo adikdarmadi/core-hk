@@ -1,0 +1,147 @@
+package com.hk.service.impl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.hk.dao.DepartmentDtlDao;
+import com.hk.dao.DepartmentHdrDao;
+import com.hk.entities.DepartmentHdr;
+import com.hk.entities.DepartmentDtl;
+import com.hk.service.DepartmentHdrService;
+import com.hk.service.UserService;
+import com.hk.util.CommonUtil;
+import com.hk.util.DateUtil;
+import com.hk.vo.DepartmentDtlVO;
+import com.hk.vo.DepartmentHdrVO;
+
+@Service("departmentHdrService")
+public class DepartmentHdrServiceImpl implements DepartmentHdrService {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger("DepartmentHdrService : ");
+
+	@Autowired
+	private DepartmentHdrDao departmentHdrDao;
+	
+	@Autowired
+	private DepartmentDtlDao departmentDtlDao;
+	
+	@Autowired
+	private UserService userService;
+	
+	private ModelMapper modelMapper = new ModelMapper();
+
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> saveDepartmentHdr(DepartmentHdrVO p) {
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save departmentHdr execute");
+		DepartmentHdr model=modelMapper.map(p, DepartmentHdr.class);
+		model.setId(model.getId().toUpperCase());
+		model.setCreateBy(userService.getUser().getId());
+		model.setCreateDate(DateUtil.now());
+		model.setIsActive(true);
+		
+		List<DepartmentDtl> tmpListDepartmentDtl = new ArrayList<>();
+		for(DepartmentDtl departmentDtl : model.getListDepartmentDtl()){
+			departmentDtl.setCreateDate(DateUtil.now());
+			departmentDtl.setCreateBy(userService.getUser().getId());
+			departmentDtl.setIsActive(true);
+			departmentDtl.setDepartmentHdr(model);
+			tmpListDepartmentDtl.add(departmentDtl);
+		}
+		
+		model.getListDepartmentDtl().clear();
+		model.getListDepartmentDtl().addAll(tmpListDepartmentDtl);
+		
+		DepartmentHdr departmentHdr=departmentHdrDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", departmentHdr.getId());
+		result.put("isActive", departmentHdr.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> findAllDepartmentHdr() {
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("listDepartmentHdr", departmentHdrDao.findAllDepartmentHdr());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> findById(String id) {
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		DepartmentHdr departmentHdr=departmentHdrDao.findById(id);
+		result.put("departmentHdr", departmentHdr);
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> deleteDepartmentHdr(String id) {
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		departmentHdrDao.delete(id);
+		result.put("id", id);
+		return result;
+	}
+
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> saveDepartmentDtl(DepartmentDtlVO p) {
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save departmentHdr execute");
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		DepartmentDtl model=modelMapper.map(p, DepartmentDtl.class);
+		
+		model.setCreateBy(userService.getUser().getId());
+		model.setCreateDate(DateUtil.now());
+		model.setIsActive(true);
+		
+		if(CommonUtil.isNotNullOrEmpty(model.getDepartmentHdrId())){
+			model.setDepartmentHdr(departmentHdrDao.findById(model.getDepartmentHdrId()));
+		}
+		
+		DepartmentDtl departmentDtl=departmentDtlDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", departmentDtl.getId());
+		result.put("isActive", departmentDtl.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> findDetailByParent(String Id) {
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("listDepartmentDtl", departmentDtlDao.findByDepartmentHdrId(Id));
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> findDetailById(String id) {
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		DepartmentDtl departmentDtl=departmentDtlDao.findById(new Integer(id));
+		result.put("departmentDtl", departmentDtl);
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> deleteDepartmentDtl(String id) {
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		DepartmentDtl departmentDtl = departmentDtlDao.findById(new Integer(id));
+		departmentDtlDao.delete(departmentDtl);
+		result.put("id", id);
+		return result;
+	}
+	
+}
