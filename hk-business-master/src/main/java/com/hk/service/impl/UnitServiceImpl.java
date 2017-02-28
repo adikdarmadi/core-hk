@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hk.dao.UnitDao;
+import com.hk.entities.AkunGrup;
 import com.hk.entities.Unit;
 import com.hk.service.UnitService;
 import com.hk.service.UserService;
@@ -39,6 +40,28 @@ public class UnitServiceImpl implements UnitService {
 		model.setCreateBy(userService.getUser().getId());
 		model.setCreateDate(DateUtil.now());
 		model.setIsActive(true);
+		Unit unit=unitDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", unit.getId());
+		result.put("isActive", unit.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> editUnit(UnitVO p, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save unit execute");
+		Unit model=modelMapper.map(p, Unit.class);
+
+		Unit obj = unitDao.findById(p.getId());
+		model.setCreateBy(obj.getCreateBy());
+		model.setCreateDate(obj.getCreateDate());
+		model.setIsActive(obj.getIsActive());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
 		Unit unit=unitDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("id", unit.getId());

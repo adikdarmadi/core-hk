@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hk.dao.DepartmentDtlDao;
 import com.hk.dao.DepartmentHdrDao;
 import com.hk.entities.DepartmentHdr;
+import com.hk.entities.AkunGrup;
 import com.hk.entities.DepartmentDtl;
 import com.hk.service.DepartmentHdrService;
 import com.hk.service.UserService;
@@ -71,6 +72,28 @@ public class DepartmentHdrServiceImpl implements DepartmentHdrService {
 	
 	@Override
 	@Transactional(readOnly=false)
+	public Map<String,Object> editDepartmentHdr(DepartmentHdrVO p, Integer version) {
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save departmentHdr execute");
+		DepartmentHdr model=modelMapper.map(p, DepartmentHdr.class);
+
+		DepartmentHdr obj = departmentHdrDao.findById(p.getId());
+		model.setCreateBy(obj.getCreateBy());
+		model.setCreateDate(obj.getCreateDate());
+		model.setIsActive(obj.getIsActive());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		DepartmentHdr departmentHdr=departmentHdrDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", departmentHdr.getId());
+		result.put("isActive", departmentHdr.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
 	public Map<String,Object> findAllDepartmentHdr() {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("listDepartmentHdr", departmentHdrDao.findAllDepartmentHdr());
@@ -109,6 +132,31 @@ public class DepartmentHdrServiceImpl implements DepartmentHdrService {
 		if(CommonUtil.isNotNullOrEmpty(model.getDepartmentHdrId())){
 			model.setDepartmentHdr(departmentHdrDao.findById(model.getDepartmentHdrId()));
 		}
+		
+		DepartmentDtl departmentDtl=departmentDtlDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", departmentDtl.getId());
+		result.put("isActive", departmentDtl.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> editDepartmentDtl(DepartmentDtlVO p, Integer id, Integer version) {
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save departmentHdr execute");
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		DepartmentDtl model=modelMapper.map(p, DepartmentDtl.class);
+		
+		DepartmentDtl obj = departmentDtlDao.findById(id);
+		model.setCreateBy(obj.getCreateBy());
+		model.setCreateDate(obj.getCreateDate());
+		model.setIsActive(obj.getIsActive());
+		
+		model.setDepartmentHdr(obj.getDepartmentHdr());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
 		
 		DepartmentDtl departmentDtl=departmentDtlDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 

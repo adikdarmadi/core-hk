@@ -42,24 +42,15 @@ public class AkunGrupController extends LocaleController {
 
 	}
 
-	/*
-	 * @SuppressWarnings("unchecked")
-	 * 
-	 * @RequestMapping(value = "/edit/{id}", method = RequestMethod.PUT,
-	 * consumes = MediaType.APPLICATION_JSON_VALUE,produces=MediaType.
-	 * APPLICATION_JSON_VALUE) public ResponseEntity<Map<String,Object>>
-	 * Save(@PathVariable("id") String id,@Valid @RequestBody AkunGrupVO
-	 * entity,HttpServletRequest request) { Map<String, Object> result =
-	 * akunGrupService.saveAkunGrup(entity);
-	 * mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
-	 * mapHeaderMessage.put(BaseConstant.STATUS_CODE,
-	 * HttpStatus.CREATED.toString());
-	 * mapHeaderMessage.put(BaseConstant.MESSAGE,
-	 * BaseConstant.HttpHeaderInfo.LABEL_SUCCESS); return
-	 * RestUtil.getJsonResponse(result, HttpStatus.CREATED, mapHeaderMessage);
-	 * 
-	 * }
-	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/edit/{version}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, Object>> Edit(@PathVariable("version") Integer version, @Valid @RequestBody AkunGrupVO entity, HttpServletRequest request) {
+		Map<String, Object> result = akunGrupService.editAkunGrup(entity,version);
+		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
+		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.CREATED.toString());
+		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
+		return RestUtil.getJsonResponse(result, HttpStatus.CREATED, mapHeaderMessage);
+	}
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/del/{id}")

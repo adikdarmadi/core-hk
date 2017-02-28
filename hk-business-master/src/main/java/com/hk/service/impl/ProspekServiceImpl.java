@@ -16,6 +16,8 @@ import com.hk.dao.ProspekContactDao;
 import com.hk.dao.ProspekDao;
 import com.hk.dao.SalesDao;
 import com.hk.dao.custom.ProspekContactDaoCustom;
+import com.hk.entities.Customer;
+import com.hk.entities.CustomerContact;
 import com.hk.entities.Prospek;
 import com.hk.entities.ProspekContact;
 import com.hk.service.ProspekService;
@@ -86,6 +88,32 @@ public class ProspekServiceImpl implements ProspekService {
 	
 	@Override
 	@Transactional(readOnly=false)
+	public Map<String,Object> editProspek(ProspekVO p, Integer version) {
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save prospek execute");
+		Prospek model=modelMapper.map(p, Prospek.class);
+
+		Prospek obj = prospekDao.findById(p.getId());
+		model.setCreateBy(obj.getCreateBy());
+		model.setCreateDate(obj.getCreateDate());
+		model.setIsActive(obj.getIsActive());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		if(CommonUtil.isNotNullOrEmpty(model.getSalesId())){
+			model.setSales(salesDao.findById(model.getSalesId()));
+		}
+		
+		Prospek prospek=prospekDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", prospek.getId());
+		result.put("isActive", prospek.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
 	public Map<String,Object> findAllProspek() {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("listProspek", prospekDao.findAllProspek());
@@ -126,6 +154,30 @@ public class ProspekServiceImpl implements ProspekService {
 		if(CommonUtil.isNotNullOrEmpty(model.getProspekId())){
 			model.setProspek(prospekDao.findById(model.getProspekId()));
 		}
+		
+		ProspekContact prospekContact=prospekContactDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", prospekContact.getId());
+		result.put("isActive", prospekContact.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> editProspekContact(ProspekContactVO p, String id, Integer version) {
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save prospek execute");
+		ProspekContact model=modelMapper.map(p, ProspekContact.class);
+		
+		ProspekContact obj = prospekContactDao.findById(id);
+		model.setCreateBy(obj.getCreateBy());
+		model.setCreateDate(obj.getCreateDate());
+		model.setIsActive(obj.getIsActive());
+		
+		model.setProspek(obj.getProspek());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
 		
 		ProspekContact prospekContact=prospekContactDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 

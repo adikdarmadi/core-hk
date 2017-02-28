@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hk.dao.AkunDao;
 import com.hk.dao.AkunGrupDao;
 import com.hk.entities.Akun;
+import com.hk.entities.AkunGrup;
 import com.hk.service.AkunService;
 import com.hk.service.UserMasterService;
 import com.hk.service.UserService;
@@ -53,6 +54,36 @@ public class AkunServiceImpl implements AkunService {
 		if(CommonUtil.isNotNullOrEmpty(model.getAkunParentId())){
 			model.setAkunParent(akunDao.findById(model.getAkunParentId()));
 		}
+		Akun akun=akunDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", akun.getId());
+		result.put("isActive", akun.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> editAkun(AkunVO p,Integer version) {
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save akun execute");
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		Akun model=modelMapper.map(p, Akun.class);
+		
+		Akun obj = akunDao.findById(p.getId());
+		model.setCreateBy(obj.getCreateBy());
+		model.setCreateDate(obj.getCreateDate());
+		model.setIsActive(obj.getIsActive());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		if(CommonUtil.isNotNullOrEmpty(model.getAkunGrupId())){
+			model.setAkunGrup(akunGrupDao.findById(model.getAkunGrupId()));
+		}
+		if(CommonUtil.isNotNullOrEmpty(model.getAkunParentId())){
+			model.setAkunParent(akunDao.findById(model.getAkunParentId()));
+		}
+		
 		Akun akun=akunDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("id", akun.getId());

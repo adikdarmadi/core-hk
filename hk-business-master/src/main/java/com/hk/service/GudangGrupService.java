@@ -19,4 +19,6 @@ public interface GudangGrupService {
 
 	Map<String, Object> deleteGudangGrup(String id);
 
+	Map<String, Object> editGudangGrup(GudangGrupVO p, Integer version);
+
 }

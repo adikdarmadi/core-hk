@@ -19,4 +19,6 @@ public interface PegawaiService {
 
 	Map<String, Object> deletePegawai(String id);
 
+	Map<String, Object> editPegawai(PegawaiVO p, Integer version);
+
 }

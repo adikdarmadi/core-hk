@@ -19,4 +19,6 @@ public interface WidgetService {
 
 	Map<String, Object> deleteWidget(String id);
 
+	Map<String, Object> editWidget(WidgetVO p, Integer version);
+
 }

@@ -20,4 +20,6 @@ public interface BarangMerkService {
 
 	Map<String, Object> deleteBarangMerk(String id);
 
+	Map<String, Object> editBarangMerk(BarangMerkVO p, Integer version);
+
 }

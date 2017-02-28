@@ -21,4 +21,6 @@ public interface MataUangService {
 
 	Map<String, Object> deleteMataUang(String id);
 
+	Map<String, Object> editMataUang(MataUangVO p, Integer version);
+
 }

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hk.dao.AkunDao;
 import com.hk.dao.CostDao;
 import com.hk.dao.MataUangDao;
+import com.hk.entities.AkunGrup;
 import com.hk.entities.Cost;
 import com.hk.service.CostService;
 import com.hk.service.UserService;
@@ -48,6 +49,36 @@ public class CostServiceImpl implements CostService {
 		model.setCreateBy(userService.getUser().getId());
 		model.setCreateDate(DateUtil.now());
 		model.setIsActive(true);
+		
+		model.setTglAwal(DateUtil.toDate(DateUtil.defaultFormatDate(model.getTglAwal())));
+		if(CommonUtil.isNotNullOrEmpty(model.getMataUangId())){
+			model.setMataUang(mataUangDao.findById(model.getMataUangId()));
+		}
+		if(CommonUtil.isNotNullOrEmpty(model.getAkunId())){
+			model.setAkun(akunDao.findById(model.getAkunId()));
+		}
+		
+		Cost cost=costDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", cost.getId());
+		result.put("isActive", cost.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> editCost(CostVO p, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save cost execute");
+		Cost model=modelMapper.map(p, Cost.class);
+
+		Cost obj = costDao.findById(p.getId());
+		model.setCreateBy(obj.getCreateBy());
+		model.setCreateDate(obj.getCreateDate());
+		model.setIsActive(obj.getIsActive());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
 		
 		model.setTglAwal(DateUtil.toDate(DateUtil.defaultFormatDate(model.getTglAwal())));
 		if(CommonUtil.isNotNullOrEmpty(model.getMataUangId())){

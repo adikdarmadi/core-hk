@@ -19,4 +19,6 @@ public interface RoleService {
 
 	Map<String, Object> deleteRole(String id);
 
+	Map<String, Object> editRole(RoleVO p, Integer version);
+
 }

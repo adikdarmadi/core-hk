@@ -19,4 +19,6 @@ public interface AkunService {
 
 	Map<String, Object> deleteAkun(String id);
 
+	Map<String, Object> editAkun(AkunVO p, Integer version);
+
 }

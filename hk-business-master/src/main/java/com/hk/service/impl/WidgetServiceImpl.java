@@ -16,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hk.dao.RoleDao;
 import com.hk.dao.WidgetDao;
+import com.hk.dao.custom.RoleWidgetDaoCustom;
+import com.hk.entities.AkunGrup;
 import com.hk.entities.RoleWidget;
 import com.hk.entities.Widget;
 import com.hk.service.WidgetService;
@@ -34,6 +36,9 @@ public class WidgetServiceImpl implements WidgetService {
 	
 	@Autowired
 	private RoleDao roleDao;
+	
+	@Autowired
+	private RoleWidgetDaoCustom roleWidgetDaoCustom;
 	
 	@Autowired
 	private UserService userService;
@@ -60,6 +65,42 @@ public class WidgetServiceImpl implements WidgetService {
 			}
 		}
 		
+		model.getListRoleWidget().clear();
+		model.setListRoleWidget(listRoleWidget);
+		
+		Widget widget=widgetDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", widget.getId());
+		result.put("isActive", widget.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> editWidget(WidgetVO p, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save widget execute");
+		Widget model=modelMapper.map(p, Widget.class);
+
+		Widget obj = widgetDao.findById(p.getId());
+		model.setCreateBy(obj.getCreateBy());
+		model.setCreateDate(obj.getCreateDate());
+		model.setIsActive(obj.getIsActive());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		List<RoleWidget> listRoleWidget = new ArrayList<RoleWidget>();
+		for(String role : p.getRoles()){
+			RoleWidget roleWidget=new RoleWidget();
+			if(CommonUtil.isNotNullOrEmpty(role)){
+				roleWidget.setRole(roleDao.findById(role));
+				roleWidget.setWidget(model);
+				listRoleWidget.add(roleWidget);
+			}
+		}
+		
+		roleWidgetDaoCustom.deleteByWidgetId(model.getId());
 		model.getListRoleWidget().clear();
 		model.setListRoleWidget(listRoleWidget);
 		

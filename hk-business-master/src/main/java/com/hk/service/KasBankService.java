@@ -19,4 +19,6 @@ public interface KasBankService {
 
 	Map<String, Object> deleteKasBank(String id);
 
+	Map<String, Object> editKasBank(KasBankVO p, Integer version);
+
 }

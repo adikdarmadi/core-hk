@@ -20,4 +20,6 @@ public interface BarangDivisiService {
 
 	Map<String, Object> deleteBarangDivisi(String id);
 
+	Map<String, Object> editBarangDivisi(BarangDivisiVO entity, Integer version);
+
 }

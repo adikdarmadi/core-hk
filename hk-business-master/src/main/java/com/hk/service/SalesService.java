@@ -19,4 +19,6 @@ public interface SalesService {
 
 	Map<String, Object> deleteSales(String id);
 
+	Map<String, Object> editSales(SalesVO p, Integer version);
+
 }

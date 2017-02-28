@@ -18,6 +18,8 @@ import com.hk.dao.MataUangDao;
 import com.hk.dao.SupplierContactDao;
 import com.hk.dao.SupplierDao;
 import com.hk.dao.custom.SupplierContactDaoCustom;
+import com.hk.entities.Customer;
+import com.hk.entities.CustomerContact;
 import com.hk.entities.Supplier;
 import com.hk.entities.SupplierContact;
 import com.hk.service.SupplierService;
@@ -95,6 +97,36 @@ public class SupplierServiceImpl implements SupplierService {
 	
 	@Override
 	@Transactional(readOnly=false)
+	public Map<String,Object> editSupplier(SupplierVO p, Integer version) {
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save supplier execute");
+		Supplier model=modelMapper.map(p, Supplier.class);
+
+		Supplier obj = supplierDao.findById(p.getId());
+		model.setCreateBy(obj.getCreateBy());
+		model.setCreateDate(obj.getCreateDate());
+		model.setIsActive(obj.getIsActive());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		if(CommonUtil.isNotNullOrEmpty(model.getAkunId())){
+			model.setAkun(akunDao.findById(model.getAkunId()));
+		}
+		
+		if(CommonUtil.isNotNullOrEmpty(model.getMataUangId())){
+			model.setMataUang(mataUangDao.findById(model.getMataUangId()));
+		}
+		
+		Supplier supplier=supplierDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", supplier.getId());
+		result.put("isActive", supplier.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
 	public Map<String,Object> findAllSupplier() {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("listSupplier", supplierDao.findAllSupplier());
@@ -135,6 +167,30 @@ public class SupplierServiceImpl implements SupplierService {
 		if(CommonUtil.isNotNullOrEmpty(model.getSupplierId())){
 			model.setSupplier(supplierDao.findById(model.getSupplierId()));
 		}
+		
+		SupplierContact supplierContact=supplierContactDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", supplierContact.getId());
+		result.put("isActive", supplierContact.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> editSupplierContact(SupplierContactVO p, String id, Integer version) {
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save supplier execute");
+		SupplierContact model=modelMapper.map(p, SupplierContact.class);
+		
+		SupplierContact obj = supplierContactDao.findById(id);
+		model.setCreateBy(obj.getCreateBy());
+		model.setCreateDate(obj.getCreateDate());
+		model.setIsActive(obj.getIsActive());
+		
+		model.setSupplier(obj.getSupplier());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
 		
 		SupplierContact supplierContact=supplierContactDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 

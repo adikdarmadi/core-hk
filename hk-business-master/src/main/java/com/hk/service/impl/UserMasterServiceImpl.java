@@ -22,6 +22,10 @@ import com.hk.dao.KasBankDao;
 import com.hk.dao.PegawaiDao;
 import com.hk.dao.RoleDao;
 import com.hk.dao.UserDao;
+import com.hk.dao.custom.UserGudangDaoCustom;
+import com.hk.dao.custom.UserKasBankDaoCustom;
+import com.hk.dao.custom.UserRoleDaoCustom;
+import com.hk.entities.AkunGrup;
 import com.hk.entities.User;
 import com.hk.entities.UserGudang;
 import com.hk.entities.UserKasBank;
@@ -56,6 +60,15 @@ public class UserMasterServiceImpl implements UserMasterService {
 	
 	@Autowired
 	private GudangDao gudangDao;
+	
+	@Autowired
+	private UserGudangDaoCustom userGudangDaoCustom;
+	
+	@Autowired
+	private UserRoleDaoCustom userRoleDaoCustom;
+	
+	@Autowired
+	private UserKasBankDaoCustom userKasBankDaoCustom;
 	
 	@Autowired
 	private UserService userService;
@@ -116,6 +129,76 @@ public class UserMasterServiceImpl implements UserMasterService {
 			}
 		}
 		
+		model.getListUserKasBank().clear();
+		model.setListUserKasBank(listUserKasBank);
+		
+		User user=userDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", user.getId());
+		result.put("isActive", user.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> editUser(UserVO p, Integer version) {
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save user execute");
+		User model=modelMapper.map(p, User.class);
+		
+		User obj = userDao.findById(p.getId());
+		model.setCreateBy(obj.getCreateBy());
+		model.setCreateDate(obj.getCreateDate());
+		model.setIsActive(obj.getIsActive());
+		
+		model.setPassword(obj.getPassword());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		if(CommonUtil.isNotNullOrEmpty(model.getPegawaiId())){
+			model.setPegawai(pegawaiDao.findById(model.getPegawaiId()));
+		}
+		
+		List<UserRole> listUserRole = new ArrayList<UserRole>();
+		for(String role : p.getRoles()){
+			UserRole userRole=new UserRole();
+			if(CommonUtil.isNotNullOrEmpty(role)){
+				userRole.setRole(roleDao.findById(role));
+				userRole.setUser(model);
+				listUserRole.add(userRole);
+			}
+		}
+		
+		userRoleDaoCustom.deleteByUserId(model.getId());
+		model.getListUserRole().clear();
+		model.setListUserRole(listUserRole);
+		
+		List<UserGudang> listUserGudang = new ArrayList<UserGudang>();
+		for(String gudang : p.getGudangs()){
+			UserGudang userGudang=new UserGudang();
+			if(CommonUtil.isNotNullOrEmpty(gudang)){
+				userGudang.setGudang(gudangDao.findById(gudang));
+				userGudang.setUser(model);
+				listUserGudang.add(userGudang);
+			}
+		}
+		
+		userGudangDaoCustom.deleteByUserId(model.getId());
+		model.getListUserGudang().clear();
+		model.setListUserGudang(listUserGudang);
+		
+		List<UserKasBank> listUserKasBank = new ArrayList<UserKasBank>();
+		for(String kasBank : p.getKasBanks()){
+			UserKasBank userKasBank=new UserKasBank();
+			if(CommonUtil.isNotNullOrEmpty(kasBank)){
+				userKasBank.setKasBank(kasBankDao.findById(kasBank));
+				userKasBank.setUser(model);
+				listUserKasBank.add(userKasBank);
+			}
+		}
+		
+		userKasBankDaoCustom.deleteByUserId(model.getId());
 		model.getListUserKasBank().clear();
 		model.setListUserKasBank(listUserKasBank);
 		

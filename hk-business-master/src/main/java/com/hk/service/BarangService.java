@@ -19,4 +19,6 @@ public interface BarangService {
 
 	Map<String, Object> deleteBarang(String id);
 
+	Map<String, Object> editBarang(BarangVO p, Integer version);
+
 }

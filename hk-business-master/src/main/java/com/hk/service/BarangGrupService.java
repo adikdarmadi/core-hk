@@ -20,4 +20,6 @@ public interface BarangGrupService {
 
 	Map<String, Object> deleteBarangGrup(String id);
 
+	Map<String, Object> editBarangGrup(BarangGrupVO entity, Integer version);
+
 }

@@ -20,4 +20,6 @@ public interface ModuleService {
 
 	Map<String, Object> deleteModule(String id);
 
+	Map<String, Object> editModule(ModuleVO p, Integer version);
+
 }

@@ -29,4 +29,8 @@ public interface ProspekService {
 
 	Map<String, Object> deleteProspekContact(String id);
 
+	Map<String, Object> editProspek(ProspekVO p, Integer version);
+
+	Map<String, Object> editProspekContact(ProspekContactVO p, String id, Integer version);
+
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hk.dao.MataUangDao;
+import com.hk.entities.AkunGrup;
 import com.hk.entities.MataUang;
 import com.hk.service.MataUangService;
 import com.hk.service.UserMasterService;
@@ -40,6 +41,28 @@ public class MataUangServiceImpl implements MataUangService {
 		model.setCreateBy(userService.getUser().getId());
 		model.setCreateDate(DateUtil.now());
 		model.setIsActive(true);
+		MataUang mataUang=mataUangDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", mataUang.getId());
+		result.put("isActive", mataUang.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> editMataUang(MataUangVO p, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save mataUang execute");
+		MataUang model=modelMapper.map(p, MataUang.class);
+
+		MataUang obj = mataUangDao.findById(p.getId());
+		model.setCreateBy(obj.getCreateBy());
+		model.setCreateDate(obj.getCreateDate());
+		model.setIsActive(obj.getIsActive());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
 		MataUang mataUang=mataUangDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("id", mataUang.getId());

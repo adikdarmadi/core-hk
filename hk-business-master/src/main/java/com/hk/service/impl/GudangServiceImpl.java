@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hk.dao.GudangDao;
 import com.hk.dao.GudangGrupDao;
 import com.hk.dao.UserDao;
+import com.hk.dao.custom.UserGudangDaoCustom;
+import com.hk.entities.AkunGrup;
 import com.hk.entities.Gudang;
 import com.hk.entities.UserGudang;
 import com.hk.service.GudangService;
@@ -34,6 +36,9 @@ public class GudangServiceImpl implements GudangService {
 	
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private UserGudangDaoCustom userGudangDaoCustom;
 	
 	@Autowired
 	private GudangGrupDao gudangGrupDao;
@@ -69,6 +74,48 @@ public class GudangServiceImpl implements GudangService {
 			}
 		}
 		
+		model.getListUserGudang().clear();
+		model.setListUserGudang(listUserGudang);
+		
+		Gudang gudang=gudangDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", gudang.getId());
+		result.put("isActive", gudang.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> editGudang(GudangVO p, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save gudang execute");
+		Gudang model=modelMapper.map(p, Gudang.class);
+
+		Gudang obj = gudangDao.findById(p.getId());
+		model.setCreateBy(obj.getCreateBy());
+		model.setCreateDate(obj.getCreateDate());
+		model.setIsActive(obj.getIsActive());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		model.setTglAwalStock(DateUtil.toDate(DateUtil.defaultFormatDate(model.getTglAwalStock())));
+
+		if (CommonUtil.isNotNullOrEmpty(model.getGudangGrupId())) {
+			model.setGudangGrup(gudangGrupDao.findById(model.getGudangGrupId()));
+		}
+		
+		List<UserGudang> listUserGudang = new ArrayList<UserGudang>();
+		for(String user : p.getUsers()){
+			UserGudang userGudang=new UserGudang();
+			if(CommonUtil.isNotNullOrEmpty(user)){
+				userGudang.setUser(userDao.findById(user));
+				userGudang.setGudang(model);
+				listUserGudang.add(userGudang);
+			}
+		}
+		
+		userGudangDaoCustom.deleteByGudangId(model.getId());
 		model.getListUserGudang().clear();
 		model.setListUserGudang(listUserGudang);
 		

@@ -29,4 +29,8 @@ public interface SupplierService {
 
 	Map<String, Object> deleteSupplierContact(String id);
 
+	Map<String, Object> editSupplier(SupplierVO p, Integer version);
+
+	Map<String, Object> editSupplierContact(SupplierContactVO p, String id, Integer version);
+
 }

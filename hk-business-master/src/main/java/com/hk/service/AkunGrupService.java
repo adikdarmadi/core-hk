@@ -19,4 +19,6 @@ public interface AkunGrupService {
 
 	Map<String, Object> deleteAkunGrup(String id);
 
+	Map<String, Object> editAkunGrup(AkunGrupVO p, Integer version);
+
 }

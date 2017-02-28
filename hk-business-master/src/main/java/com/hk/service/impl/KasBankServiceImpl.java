@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hk.dao.AkunDao;
 import com.hk.dao.KasBankDao;
 import com.hk.dao.MataUangDao;
+import com.hk.entities.AkunGrup;
 import com.hk.entities.KasBank;
 import com.hk.service.KasBankService;
 import com.hk.service.UserMasterService;
@@ -52,6 +53,41 @@ public class KasBankServiceImpl implements KasBankService {
 		model.setCreateBy(userService.getUser().getId());
 		model.setCreateDate(DateUtil.now());
 		model.setIsActive(true);
+		model.setTanggalRegistrasi(DateUtil.toDate(DateUtil.defaultFormatDate(model.getTanggalRegistrasi())));
+
+		if(CommonUtil.isNotNullOrEmpty(model.getAkunId())){
+			model.setAkun(akunDao.findById(model.getAkunId()));
+		}
+		if(CommonUtil.isNotNullOrEmpty(model.getMataUangId())){
+			model.setMataUang(mataUangDao.findById(model.getMataUangId()));
+		}
+		if(CommonUtil.isNotNullOrEmpty(model.getKurs()) && CommonUtil.isNotNullOrEmpty(model.getSaldoAwal())){
+			model.setSaldoAwalRp(model.getSaldoAwal().multiply(model.getKurs()));
+		}
+		
+		KasBank kasBank=kasBankDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", kasBank.getId());
+		result.put("isActive", kasBank.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> editKasBank(KasBankVO p, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save kasBank execute");
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+		KasBank model=modelMapper.map(p, KasBank.class);
+
+		KasBank obj = kasBankDao.findById(p.getId());
+		model.setCreateBy(obj.getCreateBy());
+		model.setCreateDate(obj.getCreateDate());
+		model.setIsActive(obj.getIsActive());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
 		model.setTanggalRegistrasi(DateUtil.toDate(DateUtil.defaultFormatDate(model.getTanggalRegistrasi())));
 
 		if(CommonUtil.isNotNullOrEmpty(model.getAkunId())){

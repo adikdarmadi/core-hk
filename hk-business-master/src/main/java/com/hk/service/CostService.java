@@ -19,4 +19,6 @@ public interface CostService {
 
 	Map<String, Object> deleteCost(String id);
 
+	Map<String, Object> editCost(CostVO p, Integer version);
+
 }

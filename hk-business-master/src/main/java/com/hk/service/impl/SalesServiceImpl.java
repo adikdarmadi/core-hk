@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.hk.dao.SalesDao;
 import com.hk.dao.UserDao;
+import com.hk.entities.AkunGrup;
 import com.hk.entities.Sales;
 import com.hk.service.SalesService;
 import com.hk.service.UserService;
@@ -44,6 +45,32 @@ public class SalesServiceImpl implements SalesService {
 		model.setCreateBy(userService.getUser().getId());
 		model.setCreateDate(DateUtil.now());
 		model.setIsActive(true);
+		
+		if(CommonUtil.isNotNullOrEmpty(model.getUserId())){
+			model.setUser(userDao.findById(model.getUserId()));
+		}
+		
+		Sales sales=salesDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", sales.getId());
+		result.put("isActive", sales.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> editSales(SalesVO p, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save sales execute");
+		Sales model=modelMapper.map(p, Sales.class);
+
+		Sales obj = salesDao.findById(p.getId());
+		model.setCreateBy(obj.getCreateBy());
+		model.setCreateDate(obj.getCreateDate());
+		model.setIsActive(obj.getIsActive());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
 		
 		if(CommonUtil.isNotNullOrEmpty(model.getUserId())){
 			model.setUser(userDao.findById(model.getUserId()));

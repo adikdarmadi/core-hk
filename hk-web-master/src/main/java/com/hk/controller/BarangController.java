@@ -20,6 +20,7 @@ import com.hk.controller.base.LocaleController;
 import com.hk.security.AppPermission;
 import com.hk.service.BarangService;
 import com.hk.util.rest.RestUtil;
+import com.hk.vo.AkunGrupVO;
 import com.hk.vo.BarangVO;
 
 @SuppressWarnings("rawtypes")
@@ -42,24 +43,15 @@ public class BarangController extends LocaleController {
 
 	}
 
-	/*
-	 * @SuppressWarnings("unchecked")
-	 * 
-	 * @RequestMapping(value = "/edit/{id}", method = RequestMethod.PUT,
-	 * consumes = MediaType.APPLICATION_JSON_VALUE,produces=MediaType.
-	 * APPLICATION_JSON_VALUE) public ResponseEntity<Map<String,Object>>
-	 * Save(@PathVariable("id") String id,@Valid @RequestBody BarangVO
-	 * entity,HttpServletRequest request) { Map<String, Object> result =
-	 * barangService.saveBarang(entity);
-	 * mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
-	 * mapHeaderMessage.put(BaseConstant.STATUS_CODE,
-	 * HttpStatus.CREATED.toString());
-	 * mapHeaderMessage.put(BaseConstant.MESSAGE,
-	 * BaseConstant.HttpHeaderInfo.LABEL_SUCCESS); return
-	 * RestUtil.getJsonResponse(result, HttpStatus.CREATED, mapHeaderMessage);
-	 * 
-	 * }
-	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/edit/{version}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, Object>> Edit(@PathVariable("version") Integer version, @Valid @RequestBody BarangVO entity, HttpServletRequest request) {
+		Map<String, Object> result = barangService.editBarang(entity,version);
+		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
+		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.CREATED.toString());
+		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
+		return RestUtil.getJsonResponse(result, HttpStatus.CREATED, mapHeaderMessage);
+	}
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/del/{id}")

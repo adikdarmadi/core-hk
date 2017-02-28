@@ -15,7 +15,7 @@ public class AkunGrupVO {
 
 	@NotEmpty(message = "Nama Tidak Boleh Kosong")
 	private String nama;
-
+	
 	public String getId() {
 		return id;
 	}
@@ -32,5 +32,4 @@ public class AkunGrupVO {
 		this.nama = nama;
 	}
 
-	
 }

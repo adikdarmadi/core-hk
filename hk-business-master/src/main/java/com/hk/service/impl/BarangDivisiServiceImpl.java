@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hk.dao.BarangDivisiDao;
+import com.hk.entities.AkunGrup;
 import com.hk.entities.BarangDivisi;
 import com.hk.service.BarangDivisiService;
 import com.hk.service.UserService;
@@ -39,6 +40,28 @@ public class BarangDivisiServiceImpl implements BarangDivisiService {
 		model.setCreateBy(userService.getUser().getId());
 		model.setCreateDate(DateUtil.now());
 		model.setIsActive(true);
+		BarangDivisi barangDivisi=barangDivisiDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", barangDivisi.getId());
+		result.put("isActive", barangDivisi.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> editBarangDivisi(BarangDivisiVO p,Integer version) {
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save barangDivisi execute");
+		BarangDivisi model=modelMapper.map(p, BarangDivisi.class);
+		
+		BarangDivisi obj = barangDivisiDao.findById(p.getId());
+		model.setCreateBy(obj.getCreateBy());
+		model.setCreateDate(obj.getCreateDate());
+		model.setIsActive(obj.getIsActive());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
 		BarangDivisi barangDivisi=barangDivisiDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("id", barangDivisi.getId());

@@ -19,4 +19,6 @@ public interface UnitService {
 
 	Map<String, Object> deleteUnit(String id);
 
+	Map<String, Object> editUnit(UnitVO p, Integer version);
+
 }

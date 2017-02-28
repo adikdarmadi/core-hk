@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hk.dao.AkunDao;
+import com.hk.dao.DepartmentHdrDao;
 import com.hk.dao.MataUangDao;
 import com.hk.dao.PegawaiDao;
+import com.hk.entities.AkunGrup;
 import com.hk.entities.Pegawai;
 import com.hk.service.PegawaiService;
 import com.hk.service.UserMasterService;
@@ -28,6 +30,9 @@ public class PegawaiServiceImpl implements PegawaiService {
 
 	@Autowired
 	private PegawaiDao pegawaiDao;
+	
+	@Autowired
+	private DepartmentHdrDao departmentHdrDao;
 	
 	@Autowired
 	private AkunDao akunDao;
@@ -50,9 +55,55 @@ public class PegawaiServiceImpl implements PegawaiService {
 		model.setCreateDate(DateUtil.now());
 		model.setIsActive(true);
 		
-		/*if(CommonUtil.isNotNullOrEmpty(model.getDepartmentId())){
-			model.setDepartment(departmentHdrDAO.findById(model.getDepartmentId()));
-		}*/
+		if(CommonUtil.isNotNullOrEmpty(model.getDepartmentId())){
+			model.setDepartment(departmentHdrDao.findById(model.getDepartmentId()));
+		}
+		
+		if(CommonUtil.isNotNullOrEmpty(model.getAkunId())){
+			model.setAkun(akunDao.findById(model.getAkunId()));
+		}
+		
+		if(CommonUtil.isNotNullOrEmpty(model.getMataUangId())){
+			model.setMataUang(mataUangDao.findById(model.getMataUangId()));
+		}
+		
+		if(CommonUtil.isNotNullOrEmpty(model.getTanggalLahir())){
+			model.setTanggalLahir(DateUtil.toDate(DateUtil.defaultFormatDate(model.getTanggalLahir())));
+		}
+		
+		if(CommonUtil.isNotNullOrEmpty(model.getMulaiBekerja())){
+			model.setMulaiBekerja(DateUtil.toDate(DateUtil.defaultFormatDate(model.getMulaiBekerja())));
+		}
+		
+		if(CommonUtil.isNotNullOrEmpty(model.getAkhirKontrak())){
+			model.setAkhirKontrak(DateUtil.toDate(DateUtil.defaultFormatDate(model.getAkhirKontrak())));
+		}
+		
+		Pegawai pegawai=pegawaiDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", pegawai.getId());
+		result.put("isActive", pegawai.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> editPegawai(PegawaiVO p, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save pegawai execute");
+		Pegawai model=modelMapper.map(p, Pegawai.class);
+
+		Pegawai obj = pegawaiDao.findById(p.getId());
+		model.setCreateBy(obj.getCreateBy());
+		model.setCreateDate(obj.getCreateDate());
+		model.setIsActive(obj.getIsActive());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		if(CommonUtil.isNotNullOrEmpty(model.getDepartmentId())){
+			model.setDepartment(departmentHdrDao.findById(model.getDepartmentId()));
+		}
 		
 		if(CommonUtil.isNotNullOrEmpty(model.getAkunId())){
 			model.setAkun(akunDao.findById(model.getAkunId()));

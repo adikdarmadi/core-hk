@@ -22,5 +22,7 @@ public interface UserMasterService{
 	Map<String, Object> findById(String id);
 
 	Map<String, Object> deleteUser(String id);
+
+	Map<String, Object> editUser(UserVO p, Integer version);
 	
 }

@@ -29,4 +29,8 @@ public interface CustomerService {
 
 	Map<String, Object> deleteCustomerContact(String id);
 
+	Map<String, Object> editCustomer(CustomerVO p, Integer version);
+
+	Map<String, Object> editCustomerContact(CustomerContactVO p, String id, Integer version);
+
 }

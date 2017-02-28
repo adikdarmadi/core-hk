@@ -29,4 +29,8 @@ public interface DepartmentHdrService {
 
 	Map<String, Object> deleteDepartmentDtl(String id);
 
+	Map<String, Object> editDepartmentHdr(DepartmentHdrVO p, Integer version);
+
+	Map<String, Object> editDepartmentDtl(DepartmentDtlVO p, Integer id, Integer version);
+
 }

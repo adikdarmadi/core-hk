@@ -21,6 +21,8 @@ import com.hk.dao.SalesDao;
 import com.hk.dao.custom.CustomerContactDaoCustom;
 import com.hk.entities.Customer;
 import com.hk.entities.CustomerContact;
+import com.hk.entities.DepartmentDtl;
+import com.hk.entities.DepartmentHdr;
 import com.hk.service.CustomerService;
 import com.hk.service.UserService;
 import com.hk.util.CommonUtil;
@@ -110,6 +112,44 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Override
 	@Transactional(readOnly=false)
+	public Map<String,Object> editCustomer(CustomerVO p, Integer version) {
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save customer execute");
+		Customer model=modelMapper.map(p, Customer.class);
+
+		Customer obj = customerDao.findById(p.getId());
+		model.setCreateBy(obj.getCreateBy());
+		model.setCreateDate(obj.getCreateDate());
+		model.setIsActive(obj.getIsActive());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+
+		if(CommonUtil.isNotNullOrEmpty(model.getProspekId())){
+			model.setProspek(prospekDao.findById(model.getProspekId()));
+		}
+		
+		if(CommonUtil.isNotNullOrEmpty(model.getKasBankId())){
+			model.setKasBank(kasBankDao.findById(model.getKasBankId()));
+		}
+		
+		if(CommonUtil.isNotNullOrEmpty(model.getAkunId())){
+			model.setAkun(akunDao.findById(model.getAkunId()));
+		}
+		
+		if(CommonUtil.isNotNullOrEmpty(model.getSalesId())){
+			model.setSales(salesDao.findById(model.getSalesId()));
+		}
+		
+		Customer customer=customerDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", customer.getId());
+		result.put("isActive", customer.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
 	public Map<String,Object> findAllCustomer() {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("listCustomer", customerDao.findAllCustomer());
@@ -150,6 +190,30 @@ public class CustomerServiceImpl implements CustomerService {
 		if(CommonUtil.isNotNullOrEmpty(model.getCustomerId())){
 			model.setCustomer(customerDao.findById(model.getCustomerId()));
 		}
+		
+		CustomerContact customerContact=customerContactDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", customerContact.getId());
+		result.put("isActive", customerContact.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> editCustomerContact(CustomerContactVO p, String id, Integer version) {
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save customer execute");
+		CustomerContact model=modelMapper.map(p, CustomerContact.class);
+		
+		CustomerContact obj = customerContactDao.findById(id);
+		model.setCreateBy(obj.getCreateBy());
+		model.setCreateDate(obj.getCreateDate());
+		model.setIsActive(obj.getIsActive());
+		
+		model.setCustomer(obj.getCustomer());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
 		
 		CustomerContact customerContact=customerContactDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 

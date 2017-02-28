@@ -22,6 +22,8 @@ import com.hk.service.CustomerService;
 import com.hk.util.rest.RestUtil;
 import com.hk.vo.CustomerContactVO;
 import com.hk.vo.CustomerVO;
+import com.hk.vo.DepartmentDtlVO;
+import com.hk.vo.DepartmentHdrVO;
 
 @SuppressWarnings("rawtypes")
 @Controller
@@ -43,24 +45,15 @@ public class CustomerController extends LocaleController {
 
 	}
 
-	/*
-	 * @SuppressWarnings("unchecked")
-	 * 
-	 * @RequestMapping(value = "/edit/{id}", method = RequestMethod.PUT,
-	 * consumes = MediaType.APPLICATION_JSON_VALUE,produces=MediaType.
-	 * APPLICATION_JSON_VALUE) public ResponseEntity<Map<String,Object>>
-	 * Save(@PathVariable("id") String id,@Valid @RequestBody CustomerVO
-	 * entity,HttpServletRequest request) { Map<String, Object> result =
-	 * customerService.saveCustomer(entity);
-	 * mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
-	 * mapHeaderMessage.put(BaseConstant.STATUS_CODE,
-	 * HttpStatus.CREATED.toString());
-	 * mapHeaderMessage.put(BaseConstant.MESSAGE,
-	 * BaseConstant.HttpHeaderInfo.LABEL_SUCCESS); return
-	 * RestUtil.getJsonResponse(result, HttpStatus.CREATED, mapHeaderMessage);
-	 * 
-	 * }
-	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/edit/{version}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, Object>> Edit(@PathVariable("version") Integer version, @Valid @RequestBody CustomerVO entity, HttpServletRequest request) {
+		Map<String, Object> result = customerService.editCustomer(entity,version);
+		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
+		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.CREATED.toString());
+		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
+		return RestUtil.getJsonResponse(result, HttpStatus.CREATED, mapHeaderMessage);
+	}
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/del/{id}")
@@ -102,6 +95,16 @@ public class CustomerController extends LocaleController {
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
 		return RestUtil.getJsonResponse(result, HttpStatus.CREATED, mapHeaderMessage);
 
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/detail/edit/{id}/version/{version}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, Object>> EditDetail(@PathVariable("id") String id,@PathVariable("version") Integer version, @Valid @RequestBody CustomerContactVO entity, HttpServletRequest request) {
+		Map<String, Object> result = customerService.editCustomerContact(entity,id,version);
+		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
+		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.CREATED.toString());
+		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
+		return RestUtil.getJsonResponse(result, HttpStatus.CREATED, mapHeaderMessage);
 	}
 	
 	@SuppressWarnings("unchecked")
