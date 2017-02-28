@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hk.dao.MataUangDao;
 import com.hk.entities.AkunGrup;
 import com.hk.entities.MataUang;
+import com.hk.entities.Widget;
 import com.hk.service.MataUangService;
 import com.hk.service.UserMasterService;
 import com.hk.service.UserService;
@@ -58,6 +59,32 @@ public class MataUangServiceImpl implements MataUangService {
 		model.setCreateBy(obj.getCreateBy());
 		model.setCreateDate(obj.getCreateDate());
 		model.setIsActive(obj.getIsActive());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		MataUang mataUang=mataUangDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", mataUang.getId());
+		result.put("isActive", mataUang.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveMataUang(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save mataUang execute");
+		
+		MataUang model = mataUangDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
 		
 		model.setLastUpdateBy(userService.getUser().getId());
 		model.setLastUpdateDate(DateUtil.now());

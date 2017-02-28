@@ -33,4 +33,8 @@ public interface DepartmentHdrService {
 
 	Map<String, Object> editDepartmentDtl(DepartmentDtlVO p, Integer id, Integer version);
 
+	Map<String, Object> isActiveDepartmentHdr(String id, Integer version);
+
+	Map<String, Object> isActiveDepartmentDtl(Integer id, Integer version);
+
 }

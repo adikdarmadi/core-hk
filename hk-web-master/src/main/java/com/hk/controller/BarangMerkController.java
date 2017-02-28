@@ -52,6 +52,16 @@ public class BarangMerkController extends LocaleController {
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
 		return RestUtil.getJsonResponse(result, HttpStatus.CREATED, mapHeaderMessage);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/active/{id}/version/{version}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, Object>> Activation(@PathVariable("id") String id, @PathVariable("version") Integer version,HttpServletRequest request) {
+		Map<String, Object> result = barangMerkService.isActiveBarangMerk(id,version);
+		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
+		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.CREATED.toString());
+		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
+		return RestUtil.getJsonResponse(result, HttpStatus.CREATED, mapHeaderMessage);
+	}
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/del/{id}")

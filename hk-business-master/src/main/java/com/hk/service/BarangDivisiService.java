@@ -22,4 +22,6 @@ public interface BarangDivisiService {
 
 	Map<String, Object> editBarangDivisi(BarangDivisiVO entity, Integer version);
 
+	Map<String, Object> isActiveBarangDivisi(String id, Integer version);
+
 }

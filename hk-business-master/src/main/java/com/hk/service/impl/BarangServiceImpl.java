@@ -20,6 +20,7 @@ import com.hk.dao.SupplierDao;
 import com.hk.dao.UnitDao;
 import com.hk.entities.AkunGrup;
 import com.hk.entities.Barang;
+import com.hk.entities.Widget;
 import com.hk.service.BarangService;
 import com.hk.service.UserService;
 import com.hk.util.CommonUtil;
@@ -153,6 +154,32 @@ public class BarangServiceImpl implements BarangService {
 		if(CommonUtil.isNotNullOrEmpty(model.getUnitJualId())){
 			model.setUnitJual(unitDao.findById(model.getUnitJualId()));
 		}
+		
+		Barang barang=barangDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", barang.getId());
+		result.put("isActive", barang.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveBarang(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save barang execute");
+		
+		Barang model = barangDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
 		
 		Barang barang=barangDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 

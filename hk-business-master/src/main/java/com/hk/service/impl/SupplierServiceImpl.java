@@ -22,6 +22,7 @@ import com.hk.entities.Customer;
 import com.hk.entities.CustomerContact;
 import com.hk.entities.Supplier;
 import com.hk.entities.SupplierContact;
+import com.hk.entities.Widget;
 import com.hk.service.SupplierService;
 import com.hk.service.UserService;
 import com.hk.util.CommonUtil;
@@ -127,6 +128,32 @@ public class SupplierServiceImpl implements SupplierService {
 	
 	@Override
 	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveSupplier(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save supplier execute");
+		
+		Supplier model = supplierDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		Supplier supplier=supplierDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", supplier.getId());
+		result.put("isActive", supplier.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
 	public Map<String,Object> findAllSupplier() {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("listSupplier", supplierDao.findAllSupplier());
@@ -187,6 +214,32 @@ public class SupplierServiceImpl implements SupplierService {
 		model.setIsActive(obj.getIsActive());
 		
 		model.setSupplier(obj.getSupplier());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		SupplierContact supplierContact=supplierContactDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", supplierContact.getId());
+		result.put("isActive", supplierContact.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveSupplierContact(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save supplierContact execute");
+		
+		SupplierContact model = supplierContactDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
 		
 		model.setLastUpdateBy(userService.getUser().getId());
 		model.setLastUpdateDate(DateUtil.now());

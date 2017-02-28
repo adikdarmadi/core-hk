@@ -33,4 +33,8 @@ public interface ProspekService {
 
 	Map<String, Object> editProspekContact(ProspekContactVO p, String id, Integer version);
 
+	Map<String, Object> isActiveProspek(String id, Integer version);
+
+	Map<String, Object> isActiveProspekContact(String id, Integer version);
+
 }

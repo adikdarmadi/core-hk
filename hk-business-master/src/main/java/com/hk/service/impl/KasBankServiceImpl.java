@@ -16,6 +16,7 @@ import com.hk.dao.KasBankDao;
 import com.hk.dao.MataUangDao;
 import com.hk.entities.AkunGrup;
 import com.hk.entities.KasBank;
+import com.hk.entities.Widget;
 import com.hk.service.KasBankService;
 import com.hk.service.UserMasterService;
 import com.hk.service.UserService;
@@ -99,6 +100,32 @@ public class KasBankServiceImpl implements KasBankService {
 		if(CommonUtil.isNotNullOrEmpty(model.getKurs()) && CommonUtil.isNotNullOrEmpty(model.getSaldoAwal())){
 			model.setSaldoAwalRp(model.getSaldoAwal().multiply(model.getKurs()));
 		}
+		
+		KasBank kasBank=kasBankDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", kasBank.getId());
+		result.put("isActive", kasBank.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveKasBank(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save kasBank execute");
+		
+		KasBank model = kasBankDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
 		
 		KasBank kasBank=kasBankDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 

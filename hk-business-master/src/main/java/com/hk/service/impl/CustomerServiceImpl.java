@@ -23,6 +23,7 @@ import com.hk.entities.Customer;
 import com.hk.entities.CustomerContact;
 import com.hk.entities.DepartmentDtl;
 import com.hk.entities.DepartmentHdr;
+import com.hk.entities.Widget;
 import com.hk.service.CustomerService;
 import com.hk.service.UserService;
 import com.hk.util.CommonUtil;
@@ -145,6 +146,58 @@ public class CustomerServiceImpl implements CustomerService {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("id", customer.getId());
 		result.put("isActive", customer.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveCustomer(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save customer execute");
+		
+		Customer model = customerDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		Customer customer=customerDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", customer.getId());
+		result.put("isActive", customer.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveCustomerContact(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save customerContact execute");
+		
+		CustomerContact model = customerContactDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		CustomerContact customerContact=customerContactDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", customerContact.getId());
+		result.put("isActive", customerContact.getIsActive());
 		return result;
 	}
 	

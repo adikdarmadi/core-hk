@@ -22,4 +22,6 @@ public interface BarangMerkService {
 
 	Map<String, Object> editBarangMerk(BarangMerkVO p, Integer version);
 
+	Map<String, Object> isActiveBarangMerk(String id, Integer version);
+
 }

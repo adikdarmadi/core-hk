@@ -22,4 +22,6 @@ public interface BarangGrupService {
 
 	Map<String, Object> editBarangGrup(BarangGrupVO entity, Integer version);
 
+	Map<String, Object> isActiveBarangGrup(String id, Integer version);
+
 }

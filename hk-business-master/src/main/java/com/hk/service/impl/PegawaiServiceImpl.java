@@ -16,6 +16,7 @@ import com.hk.dao.MataUangDao;
 import com.hk.dao.PegawaiDao;
 import com.hk.entities.AkunGrup;
 import com.hk.entities.Pegawai;
+import com.hk.entities.Widget;
 import com.hk.service.PegawaiService;
 import com.hk.service.UserMasterService;
 import com.hk.service.UserService;
@@ -124,6 +125,32 @@ public class PegawaiServiceImpl implements PegawaiService {
 		if(CommonUtil.isNotNullOrEmpty(model.getAkhirKontrak())){
 			model.setAkhirKontrak(DateUtil.toDate(DateUtil.defaultFormatDate(model.getAkhirKontrak())));
 		}
+		
+		Pegawai pegawai=pegawaiDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", pegawai.getId());
+		result.put("isActive", pegawai.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> isActivePegawai(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save pegawai execute");
+		
+		Pegawai model = pegawaiDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
 		
 		Pegawai pegawai=pegawaiDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 

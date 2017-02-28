@@ -21,4 +21,6 @@ public interface SalesService {
 
 	Map<String, Object> editSales(SalesVO p, Integer version);
 
+	Map<String, Object> isActiveSales(String id, Integer version);
+
 }

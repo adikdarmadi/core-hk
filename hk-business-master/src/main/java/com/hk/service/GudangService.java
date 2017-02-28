@@ -21,4 +21,6 @@ public interface GudangService {
 
 	Map<String, Object> editGudang(GudangVO p, Integer version);
 
+	Map<String, Object> isActiveGudang(String id, Integer version);
+
 }

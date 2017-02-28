@@ -93,6 +93,32 @@ public class AkunServiceImpl implements AkunService {
 	
 	@Override
 	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveAkun(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save akun execute");
+		
+		Akun model = akunDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		Akun akun=akunDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", akun.getId());
+		result.put("isActive", akun.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
 	public Map<String,Object> findAllAkun() {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("listAkun", akunDao.findAllAkun());

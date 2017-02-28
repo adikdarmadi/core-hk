@@ -21,4 +21,6 @@ public interface RoleService {
 
 	Map<String, Object> editRole(RoleVO p, Integer version);
 
+	Map<String, Object> isActiveRole(String id, Integer version);
+
 }

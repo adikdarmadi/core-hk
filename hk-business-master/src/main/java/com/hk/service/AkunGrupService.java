@@ -21,4 +21,6 @@ public interface AkunGrupService {
 
 	Map<String, Object> editAkunGrup(AkunGrupVO p, Integer version);
 
+	Map<String, Object> isActiveAkunGrup(String id, Integer version);
+
 }

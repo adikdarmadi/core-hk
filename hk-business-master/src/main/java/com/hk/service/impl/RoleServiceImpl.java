@@ -20,6 +20,7 @@ import com.hk.dao.custom.RoleWidgetDaoCustom;
 import com.hk.entities.AkunGrup;
 import com.hk.entities.Role;
 import com.hk.entities.RoleWidget;
+import com.hk.entities.Widget;
 import com.hk.service.RoleService;
 import com.hk.service.UserMasterService;
 import com.hk.service.UserService;
@@ -100,6 +101,32 @@ public class RoleServiceImpl implements RoleService {
 		roleWidgetDaoCustom.deleteByRoleId(model.getId());
 		model.getListRoleWidget().clear();
 		model.setListRoleWidget(listRoleWidget);
+		
+		Role role=roleDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", role.getId());
+		result.put("isActive", role.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveRole(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save role execute");
+		
+		Role model = roleDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
 		
 		Role role=roleDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 

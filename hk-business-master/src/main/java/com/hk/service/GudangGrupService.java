@@ -21,4 +21,6 @@ public interface GudangGrupService {
 
 	Map<String, Object> editGudangGrup(GudangGrupVO p, Integer version);
 
+	Map<String, Object> isActiveGudangGrup(String id, Integer version);
+
 }

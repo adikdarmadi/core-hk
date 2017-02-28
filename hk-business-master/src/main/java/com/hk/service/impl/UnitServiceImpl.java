@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hk.dao.UnitDao;
 import com.hk.entities.AkunGrup;
 import com.hk.entities.Unit;
+import com.hk.entities.Widget;
 import com.hk.service.UnitService;
 import com.hk.service.UserService;
 import com.hk.util.DateUtil;
@@ -57,6 +58,32 @@ public class UnitServiceImpl implements UnitService {
 		model.setCreateBy(obj.getCreateBy());
 		model.setCreateDate(obj.getCreateDate());
 		model.setIsActive(obj.getIsActive());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		Unit unit=unitDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", unit.getId());
+		result.put("isActive", unit.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveUnit(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save unit execute");
+		
+		Unit model = unitDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
 		
 		model.setLastUpdateBy(userService.getUser().getId());
 		model.setLastUpdateDate(DateUtil.now());

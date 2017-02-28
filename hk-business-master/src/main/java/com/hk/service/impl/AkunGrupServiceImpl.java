@@ -71,6 +71,32 @@ public class AkunGrupServiceImpl implements AkunGrupService {
 	
 	@Override
 	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveAkunGrup(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save akunGrup execute");
+		
+		AkunGrup model = akunGrupDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		AkunGrup akunGrup=akunGrupDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", akunGrup.getId());
+		result.put("isActive", akunGrup.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
 	public Map<String,Object> findAllAkunGrup() {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("listAkunGrup", akunGrupDao.findAllAkunGrup());

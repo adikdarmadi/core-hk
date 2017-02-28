@@ -21,4 +21,6 @@ public interface PegawaiService {
 
 	Map<String, Object> editPegawai(PegawaiVO p, Integer version);
 
+	Map<String, Object> isActivePegawai(String id, Integer version);
+
 }

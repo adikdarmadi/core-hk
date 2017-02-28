@@ -21,4 +21,6 @@ public interface AkunService {
 
 	Map<String, Object> editAkun(AkunVO p, Integer version);
 
+	Map<String, Object> isActiveAkun(String id, Integer version);
+
 }

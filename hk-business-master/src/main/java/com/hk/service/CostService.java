@@ -21,4 +21,6 @@ public interface CostService {
 
 	Map<String, Object> editCost(CostVO p, Integer version);
 
+	Map<String, Object> isActiveCost(String id, Integer version);
+
 }

@@ -30,6 +30,7 @@ import com.hk.entities.User;
 import com.hk.entities.UserGudang;
 import com.hk.entities.UserKasBank;
 import com.hk.entities.UserRole;
+import com.hk.entities.Widget;
 import com.hk.service.UserMasterService;
 import com.hk.service.UserService;
 import com.hk.util.CommonUtil;
@@ -83,7 +84,7 @@ public class UserMasterServiceImpl implements UserMasterService {
 		model.setId(model.getId().toUpperCase());
 		
 		PasswordUtil passwordUtil = new PasswordUtil();
-		model.setPassword(passwordUtil.encryptPassword(p.getPassword()));
+		model.setPassword(passwordUtil.encryptPassword(p.getId()));
 		
 		model.setCreateBy(userService.getUser().getId());
 		model.setCreateDate(DateUtil.now());
@@ -93,44 +94,53 @@ public class UserMasterServiceImpl implements UserMasterService {
 			model.setPegawai(pegawaiDao.findById(model.getPegawaiId()));
 		}
 		
-		List<UserRole> listUserRole = new ArrayList<UserRole>();
-		for(String role : p.getRoles()){
-			UserRole userRole=new UserRole();
-			if(CommonUtil.isNotNullOrEmpty(role)){
-				userRole.setRole(roleDao.findById(role));
-				userRole.setUser(model);
-				listUserRole.add(userRole);
+		if(CommonUtil.isNotNullOrEmpty(p.getRoles())){
+			List<UserRole> listUserRole = new ArrayList<UserRole>();
+		
+			for(String role : p.getRoles()){
+				UserRole userRole=new UserRole();
+				if(CommonUtil.isNotNullOrEmpty(role)){
+					userRole.setRole(roleDao.findById(role));
+					userRole.setUser(model);
+					listUserRole.add(userRole);
+				}
 			}
+			
+			model.getListUserRole().clear();
+			model.setListUserRole(listUserRole);
 		}
 		
-		model.getListUserRole().clear();
-		model.setListUserRole(listUserRole);
-		
-		List<UserGudang> listUserGudang = new ArrayList<UserGudang>();
-		for(String gudang : p.getGudangs()){
-			UserGudang userGudang=new UserGudang();
-			if(CommonUtil.isNotNullOrEmpty(gudang)){
-				userGudang.setGudang(gudangDao.findById(gudang));
-				userGudang.setUser(model);
-				listUserGudang.add(userGudang);
+		if(CommonUtil.isNotNullOrEmpty(p.getGudangs())){
+			List<UserGudang> listUserGudang = new ArrayList<UserGudang>();
+			
+			for(String gudang : p.getGudangs()){
+				UserGudang userGudang=new UserGudang();
+				if(CommonUtil.isNotNullOrEmpty(gudang)){
+					userGudang.setGudang(gudangDao.findById(gudang));
+					userGudang.setUser(model);
+					listUserGudang.add(userGudang);
+				}
 			}
+			
+			model.getListUserGudang().clear();
+			model.setListUserGudang(listUserGudang);
 		}
 		
-		model.getListUserGudang().clear();
-		model.setListUserGudang(listUserGudang);
-		
-		List<UserKasBank> listUserKasBank = new ArrayList<UserKasBank>();
-		for(String kasBank : p.getKasBanks()){
-			UserKasBank userKasBank=new UserKasBank();
-			if(CommonUtil.isNotNullOrEmpty(kasBank)){
-				userKasBank.setKasBank(kasBankDao.findById(kasBank));
-				userKasBank.setUser(model);
-				listUserKasBank.add(userKasBank);
+		if(CommonUtil.isNotNullOrEmpty(p.getKasBanks())){
+			List<UserKasBank> listUserKasBank = new ArrayList<UserKasBank>();
+			
+			for(String kasBank : p.getKasBanks()){
+				UserKasBank userKasBank=new UserKasBank();
+				if(CommonUtil.isNotNullOrEmpty(kasBank)){
+					userKasBank.setKasBank(kasBankDao.findById(kasBank));
+					userKasBank.setUser(model);
+					listUserKasBank.add(userKasBank);
+				}
 			}
+			
+			model.getListUserKasBank().clear();
+			model.setListUserKasBank(listUserKasBank);
 		}
-		
-		model.getListUserKasBank().clear();
-		model.setListUserKasBank(listUserKasBank);
 		
 		User user=userDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 
@@ -201,6 +211,32 @@ public class UserMasterServiceImpl implements UserMasterService {
 		userKasBankDaoCustom.deleteByUserId(model.getId());
 		model.getListUserKasBank().clear();
 		model.setListUserKasBank(listUserKasBank);
+		
+		User user=userDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", user.getId());
+		result.put("isActive", user.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveUser(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save user execute");
+		
+		User model = userDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
 		
 		User user=userDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 

@@ -19,6 +19,7 @@ import com.hk.dao.custom.UserGudangDaoCustom;
 import com.hk.entities.AkunGrup;
 import com.hk.entities.Gudang;
 import com.hk.entities.UserGudang;
+import com.hk.entities.Widget;
 import com.hk.service.GudangService;
 import com.hk.service.UserMasterService;
 import com.hk.service.UserService;
@@ -118,6 +119,32 @@ public class GudangServiceImpl implements GudangService {
 		userGudangDaoCustom.deleteByGudangId(model.getId());
 		model.getListUserGudang().clear();
 		model.setListUserGudang(listUserGudang);
+		
+		Gudang gudang=gudangDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", gudang.getId());
+		result.put("isActive", gudang.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveGudang(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save gudang execute");
+		
+		Gudang model = gudangDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
 		
 		Gudang gudang=gudangDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 

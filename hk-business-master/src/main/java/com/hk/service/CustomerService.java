@@ -33,4 +33,8 @@ public interface CustomerService {
 
 	Map<String, Object> editCustomerContact(CustomerContactVO p, String id, Integer version);
 
+	Map<String, Object> isActiveCustomer(String id, Integer version);
+
+	Map<String, Object> isActiveCustomerContact(String id, Integer version);
+
 }

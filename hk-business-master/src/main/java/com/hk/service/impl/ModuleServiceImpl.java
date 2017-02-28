@@ -17,6 +17,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.hk.dao.ModuleDao;
 import com.hk.entities.AkunGrup;
 import com.hk.entities.Module;
+import com.hk.entities.Widget;
 import com.hk.service.ModuleService;
 import com.hk.service.UserService;
 import com.hk.util.CommonUtil;
@@ -77,6 +78,32 @@ public class ModuleServiceImpl implements ModuleService {
 		if(CommonUtil.isNotNullOrEmpty(model.getModuleParentId())){
 			model.setModuleParent(moduleDao.findById(model.getModuleParentId()));
 		}
+		
+		Module module=moduleDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", module.getId());
+		result.put("isActive", module.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveModule(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save module execute");
+		
+		Module model = moduleDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
 		
 		Module module=moduleDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 

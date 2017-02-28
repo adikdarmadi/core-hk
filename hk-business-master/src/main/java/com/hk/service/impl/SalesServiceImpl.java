@@ -14,6 +14,7 @@ import com.hk.dao.SalesDao;
 import com.hk.dao.UserDao;
 import com.hk.entities.AkunGrup;
 import com.hk.entities.Sales;
+import com.hk.entities.Widget;
 import com.hk.service.SalesService;
 import com.hk.service.UserService;
 import com.hk.util.CommonUtil;
@@ -75,6 +76,32 @@ public class SalesServiceImpl implements SalesService {
 		if(CommonUtil.isNotNullOrEmpty(model.getUserId())){
 			model.setUser(userDao.findById(model.getUserId()));
 		}
+		
+		Sales sales=salesDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", sales.getId());
+		result.put("isActive", sales.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveSales(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save sales execute");
+		
+		Sales model = salesDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
 		
 		Sales sales=salesDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 

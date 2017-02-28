@@ -20,6 +20,7 @@ import com.hk.entities.Customer;
 import com.hk.entities.CustomerContact;
 import com.hk.entities.Prospek;
 import com.hk.entities.ProspekContact;
+import com.hk.entities.Widget;
 import com.hk.service.ProspekService;
 import com.hk.service.UserService;
 import com.hk.util.CommonUtil;
@@ -114,6 +115,32 @@ public class ProspekServiceImpl implements ProspekService {
 	
 	@Override
 	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveProspek(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save prospek execute");
+		
+		Prospek model = prospekDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		Prospek prospek=prospekDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", prospek.getId());
+		result.put("isActive", prospek.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
 	public Map<String,Object> findAllProspek() {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("listProspek", prospekDao.findAllProspek());
@@ -174,6 +201,32 @@ public class ProspekServiceImpl implements ProspekService {
 		model.setIsActive(obj.getIsActive());
 		
 		model.setProspek(obj.getProspek());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		ProspekContact prospekContact=prospekContactDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", prospekContact.getId());
+		result.put("isActive", prospekContact.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveProspekContact(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save prospekContact execute");
+		
+		ProspekContact model = prospekContactDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
 		
 		model.setLastUpdateBy(userService.getUser().getId());
 		model.setLastUpdateDate(DateUtil.now());

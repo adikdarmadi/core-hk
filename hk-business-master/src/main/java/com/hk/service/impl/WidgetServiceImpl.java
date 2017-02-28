@@ -113,6 +113,32 @@ public class WidgetServiceImpl implements WidgetService {
 	
 	@Override
 	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveWidget(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save widget execute");
+		
+		Widget model = widgetDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		Widget widget=widgetDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", widget.getId());
+		result.put("isActive", widget.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
 	public Map<String,Object> findAllWidget() {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("listWidget", widgetDao.findAllWidget());

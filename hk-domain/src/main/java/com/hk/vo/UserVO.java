@@ -22,7 +22,6 @@ public class UserVO {
 	@NotEmpty(message = "Nama tidak boleh kosong")
 	private String nama;
 	
-	@NotEmpty(message = "Password tidak boleh kosong")
 	private String password;
 	
 	@NotNull(message = "MRU Limit tidak boleh kosong")
@@ -74,20 +73,20 @@ public class UserVO {
 		this.id = id;
 	}
 
-	public String getNama() {
-		return nama;
-	}
-
-	public void setNama(String nama) {
-		this.nama = nama;
-	}
-
 	public String getPassword() {
 		return password;
 	}
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getNama() {
+		return nama;
+	}
+
+	public void setNama(String nama) {
+		this.nama = nama;
 	}
 
 	public Integer getMruLimit() {

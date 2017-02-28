@@ -21,4 +21,6 @@ public interface KasBankService {
 
 	Map<String, Object> editKasBank(KasBankVO p, Integer version);
 
+	Map<String, Object> isActiveKasBank(String id, Integer version);
+
 }

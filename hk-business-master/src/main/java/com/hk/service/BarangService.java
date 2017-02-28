@@ -21,4 +21,6 @@ public interface BarangService {
 
 	Map<String, Object> editBarang(BarangVO p, Integer version);
 
+	Map<String, Object> isActiveBarang(String id, Integer version);
+
 }

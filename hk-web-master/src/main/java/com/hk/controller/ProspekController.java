@@ -54,6 +54,16 @@ public class ProspekController extends LocaleController {
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
 		return RestUtil.getJsonResponse(result, HttpStatus.CREATED, mapHeaderMessage);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/active/{id}/version/{version}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, Object>> Activation(@PathVariable("id") String id, @PathVariable("version") Integer version,HttpServletRequest request) {
+		Map<String, Object> result = prospekService.isActiveProspek(id,version);
+		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
+		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.CREATED.toString());
+		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
+		return RestUtil.getJsonResponse(result, HttpStatus.CREATED, mapHeaderMessage);
+	}
 
 	@SuppressWarnings("unchecked")
 	@RequestMapping(method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/del/{id}")
@@ -101,6 +111,16 @@ public class ProspekController extends LocaleController {
 	@RequestMapping(value = "/detail/edit/{id}/version/{version}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> EditDetail(@PathVariable("id") String id,@PathVariable("version") Integer version, @Valid @RequestBody ProspekContactVO entity, HttpServletRequest request) {
 		Map<String, Object> result = prospekService.editProspekContact(entity,id,version);
+		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
+		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.CREATED.toString());
+		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
+		return RestUtil.getJsonResponse(result, HttpStatus.CREATED, mapHeaderMessage);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/detail/active/{id}/version/{version}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, Object>> ActivationDetail(@PathVariable("id") String id, @PathVariable("version") Integer version,HttpServletRequest request) {
+		Map<String, Object> result = prospekService.isActiveProspekContact(id,version);
 		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
 		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.CREATED.toString());
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);

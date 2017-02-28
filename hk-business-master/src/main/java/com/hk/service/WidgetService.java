@@ -21,4 +21,6 @@ public interface WidgetService {
 
 	Map<String, Object> editWidget(WidgetVO p, Integer version);
 
+	Map<String, Object> isActiveWidget(String id, Integer version);
+
 }

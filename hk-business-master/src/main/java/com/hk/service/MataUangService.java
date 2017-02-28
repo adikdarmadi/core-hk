@@ -23,4 +23,6 @@ public interface MataUangService {
 
 	Map<String, Object> editMataUang(MataUangVO p, Integer version);
 
+	Map<String, Object> isActiveMataUang(String id, Integer version);
+
 }

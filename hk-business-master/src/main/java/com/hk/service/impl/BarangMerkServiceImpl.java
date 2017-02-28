@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hk.dao.BarangMerkDao;
 import com.hk.entities.AkunGrup;
 import com.hk.entities.BarangMerk;
+import com.hk.entities.Widget;
 import com.hk.service.BarangMerkService;
 import com.hk.service.UserService;
 import com.hk.util.DateUtil;
@@ -57,6 +58,32 @@ public class BarangMerkServiceImpl implements BarangMerkService {
 		model.setCreateBy(obj.getCreateBy());
 		model.setCreateDate(obj.getCreateDate());
 		model.setIsActive(obj.getIsActive());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		BarangMerk barangMerk=barangMerkDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", barangMerk.getId());
+		result.put("isActive", barangMerk.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveBarangMerk(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save barangMerk execute");
+		
+		BarangMerk model = barangMerkDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
 		
 		model.setLastUpdateBy(userService.getUser().getId());
 		model.setLastUpdateDate(DateUtil.now());

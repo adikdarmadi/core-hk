@@ -21,4 +21,6 @@ public interface UnitService {
 
 	Map<String, Object> editUnit(UnitVO p, Integer version);
 
+	Map<String, Object> isActiveUnit(String id, Integer version);
+
 }

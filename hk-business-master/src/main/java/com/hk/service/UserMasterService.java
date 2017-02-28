@@ -24,5 +24,7 @@ public interface UserMasterService{
 	Map<String, Object> deleteUser(String id);
 
 	Map<String, Object> editUser(UserVO p, Integer version);
+
+	Map<String, Object> isActiveUser(String id, Integer version);
 	
 }

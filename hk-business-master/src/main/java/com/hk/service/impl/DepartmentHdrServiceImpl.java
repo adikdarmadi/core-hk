@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hk.dao.DepartmentDtlDao;
 import com.hk.dao.DepartmentHdrDao;
 import com.hk.entities.DepartmentHdr;
+import com.hk.entities.Widget;
 import com.hk.entities.AkunGrup;
 import com.hk.entities.DepartmentDtl;
 import com.hk.service.DepartmentHdrService;
@@ -153,6 +154,58 @@ public class DepartmentHdrServiceImpl implements DepartmentHdrService {
 		model.setIsActive(obj.getIsActive());
 		
 		model.setDepartmentHdr(obj.getDepartmentHdr());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		DepartmentDtl departmentDtl=departmentDtlDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", departmentDtl.getId());
+		result.put("isActive", departmentDtl.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveDepartmentHdr(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save departmentHdr execute");
+		
+		DepartmentHdr model = departmentHdrDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		DepartmentHdr departmentHdr=departmentHdrDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", departmentHdr.getId());
+		result.put("isActive", departmentHdr.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveDepartmentDtl(Integer id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save departmentDtl execute");
+		
+		DepartmentDtl model = departmentDtlDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
 		
 		model.setLastUpdateBy(userService.getUser().getId());
 		model.setLastUpdateDate(DateUtil.now());

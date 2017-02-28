@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hk.dao.BarangDivisiDao;
 import com.hk.entities.AkunGrup;
 import com.hk.entities.BarangDivisi;
+import com.hk.entities.Widget;
 import com.hk.service.BarangDivisiService;
 import com.hk.service.UserService;
 import com.hk.util.DateUtil;
@@ -57,6 +58,32 @@ public class BarangDivisiServiceImpl implements BarangDivisiService {
 		model.setCreateBy(obj.getCreateBy());
 		model.setCreateDate(obj.getCreateDate());
 		model.setIsActive(obj.getIsActive());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		BarangDivisi barangDivisi=barangDivisiDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", barangDivisi.getId());
+		result.put("isActive", barangDivisi.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveBarangDivisi(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save barangDivisi execute");
+		
+		BarangDivisi model = barangDivisiDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
 		
 		model.setLastUpdateBy(userService.getUser().getId());
 		model.setLastUpdateDate(DateUtil.now());

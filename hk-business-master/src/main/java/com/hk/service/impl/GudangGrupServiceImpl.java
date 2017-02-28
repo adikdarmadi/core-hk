@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hk.dao.GudangGrupDao;
 import com.hk.entities.AkunGrup;
 import com.hk.entities.GudangGrup;
+import com.hk.entities.Widget;
 import com.hk.service.GudangGrupService;
 import com.hk.service.UserMasterService;
 import com.hk.service.UserService;
@@ -58,6 +59,32 @@ public class GudangGrupServiceImpl implements GudangGrupService {
 		model.setCreateBy(obj.getCreateBy());
 		model.setCreateDate(obj.getCreateDate());
 		model.setIsActive(obj.getIsActive());
+		
+		model.setLastUpdateBy(userService.getUser().getId());
+		model.setLastUpdateDate(DateUtil.now());
+		model.setVersion(version);
+		
+		GudangGrup gudangGrup=gudangGrupDao.save(model);
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("id", gudangGrup.getId());
+		result.put("isActive", gudangGrup.getIsActive());
+		return result;
+	}
+	
+	@Override
+	@Transactional(readOnly=false)
+	public Map<String,Object> isActiveGudangGrup(String id, Integer version){
+		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save gudangGrup execute");
+		
+		GudangGrup model = gudangGrupDao.findById(id);
+		
+		if(model.getIsActive()){
+			model.setIsActive(false);
+			model.setDateNonActive(DateUtil.now());
+		}else{
+			model.setIsActive(true);
+			model.setDateNonActive(null);
+		}
 		
 		model.setLastUpdateBy(userService.getUser().getId());
 		model.setLastUpdateDate(DateUtil.now());

@@ -33,4 +33,8 @@ public interface SupplierService {
 
 	Map<String, Object> editSupplierContact(SupplierContactVO p, String id, Integer version);
 
+	Map<String, Object> isActiveSupplier(String id, Integer version);
+
+	Map<String, Object> isActiveSupplierContact(String id, Integer version);
+
 }
