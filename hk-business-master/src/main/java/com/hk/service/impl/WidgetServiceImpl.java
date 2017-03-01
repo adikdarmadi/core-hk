@@ -55,18 +55,20 @@ public class WidgetServiceImpl implements WidgetService {
 		model.setCreateDate(DateUtil.now());
 		model.setIsActive(true);
 		
-		List<RoleWidget> listRoleWidget = new ArrayList<RoleWidget>();
-		for(String role : p.getRoles()){
-			RoleWidget roleWidget=new RoleWidget();
-			if(CommonUtil.isNotNullOrEmpty(role)){
-				roleWidget.setRole(roleDao.findById(role));
-				roleWidget.setWidget(model);
-				listRoleWidget.add(roleWidget);
+		if(p.getRoles() != null){
+			List<RoleWidget> listRoleWidget = new ArrayList<RoleWidget>();
+			for(String role : p.getRoles()){
+				RoleWidget roleWidget=new RoleWidget();
+				if(CommonUtil.isNotNullOrEmpty(role)){
+					roleWidget.setRole(roleDao.findById(role));
+					roleWidget.setWidget(model);
+					listRoleWidget.add(roleWidget);
+				}
 			}
+			
+			model.getListRoleWidget().clear();
+			model.setListRoleWidget(listRoleWidget);
 		}
-		
-		model.getListRoleWidget().clear();
-		model.setListRoleWidget(listRoleWidget);
 		
 		Widget widget=widgetDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 
@@ -90,19 +92,21 @@ public class WidgetServiceImpl implements WidgetService {
 		model.setLastUpdateDate(DateUtil.now());
 		model.setVersion(version);
 		
-		List<RoleWidget> listRoleWidget = new ArrayList<RoleWidget>();
-		for(String role : p.getRoles()){
-			RoleWidget roleWidget=new RoleWidget();
-			if(CommonUtil.isNotNullOrEmpty(role)){
-				roleWidget.setRole(roleDao.findById(role));
-				roleWidget.setWidget(model);
-				listRoleWidget.add(roleWidget);
+		if(p.getRoles() != null){
+			List<RoleWidget> listRoleWidget = new ArrayList<RoleWidget>();
+			for(String role : p.getRoles()){
+				RoleWidget roleWidget=new RoleWidget();
+				if(CommonUtil.isNotNullOrEmpty(role)){
+					roleWidget.setRole(roleDao.findById(role));
+					roleWidget.setWidget(model);
+					listRoleWidget.add(roleWidget);
+				}
 			}
+			
+			roleWidgetDaoCustom.deleteByWidgetId(model.getId());
+			model.getListRoleWidget().clear();
+			model.setListRoleWidget(listRoleWidget);
 		}
-		
-		roleWidgetDaoCustom.deleteByWidgetId(model.getId());
-		model.getListRoleWidget().clear();
-		model.setListRoleWidget(listRoleWidget);
 		
 		Widget widget=widgetDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 

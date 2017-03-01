@@ -109,7 +109,7 @@ public class UserMasterServiceImpl implements UserMasterService {
 			model.setPegawai(pegawaiDao.findById(model.getPegawaiId()));
 		}
 		
-		if(CommonUtil.isNotNullOrEmpty(p.getRoles())){
+		if(p.getRoles() != null){
 			List<UserRole> listUserRole = new ArrayList<UserRole>();
 		
 			for(String role : p.getRoles()){
@@ -125,7 +125,7 @@ public class UserMasterServiceImpl implements UserMasterService {
 			model.setListUserRole(listUserRole);
 		}
 		
-		if(CommonUtil.isNotNullOrEmpty(p.getGudangs())){
+		if(p.getGudangs() != null){
 			List<UserGudang> listUserGudang = new ArrayList<UserGudang>();
 			
 			for(String gudang : p.getGudangs()){
@@ -141,7 +141,7 @@ public class UserMasterServiceImpl implements UserMasterService {
 			model.setListUserGudang(listUserGudang);
 		}
 		
-		if(CommonUtil.isNotNullOrEmpty(p.getKasBanks())){
+		if(p.getKasBanks() != null){
 			List<UserKasBank> listUserKasBank = new ArrayList<UserKasBank>();
 			
 			for(String kasBank : p.getKasBanks()){
@@ -185,47 +185,56 @@ public class UserMasterServiceImpl implements UserMasterService {
 			model.setPegawai(pegawaiDao.findById(model.getPegawaiId()));
 		}
 		
-		List<UserRole> listUserRole = new ArrayList<UserRole>();
-		for(String role : p.getRoles()){
-			UserRole userRole=new UserRole();
-			if(CommonUtil.isNotNullOrEmpty(role)){
-				userRole.setRole(roleDao.findById(role));
-				userRole.setUser(model);
-				listUserRole.add(userRole);
+		if(p.getRoles() != null){
+			List<UserRole> listUserRole = new ArrayList<UserRole>();
+			
+			for(String role : p.getRoles()){
+				UserRole userRole=new UserRole();
+				if(CommonUtil.isNotNullOrEmpty(role)){
+					userRole.setRole(roleDao.findById(role));
+					userRole.setUser(model);
+					listUserRole.add(userRole);
+				}
 			}
+			
+			userRoleDaoCustom.deleteByUserId(model.getId());
+			model.getListUserRole().clear();
+			model.setListUserRole(listUserRole);
+		}
+	
+		if(p.getGudangs() != null){
+			List<UserGudang> listUserGudang = new ArrayList<UserGudang>();
+			
+			for(String gudang : p.getGudangs()){
+				UserGudang userGudang=new UserGudang();
+				if(CommonUtil.isNotNullOrEmpty(gudang)){
+					userGudang.setGudang(gudangDao.findById(gudang));
+					userGudang.setUser(model);
+					listUserGudang.add(userGudang);
+				}
+			}
+			
+			userGudangDaoCustom.deleteByUserId(model.getId());
+			model.getListUserGudang().clear();
+			model.setListUserGudang(listUserGudang);
 		}
 		
-		userRoleDaoCustom.deleteByUserId(model.getId());
-		model.getListUserRole().clear();
-		model.setListUserRole(listUserRole);
-		
-		List<UserGudang> listUserGudang = new ArrayList<UserGudang>();
-		for(String gudang : p.getGudangs()){
-			UserGudang userGudang=new UserGudang();
-			if(CommonUtil.isNotNullOrEmpty(gudang)){
-				userGudang.setGudang(gudangDao.findById(gudang));
-				userGudang.setUser(model);
-				listUserGudang.add(userGudang);
+		if(p.getKasBanks() != null){
+			List<UserKasBank> listUserKasBank = new ArrayList<UserKasBank>();
+			
+			for(String kasBank : p.getKasBanks()){
+				UserKasBank userKasBank=new UserKasBank();
+				if(CommonUtil.isNotNullOrEmpty(kasBank)){
+					userKasBank.setKasBank(kasBankDao.findById(kasBank));
+					userKasBank.setUser(model);
+					listUserKasBank.add(userKasBank);
+				}
 			}
+			
+			userKasBankDaoCustom.deleteByUserId(model.getId());
+			model.getListUserKasBank().clear();
+			model.setListUserKasBank(listUserKasBank);
 		}
-		
-		userGudangDaoCustom.deleteByUserId(model.getId());
-		model.getListUserGudang().clear();
-		model.setListUserGudang(listUserGudang);
-		
-		List<UserKasBank> listUserKasBank = new ArrayList<UserKasBank>();
-		for(String kasBank : p.getKasBanks()){
-			UserKasBank userKasBank=new UserKasBank();
-			if(CommonUtil.isNotNullOrEmpty(kasBank)){
-				userKasBank.setKasBank(kasBankDao.findById(kasBank));
-				userKasBank.setUser(model);
-				listUserKasBank.add(userKasBank);
-			}
-		}
-		
-		userKasBankDaoCustom.deleteByUserId(model.getId());
-		model.getListUserKasBank().clear();
-		model.setListUserKasBank(listUserKasBank);
 		
 		User user=userDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 

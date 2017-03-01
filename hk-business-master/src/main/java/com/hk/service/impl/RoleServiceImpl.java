@@ -61,16 +61,20 @@ public class RoleServiceImpl implements RoleService {
 		model.setCreateDate(DateUtil.now());
 		model.setIsActive(true);
 		
-		List<RoleWidget> listRoleWidget = new ArrayList<RoleWidget>();
-		for(String widgetId : p.getWidgets()){
-			RoleWidget roleWidget = new RoleWidget();
-			roleWidget.setWidget(widgetDao.findById(widgetId));
-			roleWidget.setRole(model);
-			listRoleWidget.add(roleWidget);
+		if(p.getWidgets() != null){
+			List<RoleWidget> listRoleWidget = new ArrayList<RoleWidget>();
+			for(String widgetId : p.getWidgets()){
+				RoleWidget roleWidget = new RoleWidget();
+				roleWidget.setWidget(widgetDao.findById(widgetId));
+				roleWidget.setRole(model);
+				listRoleWidget.add(roleWidget);
+			}
+			
+			model.getListRoleWidget().clear();
+			model.setListRoleWidget(listRoleWidget);
 		}
 		
-		model.getListRoleWidget().clear();
-		model.setListRoleWidget(listRoleWidget);
+		
 		
 		Role role=roleDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 
@@ -94,17 +98,19 @@ public class RoleServiceImpl implements RoleService {
 		model.setLastUpdateDate(DateUtil.now());
 		model.setVersion(version);
 		
-		List<RoleWidget> listRoleWidget = new ArrayList<RoleWidget>();
-		for(String widgetId : p.getWidgets()){
-			RoleWidget roleWidget = new RoleWidget();
-			roleWidget.setWidget(widgetDao.findById(widgetId));
-			roleWidget.setRole(model);
-			listRoleWidget.add(roleWidget);
+		if(p.getWidgets() != null){
+			List<RoleWidget> listRoleWidget = new ArrayList<RoleWidget>();
+			for(String widgetId : p.getWidgets()){
+				RoleWidget roleWidget = new RoleWidget();
+				roleWidget.setWidget(widgetDao.findById(widgetId));
+				roleWidget.setRole(model);
+				listRoleWidget.add(roleWidget);
+			}
+			
+			roleWidgetDaoCustom.deleteByRoleId(model.getId());
+			model.getListRoleWidget().clear();
+			model.setListRoleWidget(listRoleWidget);
 		}
-		
-		roleWidgetDaoCustom.deleteByRoleId(model.getId());
-		model.getListRoleWidget().clear();
-		model.setListRoleWidget(listRoleWidget);
 		
 		Role role=roleDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 

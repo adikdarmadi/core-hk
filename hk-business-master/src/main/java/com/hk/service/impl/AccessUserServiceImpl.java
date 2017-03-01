@@ -109,11 +109,12 @@ public class AccessUserServiceImpl implements AccessUserService {
 	@Override
 	@Transactional(readOnly=false)
 	public Map<String,Object> saveAccessUser(AccessUserVO p) {
-		List<AccessUser> listAccessUser = new ArrayList<AccessUser>();
-		User model=userDao.findById(p.getUserId());
-		accessUserDaoCustom.deleteByUserId(model.getId());
 		
-		if(CommonUtil.isNotNullOrEmpty(p.getModules()) && CommonUtil.isNotNullOrEmpty(p.getUserId())){
+		User model=userDao.findById(p.getUserId());
+		
+		if((p.getModules() != null) && CommonUtil.isNotNullOrEmpty(model)){
+			List<AccessUser> listAccessUser = new ArrayList<AccessUser>();
+			
 			for(String module : p.getModules()){
 				Module m = moduleDao.findById(module);
 				AccessUser am = new AccessUser();
@@ -121,10 +122,11 @@ public class AccessUserServiceImpl implements AccessUserService {
 				am.setModule(m);
 				listAccessUser.add(am);
 			}
+			
+			accessUserDaoCustom.deleteByUserId(model.getId());
+			model.getListAccessUser().clear();
+			model.setListAccessUser(listAccessUser);
 		}
-		
-		model.getListAccessUser().clear();
-		model.setListAccessUser(listAccessUser);
 		
 		User user=userDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 
@@ -140,20 +142,21 @@ public class AccessUserServiceImpl implements AccessUserService {
 		List<AccessUser> sourceAccessUser = accessUserDao.findByUserId(fromUserId);
 		
 		User model=userDao.findById(toUserId);
-		accessUserDaoCustom.deleteByUserId(model.getId());
 		
-		List<AccessUser> listAccessUser = new ArrayList<AccessUser>();
-		if(CommonUtil.isNotNullOrEmpty(sourceAccessUser) && CommonUtil.isNotNullOrEmpty(model.getId())){
+		if((sourceAccessUser != null) && CommonUtil.isNotNullOrEmpty(model.getId())){
+			List<AccessUser> listAccessUser = new ArrayList<AccessUser>();
+
 			for(AccessUser au : sourceAccessUser){
 				AccessUser am = new AccessUser();
 				am.setUser(model);
 				am.setModule(au.getModule());
 				listAccessUser.add(am);
 			}
+			
+			accessUserDaoCustom.deleteByUserId(model.getId());
+			model.getListAccessUser().clear();
+			model.setListAccessUser(listAccessUser);
 		}
-		
-		model.getListAccessUser().clear();
-		model.setListAccessUser(listAccessUser);
 		
 		User user=userDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 

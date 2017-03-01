@@ -69,18 +69,21 @@ public class GudangServiceImpl implements GudangService {
 			model.setGudangGrup(gudangGrupDao.findById(model.getGudangGrupId()));
 		}
 		
-		List<UserGudang> listUserGudang = new ArrayList<UserGudang>();
-		for(String user : p.getUsers()){
-			UserGudang userGudang=new UserGudang();
-			if(CommonUtil.isNotNullOrEmpty(user)){
-				userGudang.setUser(userDao.findById(user));
-				userGudang.setGudang(model);
-				listUserGudang.add(userGudang);
+		if(p.getUsers() != null){
+			List<UserGudang> listUserGudang = new ArrayList<UserGudang>();
+			
+			for(String user : p.getUsers()){
+				UserGudang userGudang=new UserGudang();
+				if(CommonUtil.isNotNullOrEmpty(user)){
+					userGudang.setUser(userDao.findById(user));
+					userGudang.setGudang(model);
+					listUserGudang.add(userGudang);
+				}
 			}
+			
+			model.getListUserGudang().clear();
+			model.setListUserGudang(listUserGudang);
 		}
-		
-		model.getListUserGudang().clear();
-		model.setListUserGudang(listUserGudang);
 		
 		Gudang gudang=gudangDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 
@@ -110,19 +113,21 @@ public class GudangServiceImpl implements GudangService {
 			model.setGudangGrup(gudangGrupDao.findById(model.getGudangGrupId()));
 		}
 		
-		List<UserGudang> listUserGudang = new ArrayList<UserGudang>();
-		for(String user : p.getUsers()){
-			UserGudang userGudang=new UserGudang();
-			if(CommonUtil.isNotNullOrEmpty(user)){
-				userGudang.setUser(userDao.findById(user));
-				userGudang.setGudang(model);
-				listUserGudang.add(userGudang);
+		if(p.getUsers() != null){
+			List<UserGudang> listUserGudang = new ArrayList<UserGudang>();
+			for(String user : p.getUsers()){
+				UserGudang userGudang=new UserGudang();
+				if(CommonUtil.isNotNullOrEmpty(user)){
+					userGudang.setUser(userDao.findById(user));
+					userGudang.setGudang(model);
+					listUserGudang.add(userGudang);
+				}
 			}
+			
+			userGudangDaoCustom.deleteByGudangId(model.getId());
+			model.getListUserGudang().clear();
+			model.setListUserGudang(listUserGudang);
 		}
-		
-		userGudangDaoCustom.deleteByGudangId(model.getId());
-		model.getListUserGudang().clear();
-		model.setListUserGudang(listUserGudang);
 		
 		Gudang gudang=gudangDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 
