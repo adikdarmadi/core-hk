@@ -15,16 +15,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hk.constant.HakAksesConstant;
 import com.hk.constant.SecurityConstant;
 import com.hk.dao.UserDao;
-import com.hk.entities.LoginUser;
+import com.hk.entities.User;
 import com.hk.util.CommonUtil;
 
 /**
@@ -40,8 +41,8 @@ public class AppInterceptor implements HandlerInterceptor {
 	private TokenAuthenticationService tokenAuthenticationService;
 
 	@Autowired
-	private UserDao loginUserDao;
-
+	private UserDao userDao;
+	
 	public AppInterceptor() {
 	}
 
@@ -52,6 +53,15 @@ public class AppInterceptor implements HandlerInterceptor {
 			HandlerMethod hm = (HandlerMethod) handler;
 			Method method = hm.getMethod();
 
+			User user = null;
+	        try {
+	            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	            String id = principal.toString();
+	            user = userDao.findById(id);
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+            
 			if (method.isAnnotationPresent(AppPermission.class)) {
 				String hakAksesValue = method.getAnnotation(AppPermission.class).hakAkses();
 				List<String> list = new ArrayList<String>();
@@ -63,10 +73,46 @@ public class AppInterceptor implements HandlerInterceptor {
 					Boolean isLogin = false;
 					for (String hakAkses : list) {
 						
-						if (hakAkses.equalsIgnoreCase("IS_ADD")) {
-							isLogin = true;
-						} else if (hakAkses.equalsIgnoreCase("IS_CONFIRM")) {
-							isLogin = true;
+						if (hakAkses.equalsIgnoreCase(HakAksesConstant.CREATE)) {
+							if(user.getIsCreate()){
+								isLogin = true;
+							}
+						}else if(hakAkses.equalsIgnoreCase(HakAksesConstant.UPDATE)) {
+							if(user.getIsUpdate()){
+								isLogin = true;
+							}
+						}else if(hakAkses.equalsIgnoreCase(HakAksesConstant.DELETE)) {
+							if(user.getIsDelete()){
+								isLogin = true;
+							}
+						}else if(hakAkses.equalsIgnoreCase(HakAksesConstant.PRINT)) {
+							if(user.getIsPrint()){
+								isLogin = true;
+							}
+						}else if(hakAkses.equalsIgnoreCase(HakAksesConstant.REPORT)) {
+							if(user.getIsReport()){
+								isLogin = true;
+							}
+						}else if(hakAkses.equalsIgnoreCase(HakAksesConstant.CANCEL)) {
+							if(user.getIsCancel()){
+								isLogin = true;
+							}
+						}else if(hakAkses.equalsIgnoreCase(HakAksesConstant.CONFIRM)) {
+							if(user.getIsConfirm()){
+								isLogin = true;
+							}
+						}else if(hakAkses.equalsIgnoreCase(HakAksesConstant.UNCONFIRM)) {
+							if(user.getIsUnconfirm()){
+								isLogin = true;
+							}
+						}else if(hakAkses.equalsIgnoreCase(HakAksesConstant.SUPERVISOR)) {
+							if(user.getIsSupervisor()){
+								isLogin = true;
+							}
+						}else if(hakAkses.equalsIgnoreCase(HakAksesConstant.SUPERUSER)) {
+							if(user.getIsSuperuser()){
+								isLogin = true;
+							}
 						}
 					}
 					if (isLogin) {

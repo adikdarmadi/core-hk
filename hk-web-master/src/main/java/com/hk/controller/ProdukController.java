@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.hk.constant.BaseConstant;
+import com.hk.constant.HakAksesConstant;
 import com.hk.controller.base.LocaleController;
 import com.hk.security.AppPermission;
 import com.hk.service.ProdukService;
@@ -31,7 +32,7 @@ public class ProdukController extends LocaleController{
 	private ProdukService produkService;
 	
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses="IS_ADD")
+	@AppPermission(hakAkses=HakAksesConstant.CREATE)
 	@RequestMapping(value = "/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE,produces=MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String,Object>> saveProduk(@Valid @RequestBody ProdukVO entity,HttpServletRequest request) {
 		Map<String, Object> result = produkService.saveProduk(entity);

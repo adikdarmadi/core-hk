@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.hk.constant.BaseConstant;
+import com.hk.constant.HakAksesConstant;
 import com.hk.controller.base.LocaleController;
 import com.hk.security.AppPermission;
 import com.hk.service.BarangGrupService;
@@ -32,7 +33,7 @@ public class BarangGrupController extends LocaleController {
 	private BarangGrupService barangGrupService;
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = "IS_ADD")
+	@AppPermission(hakAkses = HakAksesConstant.CREATE)
 	@RequestMapping(value = "/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Save(@Valid @RequestBody BarangGrupVO entity, HttpServletRequest request) {
 		Map<String, Object> result = barangGrupService.saveBarangGrup(entity);
@@ -44,6 +45,7 @@ public class BarangGrupController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakAkses = HakAksesConstant.UPDATE)
 	@RequestMapping(value = "/edit/{version}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Edit(@PathVariable("version") Integer version, @Valid @RequestBody BarangGrupVO entity, HttpServletRequest request) {
 		Map<String, Object> result = barangGrupService.editBarangGrup(entity,version);
@@ -54,6 +56,7 @@ public class BarangGrupController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakAkses = HakAksesConstant.SUPERVISOR)
 	@RequestMapping(value = "/active/{id}/version/{version}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Activation(@PathVariable("id") String id, @PathVariable("version") Integer version,HttpServletRequest request) {
 		Map<String, Object> result = barangGrupService.isActiveBarangGrup(id,version);
@@ -64,6 +67,7 @@ public class BarangGrupController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakAkses = HakAksesConstant.DELETE)
 	@RequestMapping(method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/del/{id}")
 	public ResponseEntity<Map<String, Object>> DeleteById(@PathVariable("id") String id) {
 		Map<String, Object> result = barangGrupService.deleteBarangGrup(id);

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.hk.constant.BaseConstant;
+import com.hk.constant.HakAksesConstant;
 import com.hk.controller.base.LocaleController;
 import com.hk.security.AppPermission;
 import com.hk.service.UserMRUService;
@@ -31,7 +32,6 @@ public class UserMRUController extends LocaleController {
 	private UserMRUService userMRUService;
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = "IS_ADD")
 	@RequestMapping(value = "/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Save(@Valid @RequestBody UserMRUVO entity, HttpServletRequest request) {
 		Map<String, Object> result = userMRUService.saveUserMRU(entity);

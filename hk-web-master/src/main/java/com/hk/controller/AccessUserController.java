@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.hk.constant.BaseConstant;
+import com.hk.constant.HakAksesConstant;
 import com.hk.controller.base.LocaleController;
+import com.hk.security.AppPermission;
 import com.hk.service.AccessUserService;
 import com.hk.util.rest.RestUtil;
 import com.hk.vo.AccessUserVO;
@@ -40,6 +42,7 @@ public class AccessUserController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakAkses = HakAksesConstant.UPDATE)
 	@RequestMapping(value = "/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Save(@Valid @RequestBody AccessUserVO entity, HttpServletRequest request) {
 		Map<String, Object> result = accessUserService.saveAccessUser(entity);
@@ -51,6 +54,7 @@ public class AccessUserController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakAkses = HakAksesConstant.UPDATE)
 	@RequestMapping(value = "/{toUser}/copy/{fromUser}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Copy(@PathVariable("toUser") String toUser,@PathVariable("fromUser") String fromUser) {
 		Map<String, Object> result = accessUserService.copyAccessUser(toUser,fromUser);
