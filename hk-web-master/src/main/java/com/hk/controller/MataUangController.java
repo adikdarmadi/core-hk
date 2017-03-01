@@ -21,7 +21,6 @@ import com.hk.controller.base.LocaleController;
 import com.hk.security.AppPermission;
 import com.hk.service.MataUangService;
 import com.hk.util.rest.RestUtil;
-import com.hk.vo.AkunGrupVO;
 import com.hk.vo.MataUangVO;
 
 @SuppressWarnings("rawtypes")
@@ -33,7 +32,7 @@ public class MataUangController extends LocaleController {
 	private MataUangService mataUangService;
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.CREATE)
+	@AppPermission(hakAkses = HakAksesConstant.CREATE,hakMenu="*")
 	@RequestMapping(value = "/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Save(@Valid @RequestBody MataUangVO entity, HttpServletRequest request) {
 		Map<String, Object> result = mataUangService.saveMataUang(entity);

@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hk.constant.HakAksesConstant;
 import com.hk.constant.SecurityConstant;
 import com.hk.dao.UserDao;
+import com.hk.entities.AccessUser;
 import com.hk.entities.User;
 import com.hk.util.CommonUtil;
 
@@ -53,6 +54,9 @@ public class AppInterceptor implements HandlerInterceptor {
 			HandlerMethod hm = (HandlerMethod) handler;
 			Method method = hm.getMethod();
 
+			Boolean isAuthHakAkses = false;
+			Boolean isAuthHakMenu = false;
+			
 			User user = null;
 	        try {
 	            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -115,12 +119,29 @@ public class AppInterceptor implements HandlerInterceptor {
 							}
 						}
 					}
-					if (isLogin) {
-						return true;
-					} else {
-						setUnautorized(response);
-						return false;
+					isAuthHakAkses = isLogin;
+				}
+				
+				
+				String hakMenu = method.getAnnotation(AppPermission.class).hakMenu();
+				if (CommonUtil.isNotNullOrEmpty(hakMenu)) {
+					Boolean isLogin = false;
+						
+					if (hakMenu.equalsIgnoreCase("*")) {
+						isLogin = true;
+					}else{
+						if(CommonUtil.isNotNullOrEmpty(userDao.findByUserIdModuleId(user.getId(), hakMenu))){
+							isLogin = true;
+						}
 					}
+					isAuthHakMenu = isLogin;
+				}
+				
+				if (isAuthHakAkses && isAuthHakMenu) {
+					return true;
+				} else {
+					setUnautorized(response);
+					return false;
 				}
 			}
 		} catch (Exception e) {
