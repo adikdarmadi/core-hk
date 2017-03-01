@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hk.dao.RoleDao;
+import com.hk.dao.UserRoleDao;
 import com.hk.dao.WidgetDao;
 import com.hk.dao.custom.RoleWidgetDaoCustom;
 import com.hk.entities.AkunGrup;
@@ -38,6 +39,9 @@ public class RoleServiceImpl implements RoleService {
 	
 	@Autowired
 	private WidgetDao widgetDao;
+	
+	@Autowired
+	private UserRoleDao userRoleDao;
 	
 	@Autowired
 	private RoleWidgetDaoCustom roleWidgetDaoCustom;
@@ -161,5 +165,10 @@ public class RoleServiceImpl implements RoleService {
 		return result;
 	}
 
-
+	@Override
+	public Map<String,Object> findByUserId(String userId){
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("listRole", userRoleDao.findRoleByUserId(userId));
+		return result;
+	}
 }

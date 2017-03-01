@@ -113,7 +113,6 @@ public class ModuleServiceImpl implements ModuleService {
 	}
 	
 	@Override
-	@Transactional(readOnly=false)
 	public Map<String,Object> findAllModule() {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("listModule", moduleDao.findAllModule());
@@ -121,7 +120,6 @@ public class ModuleServiceImpl implements ModuleService {
 	}
 	
 	@Override
-	@Transactional(readOnly=false)
 	public Map<String,Object> findById(String id) {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		Module module=moduleDao.findById(id);
@@ -135,6 +133,13 @@ public class ModuleServiceImpl implements ModuleService {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		moduleDao.delete(id);
 		result.put("id", id);
+		return result;
+	}
+	
+	@Override
+	public Map<String,Object> findParent() {
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("listModule", moduleDao.findParent());
 		return result;
 	}
 

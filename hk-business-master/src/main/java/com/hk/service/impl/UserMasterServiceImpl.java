@@ -22,10 +22,16 @@ import com.hk.dao.KasBankDao;
 import com.hk.dao.PegawaiDao;
 import com.hk.dao.RoleDao;
 import com.hk.dao.UserDao;
+import com.hk.dao.UserGudangDao;
+import com.hk.dao.UserKasBankDao;
+import com.hk.dao.UserRoleDao;
 import com.hk.dao.custom.UserGudangDaoCustom;
 import com.hk.dao.custom.UserKasBankDaoCustom;
 import com.hk.dao.custom.UserRoleDaoCustom;
 import com.hk.entities.AkunGrup;
+import com.hk.entities.Gudang;
+import com.hk.entities.KasBank;
+import com.hk.entities.Role;
 import com.hk.entities.User;
 import com.hk.entities.UserGudang;
 import com.hk.entities.UserKasBank;
@@ -70,6 +76,15 @@ public class UserMasterServiceImpl implements UserMasterService {
 	
 	@Autowired
 	private UserKasBankDaoCustom userKasBankDaoCustom;
+	
+	@Autowired
+	private UserGudangDao userGudangDao;
+	
+	@Autowired
+	private UserRoleDao userRoleDao;
+	
+	@Autowired
+	private UserKasBankDao userKasBankDao;
 	
 	@Autowired
 	private UserService userService;
@@ -270,4 +285,60 @@ public class UserMasterServiceImpl implements UserMasterService {
 		return result;
 	}
 	
+	@Override
+	public Map<String,Object> findGudangCheckByUserId(String userId){
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		List<Object> listMap = new ArrayList<Object>();
+		for(Gudang gudang : gudangDao.findByIsActive(true)){
+			Map<String,Object> map=new HashMap<String,Object>(); 
+			map.put("id", gudang.getId());
+			map.put("nama", gudang.getNama());
+			if(CommonUtil.isNotNullOrEmpty(userGudangDao.findByUserIdGudangId(userId, gudang.getId()))){
+				map.put("isSelected", true);
+			}else{
+				map.put("isSelected", false);
+			}
+			listMap.add(map);
+		}
+		result.put("listGudang", listMap);
+		return result;
+	}
+	
+	@Override
+	public Map<String,Object> findRoleCheckByUserId(String userId){
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		List<Object> listMap = new ArrayList<Object>();
+		for(Role role : roleDao.findByIsActive(true)){
+			Map<String,Object> map=new HashMap<String,Object>(); 
+			map.put("id", role.getId());
+			map.put("nama", role.getNama());
+			if(CommonUtil.isNotNullOrEmpty(userRoleDao.findByUserIdRoleId(userId, role.getId()))){
+				map.put("isSelected", true);
+			}else{
+				map.put("isSelected", false);
+			}
+			listMap.add(map);
+		}
+		result.put("listRole", listMap);
+		return result;
+	}
+	
+	@Override
+	public Map<String,Object> findKasBankCheckByUserId(String userId){
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		List<Object> listMap = new ArrayList<Object>();
+		for(KasBank kasBank : kasBankDao.findByIsActive(true)){
+			Map<String,Object> map=new HashMap<String,Object>(); 
+			map.put("id", kasBank.getId());
+			map.put("deskripsi", kasBank.getDeskripsi());
+			if(CommonUtil.isNotNullOrEmpty(userKasBankDao.findByUserIdKasBankId(userId, kasBank.getId()))){
+				map.put("isSelected", true);
+			}else{
+				map.put("isSelected", false);
+			}
+			listMap.add(map);
+		}
+		result.put("listKasBank", listMap);
+		return result;
+	}
 }

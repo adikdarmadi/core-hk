@@ -23,4 +23,6 @@ public interface GudangService {
 
 	Map<String, Object> isActiveGudang(String id, Integer version);
 
+	Map<String, Object> findByUserId(String userId);
+
 }

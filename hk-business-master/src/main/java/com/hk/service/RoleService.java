@@ -23,4 +23,6 @@ public interface RoleService {
 
 	Map<String, Object> isActiveRole(String id, Integer version);
 
+	Map<String, Object> findByUserId(String userId);
+
 }

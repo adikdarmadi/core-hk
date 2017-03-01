@@ -93,4 +93,13 @@ public class RoleController extends LocaleController {
 		return RestUtil.getJsonResponse(result, HttpStatus.OK, mapHeaderMessage);
 	}
 
+	@SuppressWarnings("unchecked")
+	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/user/{userId}")
+	public ResponseEntity<Map<String, Object>> FindByUserId(@PathVariable("userId") String userId) {
+		Map<String, Object> result = roleService.findByUserId(userId);
+		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
+		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
+		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
+		return RestUtil.getJsonResponse(result, HttpStatus.OK, mapHeaderMessage);
+	}
 }

@@ -18,5 +18,7 @@ public interface GudangDao extends PagingAndSortingRepository<Gudang, String> {
 	List<Map<String,Object>> findAllGudang();
 	
 	Gudang findById(String id);
+	
+	List<Gudang> findByIsActive(Boolean isActive);
 
 }

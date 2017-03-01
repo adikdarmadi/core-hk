@@ -24,4 +24,6 @@ public interface ModuleService {
 
 	Map<String, Object> isActiveModule(String id, Integer version);
 
+	Map<String, Object> findParent();
+
 }

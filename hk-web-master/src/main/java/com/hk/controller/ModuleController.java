@@ -93,4 +93,14 @@ public class ModuleController extends LocaleController {
 		return RestUtil.getJsonResponse(result, HttpStatus.OK, mapHeaderMessage);
 	}
 	
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/parent", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, Object>> FindParent() {
+		Map<String, Object> result = moduleService.findParent();
+		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
+		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
+		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
+		return RestUtil.getJsonResponse(result, HttpStatus.OK, mapHeaderMessage);
+	}
+	
 }

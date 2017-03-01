@@ -26,5 +26,11 @@ public interface UserMasterService{
 	Map<String, Object> editUser(UserVO p, Integer version);
 
 	Map<String, Object> isActiveUser(String id, Integer version);
+
+	Map<String, Object> findGudangCheckByUserId(String userId);
+
+	Map<String, Object> findRoleCheckByUserId(String userId);
+
+	Map<String, Object> findKasBankCheckByUserId(String userId);
 	
 }

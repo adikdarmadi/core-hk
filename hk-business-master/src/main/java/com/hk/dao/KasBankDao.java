@@ -21,4 +21,6 @@ public interface KasBankDao extends PagingAndSortingRepository<KasBank, String> 
 	
 	KasBank findById(String id);
 
+	List<KasBank> findByIsActive(Boolean isActive);
+
 }

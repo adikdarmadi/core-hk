@@ -26,4 +26,7 @@ public interface ModuleDao extends PagingAndSortingRepository<Module, String> {
 
 	@Query("select x from Module x where x.moduleParentId =:moduleParentId and x.isActive =true order by x.urutan asc ")
 	List<Module> childNode(@Param("moduleParentId") String moduleParentId);
+	
+	@Query("select x from Module x where x.status = '0' and x.isActive =true order by x.urutan asc")
+	List<Module> findParent();
 }

@@ -23,4 +23,6 @@ public interface KasBankService {
 
 	Map<String, Object> isActiveKasBank(String id, Integer version);
 
+	Map<String, Object> findByUserId(String userId);
+
 }

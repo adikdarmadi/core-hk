@@ -17,4 +17,5 @@ public interface RoleDao extends PagingAndSortingRepository<Role, String> {
 	
 	Role findById(String id);
 
+	List<Role> findByIsActive(Boolean isActive);
 }

@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hk.dao.AkunDao;
 import com.hk.dao.KasBankDao;
 import com.hk.dao.MataUangDao;
+import com.hk.dao.UserKasBankDao;
 import com.hk.entities.AkunGrup;
 import com.hk.entities.KasBank;
 import com.hk.entities.Widget;
@@ -32,6 +33,9 @@ public class KasBankServiceImpl implements KasBankService {
 
 	@Autowired
 	private KasBankDao kasBankDao;
+	
+	@Autowired
+	private UserKasBankDao userKasBankDao;
 	
 	@Autowired
 	private AkunDao akunDao;
@@ -160,5 +164,10 @@ public class KasBankServiceImpl implements KasBankService {
 		return result;
 	}
 
-
+	@Override
+	public Map<String,Object> findByUserId(String userId){
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("listKasBank", userKasBankDao.findKasBankByUserId(userId));
+		return result;
+	}
 }

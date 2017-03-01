@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.hk.dao.GudangDao;
 import com.hk.dao.GudangGrupDao;
 import com.hk.dao.UserDao;
+import com.hk.dao.UserGudangDao;
 import com.hk.dao.custom.UserGudangDaoCustom;
 import com.hk.entities.AkunGrup;
 import com.hk.entities.Gudang;
@@ -37,6 +38,9 @@ public class GudangServiceImpl implements GudangService {
 	
 	@Autowired
 	private UserDao userDao;
+	
+	@Autowired
+	private UserGudangDao userGudangDao;
 	
 	@Autowired
 	private UserGudangDaoCustom userGudangDaoCustom;
@@ -154,7 +158,6 @@ public class GudangServiceImpl implements GudangService {
 	}
 	
 	@Override
-	@Transactional(readOnly=false)
 	public Map<String,Object> findAllGudang() {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("listGudang", gudangDao.findAllGudang());
@@ -162,7 +165,6 @@ public class GudangServiceImpl implements GudangService {
 	}
 	
 	@Override
-	@Transactional(readOnly=false)
 	public Map<String,Object> findById(String id) {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		Gudang gudang=gudangDao.findById(id);
@@ -179,5 +181,10 @@ public class GudangServiceImpl implements GudangService {
 		return result;
 	}
 
-
+	@Override
+	public Map<String,Object> findByUserId(String userId){
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("listGudang", userGudangDao.findGudangByUserId(userId));
+		return result;
+	}
 }
