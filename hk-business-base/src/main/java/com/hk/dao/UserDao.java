@@ -29,6 +29,7 @@ public interface UserDao extends PagingAndSortingRepository<User, String> {
 	
 	User findById(String id);
 
-	@Query("select au from AccessUser au where au.userId =:userId and au.moduleId = :moduleId ")
-	AccessUser findByUserIdModuleId(@Param("userId") String userId,@Param("moduleId") String moduleId);
+	@Query("select au from AccessUser au left join au.module m left join au.user u where au.userId =:userId and m.pathMap = :pathMap "
+			+ "and m.isActive = true and u.isActive = true ")
+	AccessUser findByUserIdPathMap(@Param("userId") String userId,@Param("pathMap") String pathMap);
 }

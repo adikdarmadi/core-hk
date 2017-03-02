@@ -61,6 +61,10 @@ public class Module extends BaseModel{
 	@Column(name = "URUTAN",length=2)
     private Integer urutan;
 	
+	@NotEmpty(message = "Path Map tidak boleh kosong")
+	@Column(name = "PATH_MAP",length=255)
+    private String pathMap;
+	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MODULE_FK")
@@ -139,6 +143,14 @@ public class Module extends BaseModel{
 
 	public void setUrutan(Integer urutan) {
 		this.urutan = urutan;
+	}
+
+	public String getPathMap() {
+		return pathMap;
+	}
+
+	public void setPathMap(String pathMap) {
+		this.pathMap = pathMap;
 	}
 
 	public Module getModuleParent() {

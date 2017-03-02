@@ -29,6 +29,9 @@ public class ModuleVO {
 	@NotNull(message = "Urutan tidak boleh kosong")
     private Integer urutan;
 	
+	@NotEmpty(message = "Path Map tidak boleh kosong")
+	private String pathMap;
+	
 	private String moduleParentId;
 
 	public String getId() {
@@ -77,6 +80,14 @@ public class ModuleVO {
 
 	public void setUrutan(Integer urutan) {
 		this.urutan = urutan;
+	}
+	
+	public String getPathMap() {
+		return pathMap;
+	}
+
+	public void setPathMap(String pathMap) {
+		this.pathMap = pathMap;
 	}
 
 	public String getModuleParentId() {

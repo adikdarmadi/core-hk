@@ -130,7 +130,7 @@ public class AppInterceptor implements HandlerInterceptor {
 					if (hakMenu.equalsIgnoreCase("*")) {
 						isLogin = true;
 					}else{
-						if(CommonUtil.isNotNullOrEmpty(userDao.findByUserIdModuleId(user.getId(), hakMenu))){
+						if(CommonUtil.isNotNullOrEmpty(userDao.findByUserIdPathMap(user.getId(), hakMenu))){
 							isLogin = true;
 						}
 					}

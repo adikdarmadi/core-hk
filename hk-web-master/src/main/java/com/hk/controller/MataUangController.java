@@ -32,7 +32,7 @@ public class MataUangController extends LocaleController {
 	private MataUangService mataUangService;
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.CREATE,hakMenu="*")
+	@AppPermission(hakAkses = HakAksesConstant.CREATE,hakMenu="/mataUang")
 	@RequestMapping(value = "/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Save(@Valid @RequestBody MataUangVO entity, HttpServletRequest request) {
 		Map<String, Object> result = mataUangService.saveMataUang(entity);

@@ -41,6 +41,11 @@ public class LoginUserServiceImpl implements LoginUserService {
 		User users = userDao.findById(authVO.getId());
 		if (CommonUtil.isNotNullOrEmpty(users)) {
 
+			if(!users.getIsActive()){
+				LOGGER.error("User not active");
+				return null;
+			}
+			
 			User user = users;
 			PasswordUtil passwordUtil = new PasswordUtil();
 			Boolean isValidPassword = false;
