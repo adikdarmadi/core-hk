@@ -45,6 +45,8 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             
             
             
+            
+            
         }
         for (final ObjectError error : ex.getBindingResult().getGlobalErrors()) {
         	Map<String,Object> rm=new java.util.HashMap<String,Object>();
