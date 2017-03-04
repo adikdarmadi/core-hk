@@ -27,8 +27,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import com.hk.constant.BaseConstant;
 
-import springfox.documentation.service.Header;
-
 @ControllerAdvice
 public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
 
@@ -49,8 +47,8 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             rm.put("error",error.getDefaultMessage());
             data.add(rm);
         }
-        headers.add(BaseConstant.STATUS_CODE, HttpStatus.UNAUTHORIZED.toString());
-        headers.add(BaseConstant.STATUS, HttpStatus.UNAUTHORIZED.name());
+        headers.add(BaseConstant.STATUS_CODE, HttpStatus.BAD_REQUEST.toString());
+        headers.add(BaseConstant.STATUS, HttpStatus.BAD_REQUEST.name());
    
 
 
@@ -77,8 +75,8 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             data.add(rm);
         }
         
-        headers.add(BaseConstant.STATUS_CODE, HttpStatus.UNAUTHORIZED.toString());
-        headers.add(BaseConstant.STATUS, HttpStatus.UNAUTHORIZED.name());
+        headers.add(BaseConstant.STATUS_CODE, HttpStatus.BAD_REQUEST.toString());
+        headers.add(BaseConstant.STATUS, HttpStatus.BAD_REQUEST.name());
         final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "ERROR", data,"400");
         return handleExceptionInternal(ex, apiError, headers, apiError.getStatus(), request);
     }
@@ -93,8 +91,8 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         rm.put("error",error);
         data.add(rm);
 
-        headers.add(BaseConstant.STATUS_CODE, HttpStatus.UNAUTHORIZED.toString());
-        headers.add(BaseConstant.STATUS, HttpStatus.UNAUTHORIZED.name());
+        headers.add(BaseConstant.STATUS_CODE, HttpStatus.BAD_REQUEST.toString());
+        headers.add(BaseConstant.STATUS, HttpStatus.BAD_REQUEST.name());
         final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "ERROR", data,"400");
         return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
     }
@@ -109,8 +107,8 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         rm.put("error",error);
         data.add(rm);
 
-        headers.add(BaseConstant.STATUS_CODE, HttpStatus.UNAUTHORIZED.toString());
-        headers.add(BaseConstant.STATUS, HttpStatus.UNAUTHORIZED.name());
+        headers.add(BaseConstant.STATUS_CODE, HttpStatus.BAD_REQUEST.toString());
+        headers.add(BaseConstant.STATUS, HttpStatus.BAD_REQUEST.name());
         final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "ERROR", data,"400");
         return new ResponseEntity<Object>(apiError, new HttpHeaders(), apiError.getStatus());
     }
@@ -125,8 +123,8 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
         rm.put("error",error);
         data.add(rm);
 
-        headers.add(BaseConstant.STATUS_CODE, HttpStatus.UNAUTHORIZED.toString());
-        headers.add(BaseConstant.STATUS, HttpStatus.UNAUTHORIZED.name());
+        headers.add(BaseConstant.STATUS_CODE, HttpStatus.BAD_REQUEST.toString());
+        headers.add(BaseConstant.STATUS, HttpStatus.BAD_REQUEST.name());
         final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "ERROR", data,"400");
         return new ResponseEntity<Object>(apiError, headers, apiError.getStatus());
     }
@@ -147,8 +145,8 @@ public class CustomRestExceptionHandler extends ResponseEntityExceptionHandler {
             data.add(rm);
         }
         HttpHeaders headers=new HttpHeaders();
-        headers.add(BaseConstant.STATUS_CODE, HttpStatus.UNAUTHORIZED.toString());
-        headers.add(BaseConstant.STATUS, HttpStatus.UNAUTHORIZED.name());
+        headers.add(BaseConstant.STATUS_CODE, HttpStatus.BAD_REQUEST.toString());
+        headers.add(BaseConstant.STATUS, HttpStatus.BAD_REQUEST.name());
         final ApiError apiError = new ApiError(HttpStatus.BAD_REQUEST, "ERROR", data,"400");
         return new ResponseEntity<Object>(apiError, headers, apiError.getStatus());
     }
