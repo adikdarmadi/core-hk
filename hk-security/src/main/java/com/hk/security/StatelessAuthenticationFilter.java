@@ -11,6 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.GenericFilterBean;
@@ -60,6 +61,10 @@ public class StatelessAuthenticationFilter extends GenericFilterBean {
 		}
 		try {
 			SecurityContextHolder.getContext().setAuthentication(authentication);
+			if(authentication==null){
+				res.setHeader(SecurityConstant.STATUS_CODE, HttpStatus.UNAUTHORIZED.toString());
+				res.setHeader(SecurityConstant.STATUS, HttpStatus.UNAUTHORIZED.name());
+			}
 			filterChain.doFilter(request, response);
 			SecurityContextHolder.getContext().setAuthentication(null);
 		} catch (Exception e) {

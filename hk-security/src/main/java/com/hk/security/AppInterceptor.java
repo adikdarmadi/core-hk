@@ -167,7 +167,8 @@ public class AppInterceptor implements HandlerInterceptor {
 		map.put(SecurityConstant.STATUS, HttpStatus.UNAUTHORIZED.name());
 		map.put(SecurityConstant.STATUS_CODE, HttpStatus.UNAUTHORIZED.toString());
 		map.put(SecurityConstant.MESSAGE, HttpStatus.UNAUTHORIZED.toString());
-
+		response.setHeader(SecurityConstant.STATUS_CODE, HttpStatus.UNAUTHORIZED.toString());
+		response.setHeader(SecurityConstant.MESSAGE, HttpStatus.UNAUTHORIZED.toString());
 		// convert map to JSON string
 		try {
 			json = mapper.writeValueAsString(map);
@@ -192,7 +193,8 @@ public class AppInterceptor implements HandlerInterceptor {
 		map.put(SecurityConstant.STATUS, HttpStatus.NOT_FOUND.name());
 		map.put(SecurityConstant.STATUS_CODE, HttpStatus.NOT_FOUND.toString());
 		map.put(SecurityConstant.MESSAGE, HttpStatus.NOT_FOUND.toString());
-
+		response.setHeader(SecurityConstant.STATUS_CODE, HttpStatus.NOT_FOUND.toString());
+		response.setHeader(SecurityConstant.MESSAGE, HttpStatus.NOT_FOUND.toString());
 		// convert map to JSON string
 		try {
 			json = mapper.writeValueAsString(map);
