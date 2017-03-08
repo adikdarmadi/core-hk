@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface  AppPermission {
-	String hakAkses();
+	String hakAkses() default "*";
 	
 	String hakMenu() default "*";
 }

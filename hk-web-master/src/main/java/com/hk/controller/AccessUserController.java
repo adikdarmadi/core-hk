@@ -42,7 +42,7 @@ public class AccessUserController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
-	//@AppPermission(hakAkses = HakAksesConstant.UPDATE)
+	@AppPermission(hakMenu = "/accessUser")
 	@RequestMapping(value = "/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Save(@Valid @RequestBody AccessUserVO entity, HttpServletRequest request) {
 		Map<String, Object> result = accessUserService.saveAccessUser(entity);
@@ -54,7 +54,7 @@ public class AccessUserController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	//@AppPermission(hakAkses = HakAksesConstant.UPDATE)
+	@AppPermission(hakMenu = "/accessUser")
 	@RequestMapping(value = "/{toUser}/copy/{fromUser}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Copy(@PathVariable("toUser") String toUser,@PathVariable("fromUser") String fromUser) {
 		Map<String, Object> result = accessUserService.copyAccessUser(toUser,fromUser);

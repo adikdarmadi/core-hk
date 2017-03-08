@@ -77,7 +77,9 @@ public class AppInterceptor implements HandlerInterceptor {
 					Boolean isLogin = false;
 					for (String hakAkses : list) {
 						
-						if (hakAkses.equalsIgnoreCase(HakAksesConstant.CREATE)) {
+						if (hakAkses.equalsIgnoreCase("*")) {
+							isLogin = true;
+						}else if (hakAkses.equalsIgnoreCase(HakAksesConstant.CREATE)) {
 							if(user.getIsCreate()){
 								isLogin = true;
 							}

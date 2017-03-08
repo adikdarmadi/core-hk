@@ -275,7 +275,15 @@ public class UserMasterServiceImpl implements UserMasterService {
 	@Override
 	public Map<String,Object> findAllUser() {
 		Map<String,Object> result=new HashMap<String,Object>(); 
-		result.put("listUser", userDao.findAllUser());
+		
+		List<Object> listMap = new ArrayList<Object>();
+		for(Map<String, Object> map : userDao.findAllUser()){
+			map.put("gudangs", userGudangDao.findGudangByUserId(map.get("id").toString()));
+			map.put("roles", userRoleDao.findRoleByUserId(map.get("id").toString()));
+			map.put("kasBanks", userKasBankDao.findKasBankByUserId(map.get("id").toString()));
+			listMap.add(map);
+		}
+		result.put("listUser", listMap);
 		return result;
 	}
 	
