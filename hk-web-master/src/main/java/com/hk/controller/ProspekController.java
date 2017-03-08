@@ -35,7 +35,7 @@ public class ProspekController extends LocaleController {
 	private ProspekService prospekService;
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.CREATE)
+	@AppPermission(hakAkses = HakAksesConstant.CREATE, hakMenu = "/prospek")
 	@RequestMapping(value = "/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Save(@Valid @RequestBody ProspekVO entity, HttpServletRequest request) {
 		Map<String, Object> result = prospekService.saveProspek(entity);
@@ -47,7 +47,7 @@ public class ProspekController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.UPDATE)
+	@AppPermission(hakAkses = HakAksesConstant.UPDATE, hakMenu = "/prospek")
 	@RequestMapping(value = "/edit/{version}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Edit(@PathVariable("version") Integer version, @Valid @RequestBody ProspekVO entity, HttpServletRequest request) {
 		Map<String, Object> result = prospekService.editProspek(entity,version);
@@ -58,7 +58,7 @@ public class ProspekController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.SUPERVISOR)
+	@AppPermission(hakAkses = HakAksesConstant.SUPERVISOR, hakMenu = "/prospek")
 	@RequestMapping(value = "/active/{id}/version/{version}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Activation(@PathVariable("id") String id, @PathVariable("version") Integer version,HttpServletRequest request) {
 		Map<String, Object> result = prospekService.isActiveProspek(id,version);
@@ -69,7 +69,7 @@ public class ProspekController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.DELETE)
+	@AppPermission(hakAkses = HakAksesConstant.DELETE, hakMenu = "/prospek")
 	@RequestMapping(method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/del/{id}")
 	public ResponseEntity<Map<String, Object>> DeleteById(@PathVariable("id") String id) {
 		Map<String, Object> result = prospekService.deleteProspek(id);
@@ -100,7 +100,7 @@ public class ProspekController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.CREATE)
+	@AppPermission(hakAkses = HakAksesConstant.CREATE, hakMenu = "/prospek")
 	@RequestMapping(value = "/detail/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> SaveDetail(@Valid @RequestBody ProspekContactVO entity, HttpServletRequest request) {
 		Map<String, Object> result = prospekService.saveProspekContact(entity);
@@ -112,7 +112,7 @@ public class ProspekController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.UPDATE)
+	@AppPermission(hakAkses = HakAksesConstant.UPDATE, hakMenu = "/prospek")
 	@RequestMapping(value = "/detail/edit/{id}/version/{version}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> EditDetail(@PathVariable("id") String id,@PathVariable("version") Integer version, @Valid @RequestBody ProspekContactVO entity, HttpServletRequest request) {
 		Map<String, Object> result = prospekService.editProspekContact(entity,id,version);
@@ -123,7 +123,7 @@ public class ProspekController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.SUPERVISOR)
+	@AppPermission(hakAkses = HakAksesConstant.SUPERVISOR, hakMenu = "/prospek")
 	@RequestMapping(value = "/detail/active/{id}/version/{version}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> ActivationDetail(@PathVariable("id") String id, @PathVariable("version") Integer version,HttpServletRequest request) {
 		Map<String, Object> result = prospekService.isActiveProspekContact(id,version);
@@ -154,7 +154,7 @@ public class ProspekController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.DELETE)
+	@AppPermission(hakAkses = HakAksesConstant.DELETE, hakMenu = "/prospek")
 	@RequestMapping(method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/detail/del/{id}")
 	public ResponseEntity<Map<String, Object>> DeleteDetailById(@PathVariable("id") String id) {
 		Map<String, Object> result = prospekService.deleteProspekContact(id);

@@ -31,7 +31,7 @@ public class InisialController extends LocaleController {
 	private InisialService inisialService;
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.UPDATE)
+	@AppPermission(hakAkses = HakAksesConstant.UPDATE,hakMenu="/inisial")
 	@RequestMapping(value = "/edit", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Edit(@Valid @RequestBody InisialVO entity, HttpServletRequest request) {
 		Map<String, Object> result = inisialService.editInisial(entity);

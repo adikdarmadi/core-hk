@@ -32,7 +32,7 @@ public class AkunGrupController extends LocaleController {
 	private AkunGrupService akunGrupService;
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.CREATE)
+	@AppPermission(hakAkses = HakAksesConstant.CREATE,hakMenu="/akunGrup")
 	@RequestMapping(value = "/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Save(@Valid @RequestBody AkunGrupVO entity, HttpServletRequest request) {
 		Map<String, Object> result = akunGrupService.saveAkunGrup(entity);
@@ -44,7 +44,7 @@ public class AkunGrupController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.UPDATE)
+	@AppPermission(hakAkses = HakAksesConstant.UPDATE,hakMenu="/akunGrup")
 	@RequestMapping(value = "/edit/{version}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Edit(@PathVariable("version") Integer version, @Valid @RequestBody AkunGrupVO entity, HttpServletRequest request) {
 		Map<String, Object> result = akunGrupService.editAkunGrup(entity,version);
@@ -55,7 +55,7 @@ public class AkunGrupController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.SUPERVISOR)
+	@AppPermission(hakAkses = HakAksesConstant.SUPERVISOR,hakMenu="/akunGrup")
 	@RequestMapping(value = "/active/{id}/version/{version}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Activation(@PathVariable("id") String id, @PathVariable("version") Integer version,HttpServletRequest request) {
 		Map<String, Object> result = akunGrupService.isActiveAkunGrup(id,version);
@@ -66,7 +66,7 @@ public class AkunGrupController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.DELETE)
+	@AppPermission(hakAkses = HakAksesConstant.DELETE,hakMenu="/akunGrup")
 	@RequestMapping(method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/del/{id}")
 	public ResponseEntity<Map<String, Object>> DeleteById(@PathVariable("id") String id) {
 		Map<String, Object> result = akunGrupService.deleteAkunGrup(id);

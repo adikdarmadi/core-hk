@@ -17,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hk.dao.GudangDao;
 import com.hk.dao.KasBankDao;
 import com.hk.dao.PegawaiDao;
@@ -90,6 +91,8 @@ public class UserMasterServiceImpl implements UserMasterService {
 	private UserService userService;
 	
 	private ModelMapper modelMapper = new ModelMapper();
+	
+	private ObjectMapper objectMapper = new ObjectMapper();
 	
 	@Override
 	@Transactional(readOnly=false)
@@ -280,8 +283,15 @@ public class UserMasterServiceImpl implements UserMasterService {
 	public Map<String,Object> findById(String id) {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		User user=userDao.findById(id);
-		user.setPassword(null);
-		result.put("user", user);
+		
+		Map<String, Object> map = objectMapper.convertValue(user, Map.class);
+		map.remove("password");
+		
+		map.put("gudangs", userGudangDao.findGudangByUserId(id));
+		map.put("roles", userRoleDao.findRoleByUserId(id));
+		map.put("kasBanks", userKasBankDao.findKasBankByUserId(id));
+		
+		result.put("user", map);
 		return result;
 	}
 	

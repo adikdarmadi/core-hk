@@ -33,7 +33,7 @@ public class ModuleController extends LocaleController {
 	private ModuleService moduleService;
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.CREATE)
+	@AppPermission(hakAkses = HakAksesConstant.CREATE, hakMenu = "/module")
 	@RequestMapping(value = "/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Save(@Valid @RequestBody ModuleVO entity, HttpServletRequest request) {
 		Map<String, Object> result = moduleService.saveModule(entity);
@@ -45,7 +45,7 @@ public class ModuleController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.UPDATE)
+	@AppPermission(hakAkses = HakAksesConstant.UPDATE, hakMenu = "/module")
 	@RequestMapping(value = "/edit/{version}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Edit(@PathVariable("version") Integer version, @Valid @RequestBody ModuleVO entity, HttpServletRequest request) {
 		Map<String, Object> result = moduleService.editModule(entity,version);
@@ -56,7 +56,7 @@ public class ModuleController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.SUPERVISOR)
+	@AppPermission(hakAkses = HakAksesConstant.SUPERVISOR, hakMenu = "/module")
 	@RequestMapping(value = "/active/{id}/version/{version}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Activation(@PathVariable("id") String id, @PathVariable("version") Integer version,HttpServletRequest request) {
 		Map<String, Object> result = moduleService.isActiveModule(id,version);
@@ -67,7 +67,7 @@ public class ModuleController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.DELETE)
+	@AppPermission(hakAkses = HakAksesConstant.DELETE, hakMenu = "/module")
 	@RequestMapping(method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/del/{id}")
 	public ResponseEntity<Map<String, Object>> DeleteById(@PathVariable("id") String id) {
 		Map<String, Object> result = moduleService.deleteModule(id);

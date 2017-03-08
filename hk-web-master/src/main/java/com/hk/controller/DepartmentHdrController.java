@@ -34,7 +34,7 @@ public class DepartmentHdrController extends LocaleController {
 	private DepartmentHdrService departmentHdrService;
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.CREATE)
+	@AppPermission(hakAkses = HakAksesConstant.CREATE,hakMenu="/departmentHdr")
 	@RequestMapping(value = "/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Save(@Valid @RequestBody DepartmentHdrVO entity, HttpServletRequest request) {
 		Map<String, Object> result = departmentHdrService.saveDepartmentHdr(entity);
@@ -46,7 +46,7 @@ public class DepartmentHdrController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.UPDATE)
+	@AppPermission(hakAkses = HakAksesConstant.UPDATE,hakMenu="/departmentHdr")
 	@RequestMapping(value = "/edit/{version}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Edit(@PathVariable("version") Integer version, @Valid @RequestBody DepartmentHdrVO entity, HttpServletRequest request) {
 		Map<String, Object> result = departmentHdrService.editDepartmentHdr(entity,version);
@@ -57,7 +57,7 @@ public class DepartmentHdrController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.SUPERVISOR)
+	@AppPermission(hakAkses = HakAksesConstant.SUPERVISOR,hakMenu="/departmentHdr")
 	@RequestMapping(value = "/active/{id}/version/{version}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Activation(@PathVariable("id") String id, @PathVariable("version") Integer version,HttpServletRequest request) {
 		Map<String, Object> result = departmentHdrService.isActiveDepartmentHdr(id,version);
@@ -68,7 +68,7 @@ public class DepartmentHdrController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.DELETE)
+	@AppPermission(hakAkses = HakAksesConstant.DELETE,hakMenu="/departmentHdr")
 	@RequestMapping(method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/del/{id}")
 	public ResponseEntity<Map<String, Object>> DeleteById(@PathVariable("id") String id) {
 		Map<String, Object> result = departmentHdrService.deleteDepartmentHdr(id);
@@ -99,7 +99,7 @@ public class DepartmentHdrController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.CREATE)
+	@AppPermission(hakAkses = HakAksesConstant.CREATE,hakMenu="/departmentHdr")
 	@RequestMapping(value = "/detail/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> SaveDetail(@Valid @RequestBody DepartmentDtlVO entity, HttpServletRequest request) {
 		Map<String, Object> result = departmentHdrService.saveDepartmentDtl(entity);
@@ -111,7 +111,7 @@ public class DepartmentHdrController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.UPDATE)
+	@AppPermission(hakAkses = HakAksesConstant.UPDATE,hakMenu="/departmentHdr")
 	@RequestMapping(value = "/detail/edit/{id}/version/{version}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> EditDetail(@PathVariable("id") Integer id,@PathVariable("version") Integer version, @Valid @RequestBody DepartmentDtlVO entity, HttpServletRequest request) {
 		Map<String, Object> result = departmentHdrService.editDepartmentDtl(entity,id,version);
@@ -122,7 +122,7 @@ public class DepartmentHdrController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.SUPERVISOR)
+	@AppPermission(hakAkses = HakAksesConstant.SUPERVISOR,hakMenu="/departmentHdr")
 	@RequestMapping(value = "/detail/active/{id}/version/{version}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> ActivationDetail(@PathVariable("id") Integer id, @PathVariable("version") Integer version,HttpServletRequest request) {
 		Map<String, Object> result = departmentHdrService.isActiveDepartmentDtl(id,version);
@@ -153,7 +153,7 @@ public class DepartmentHdrController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.DELETE)
+	@AppPermission(hakAkses = HakAksesConstant.DELETE,hakMenu="/departmentHdr")
 	@RequestMapping(method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/detail/del/{id}")
 	public ResponseEntity<Map<String, Object>> DeleteDetailById(@PathVariable("id") String id) {
 		Map<String, Object> result = departmentHdrService.deleteDepartmentDtl(id);
