@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +99,7 @@ public class UserMasterServiceImpl implements UserMasterService {
 	@Transactional(readOnly=false)
 	public Map<String,Object> saveUser(UserVO p) throws NoSuchAlgorithmException, UnsupportedEncodingException {
 		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save user execute");
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		User model=modelMapper.map(p, User.class);
 		model.setId(model.getId().toUpperCase());
 		
@@ -171,6 +173,7 @@ public class UserMasterServiceImpl implements UserMasterService {
 	@Transactional(readOnly=false)
 	public Map<String,Object> editUser(UserVO p, Integer version) {
 		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save user execute");
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		User model=modelMapper.map(p, User.class);
 		
 		User obj = userDao.findById(p.getId());
