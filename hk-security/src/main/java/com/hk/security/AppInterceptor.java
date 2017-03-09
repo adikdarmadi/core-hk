@@ -82,43 +82,76 @@ public class AppInterceptor implements HandlerInterceptor {
 						}else if (hakAkses.equalsIgnoreCase(HakAksesConstant.CREATE)) {
 							if(user.getIsCreate()){
 								isLogin = true;
+							}else{
+								setUnautorized(response);
+								return false;
 							}
 						}else if(hakAkses.equalsIgnoreCase(HakAksesConstant.UPDATE)) {
 							if(user.getIsUpdate()){
 								isLogin = true;
+							}else{
+								setUnautorized(response);
+								return false;
 							}
 						}else if(hakAkses.equalsIgnoreCase(HakAksesConstant.DELETE)) {
 							if(user.getIsDelete()){
 								isLogin = true;
+							}else{
+								setUnautorized(response);
+								return false;
 							}
 						}else if(hakAkses.equalsIgnoreCase(HakAksesConstant.PRINT)) {
 							if(user.getIsPrint()){
 								isLogin = true;
+							}else{
+								setUnautorized(response);
+								return false;
 							}
 						}else if(hakAkses.equalsIgnoreCase(HakAksesConstant.REPORT)) {
 							if(user.getIsReport()){
 								isLogin = true;
+							}else{
+								setUnautorized(response);
+								return false;
 							}
 						}else if(hakAkses.equalsIgnoreCase(HakAksesConstant.CANCEL)) {
 							if(user.getIsCancel()){
 								isLogin = true;
+							}else{
+								setUnautorized(response);
+								return false;
 							}
 						}else if(hakAkses.equalsIgnoreCase(HakAksesConstant.CONFIRM)) {
 							if(user.getIsConfirm()){
 								isLogin = true;
+							}else{
+								setUnautorized(response);
+								return false;
 							}
 						}else if(hakAkses.equalsIgnoreCase(HakAksesConstant.UNCONFIRM)) {
 							if(user.getIsUnconfirm()){
 								isLogin = true;
+							}else{
+								setUnautorized(response);
+								return false;
 							}
 						}else if(hakAkses.equalsIgnoreCase(HakAksesConstant.SUPERVISOR)) {
 							if(user.getIsSupervisor()){
 								isLogin = true;
+							}else{
+								setUnautorized(response);
+								return false;
 							}
 						}else if(hakAkses.equalsIgnoreCase(HakAksesConstant.SUPERUSER)) {
 							if(user.getIsSuperuser()){
 								isLogin = true;
+							}else{
+								setUnautorized(response);
+								return false;
 							}
+						}else{
+							setUnautorized(response);
+							return false;
 						}
 					}
 					isAuthHakAkses = isLogin;
