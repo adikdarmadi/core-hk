@@ -22,6 +22,7 @@ import com.hk.entities.User;
 import com.hk.service.AccessUserService;
 import com.hk.service.UserService;
 import com.hk.util.CommonUtil;
+import com.hk.vo.AccessUserChildVO;
 import com.hk.vo.AccessUserVO;
 
 @Service("accessUserService")
@@ -112,7 +113,7 @@ public class AccessUserServiceImpl implements AccessUserService {
 		
 		User model=userDao.findById(p.getUserId());
 		
-		if((p.getModules() != null) && CommonUtil.isNotNullOrEmpty(model)){
+		/*if((p.getModules() != null) && CommonUtil.isNotNullOrEmpty(model)){
 			List<AccessUser> listAccessUser = new ArrayList<AccessUser>();
 			
 			for(String module : p.getModules()){
@@ -121,6 +122,47 @@ public class AccessUserServiceImpl implements AccessUserService {
 				am.setUser(model);
 				am.setModule(m);
 				listAccessUser.add(am);
+			}
+			
+			accessUserDaoCustom.deleteByUserId(model.getId());
+			model.getListAccessUser().clear();
+			model.setListAccessUser(listAccessUser);
+		}*/
+		
+		if((p.getListAccessUserChildVO() != null) && CommonUtil.isNotNullOrEmpty(model)){
+			List<AccessUser> listAccessUser = new ArrayList<AccessUser>();
+			
+			for(AccessUserChildVO module : p.getListAccessUserChildVO()){
+				
+					Module m = moduleDao.findById(module.getId());
+					AccessUser am = new AccessUser();
+					am.setUser(model);
+					am.setModule(m);
+					if(module.getSelected()){
+						listAccessUser.add(am);
+					}
+					
+					for(AccessUserChildVO module2 : module.getChildren()){
+						
+							Module m2 = moduleDao.findById(module2.getId());
+							AccessUser am2 = new AccessUser();
+							am2.setUser(model);
+							am2.setModule(m2);
+							if(module2.getSelected()){
+								listAccessUser.add(am2);
+							}
+							
+							for(AccessUserChildVO module3 : module2.getChildren()){
+								
+									Module m3 = moduleDao.findById(module3.getId());
+									AccessUser am3 = new AccessUser();
+									am3.setUser(model);
+									am3.setModule(m3);
+									if(module3.getSelected()){
+										listAccessUser.add(am3);
+									}
+							}
+					}
 			}
 			
 			accessUserDaoCustom.deleteByUserId(model.getId());
