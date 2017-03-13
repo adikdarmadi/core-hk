@@ -78,6 +78,7 @@ public class BarangController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu="/barang")
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/all")
 	public ResponseEntity<Map<String, Object>> FindAll() {
 		Map<String, Object> result = barangService.findAllBarang();
@@ -88,6 +89,7 @@ public class BarangController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu="/barang")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> FindById(@PathVariable("id") String id) {
 		Map<String, Object> result = barangService.findById(id);

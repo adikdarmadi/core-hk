@@ -80,6 +80,7 @@ public class UserController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu = "/user")
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/all")
 	public ResponseEntity<Map<String, Object>> FindAll() {
 		Map<String, Object> result = userService.findAllUser();
@@ -90,6 +91,7 @@ public class UserController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu = "/user")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> FindById(@PathVariable("id") String id) {
 		Map<String, Object> result = userService.findById(id);
@@ -100,6 +102,7 @@ public class UserController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu = "/user")
 	@RequestMapping(value = "/edit/{userId}/gudang", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> FindGudangCheckByUserId(@PathVariable("userId") String userId) {
 		Map<String, Object> result = userService.findGudangCheckByUserId(userId);
@@ -110,6 +113,7 @@ public class UserController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu = "/user")
 	@RequestMapping(value = "/edit/{userId}/role", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> FindRoleCheckByUserId(@PathVariable("userId") String userId) {
 		Map<String, Object> result = userService.findRoleCheckByUserId(userId);
@@ -120,6 +124,7 @@ public class UserController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu = "/user")
 	@RequestMapping(value = "/edit/{userId}/kasBank", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> FindKasBankCheckByUserId(@PathVariable("userId") String userId) {
 		Map<String, Object> result = userService.findKasBankCheckByUserId(userId);

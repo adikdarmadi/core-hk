@@ -77,6 +77,7 @@ public class AkunGrupController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu="/akunGrup")
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/all")
 	public ResponseEntity<Map<String, Object>> FindAll() {
 		Map<String, Object> result = akunGrupService.findAllAkunGrup();
@@ -87,6 +88,7 @@ public class AkunGrupController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu="/akunGrup")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> FindById(@PathVariable("id") String id) {
 		Map<String, Object> result = akunGrupService.findById(id);

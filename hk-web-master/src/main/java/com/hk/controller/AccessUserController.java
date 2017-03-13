@@ -1,3 +1,4 @@
+
 package com.hk.controller;
 
 import java.util.Map;
@@ -32,6 +33,7 @@ public class AccessUserController extends LocaleController {
 	private AccessUserService accessUserService;
 
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu = "/accessUser")
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/user/{userId}")
 	public ResponseEntity<Map<String, Object>> FindByUserId(@PathVariable("userId") String userId) {
 		Map<String, Object> result = accessUserService.findByUserId(userId);

@@ -79,6 +79,7 @@ public class DepartmentHdrController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu="/departmentHdr")
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/all")
 	public ResponseEntity<Map<String, Object>> FindAll(){
 		Map<String, Object> result = departmentHdrService.findAllDepartmentHdr();
@@ -89,6 +90,7 @@ public class DepartmentHdrController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu="/departmentHdr")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> FindById(@PathVariable("id") String id) {
 		Map<String, Object> result = departmentHdrService.findById(id);
@@ -133,6 +135,7 @@ public class DepartmentHdrController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu="/departmentHdr")
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/{id}/detail")
 	public ResponseEntity<Map<String, Object>> FindDetailByParent(@PathVariable("id") String id) {
 		Map<String, Object> result = departmentHdrService.findDetailByParent(id);
@@ -143,6 +146,7 @@ public class DepartmentHdrController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu="/departmentHdr")
 	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> FindDetailById(@PathVariable("id") String id) {
 		Map<String, Object> result = departmentHdrService.findDetailById(id);

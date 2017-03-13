@@ -101,7 +101,7 @@ public class UserMasterServiceImpl implements UserMasterService {
 		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save user execute");
 		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		User model=modelMapper.map(p, User.class);
-		model.setId(model.getId().toUpperCase());
+		model.setId(model.getId());
 		
 		PasswordUtil passwordUtil = new PasswordUtil();
 		model.setPassword(passwordUtil.encryptPassword(p.getId()));

@@ -9,6 +9,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import com.hk.constant.SecurityConstant;
 import com.hk.dao.UserDao;
 import com.hk.entities.User;
 import com.hk.util.CommonUtil;
@@ -37,18 +38,26 @@ public class UserService implements
 	 */
 	@Override
 	public final org.springframework.security.core.userdetails.User loadUserByUsername(String id) throws UsernameNotFoundException {
-		User users = userDao.findById(id);
-		if (CommonUtil.isNullOrEmpty(users)) {
-			throw new UsernameNotFoundException("user not found");
+		if(id.equalsIgnoreCase(SecurityConstant.USER_ALL)){
+			GrantedAuthority authority = new SimpleGrantedAuthority("USER");
+			UserDetails userDetails = (UserDetails) new org.springframework.security.core.userdetails.User(SecurityConstant.USER_ALL,SecurityConstant.PASSWORD_ALL,Arrays.asList(authority));
+			detailsChecker.check(userDetails);
+			return (org.springframework.security.core.userdetails.User) userDetails;
+		}else{
+			User users = userDao.findById(id);
+			if (CommonUtil.isNullOrEmpty(users)) {
+				throw new UsernameNotFoundException("user not found");
+			}
+			User user = users;
+			//validasi tambahan lakukan di sini
+			
+//			GrantedAuthority authority = new SimpleGrantedAuthority(loginUser
+//					.getKelompokUser().getKelompokUser());
+			GrantedAuthority authority = new SimpleGrantedAuthority("USER");
+			UserDetails userDetails = (UserDetails) new org.springframework.security.core.userdetails.User(user.getId(), user.getPassword(),Arrays.asList(authority));
+			detailsChecker.check(userDetails);
+			return (org.springframework.security.core.userdetails.User) userDetails;
 		}
-		User user = users;
-		//validasi tambahan lakukan di sini
 		
-//		GrantedAuthority authority = new SimpleGrantedAuthority(loginUser
-//				.getKelompokUser().getKelompokUser());
-		GrantedAuthority authority = new SimpleGrantedAuthority("USER");
-		UserDetails userDetails = (UserDetails) new org.springframework.security.core.userdetails.User(user.getId(), user.getPassword(),Arrays.asList(authority));
-		detailsChecker.check(userDetails);
-		return (org.springframework.security.core.userdetails.User) userDetails;
 	}
 }

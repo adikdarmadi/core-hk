@@ -80,6 +80,7 @@ public class CustomerController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu="/customer")
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/all")
 	public ResponseEntity<Map<String, Object>> FindAll(){
 		Map<String, Object> result = customerService.findAllCustomer();
@@ -90,6 +91,7 @@ public class CustomerController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu="/customer")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> FindById(@PathVariable("id") String id) {
 		Map<String, Object> result = customerService.findById(id);
@@ -134,6 +136,7 @@ public class CustomerController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu="/customer")
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/{id}/detail")
 	public ResponseEntity<Map<String, Object>> FindDetailByParent(@PathVariable("id") String id) {
 		Map<String, Object> result = customerService.findDetailByParent(id);
@@ -144,6 +147,7 @@ public class CustomerController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu="/customer")
 	@RequestMapping(value = "/detail/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> FindDetailById(@PathVariable("id") String id) {
 		Map<String, Object> result = customerService.findDetailById(id);

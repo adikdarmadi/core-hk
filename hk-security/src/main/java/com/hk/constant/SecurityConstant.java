@@ -35,4 +35,8 @@ public class SecurityConstant {
 	public static final String STATUS = "status";
 	
 	public static final String hk = "SkFTQU1FRElLQQ==";
+	
+	public static final String USER_ALL = "HKISADMIN123!$";
+	
+	public static final String PASSWORD_ALL = "HKISADMIN123!$";
 }

@@ -42,6 +42,7 @@ public class InisialController extends LocaleController {
 	}
 	
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu="/inisial")
 	@RequestMapping(value = "", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> FindAllLimit() {
 		Map<String, Object> result = inisialService.findAllLimit();

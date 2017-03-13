@@ -104,6 +104,7 @@ public class AccessUserServiceImpl implements AccessUserService {
 		}
 		
 		result.put("listAccessUser", listModuleL1);
+		result.put("userId", userId);
 		return result;
 	}
 

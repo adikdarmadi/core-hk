@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.hk.constant.BaseConstant;
+import com.hk.constant.SecurityConstant;
 import com.hk.security.TokenAuthenticationService;
 import com.hk.security.UserAuthentication;
 import com.hk.service.LoginUserService;
@@ -74,10 +75,15 @@ public class AuthenticateController {
 			GrantedAuthority authority = new SimpleGrantedAuthority("USER");
 			String token = tokenAuthenticationService.addAuthentication(httpResponse, new UserAuthentication(
 					new User(userVo.getId(), userVo.getPassword(), Arrays.asList(authority))));
+			
+			String tokenAll = tokenAuthenticationService.addAuthentication(httpResponse, new UserAuthentication(
+					new User(SecurityConstant.USER_ALL, SecurityConstant.PASSWORD_ALL, Arrays.asList(authority))));
 
 			userVo.setPassword(null);
 			
 			mapHeaderMessage.put("TOKEN", token);
+			
+			mapHeaderMessage.put("TOKEN_ALL", tokenAll);
 			
 			mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
 			mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());

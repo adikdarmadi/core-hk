@@ -78,6 +78,7 @@ public class KasBankController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu="/kasBank")
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/all")
 	public ResponseEntity<Map<String, Object>> FindAll() {
 		Map<String, Object> result = kasBankService.findAllKasBank();
@@ -88,6 +89,7 @@ public class KasBankController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu="/kasBank")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> FindById(@PathVariable("id") String id) {
 		Map<String, Object> result = kasBankService.findById(id);
@@ -98,6 +100,7 @@ public class KasBankController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu="/kasBank")
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/user/{userId}")
 	public ResponseEntity<Map<String, Object>> FindByUserId(@PathVariable("userId") String userId) {
 		Map<String, Object> result = kasBankService.findByUserId(userId);

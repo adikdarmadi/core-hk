@@ -61,7 +61,11 @@ public class AppInterceptor implements HandlerInterceptor {
 	        try {
 	            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 	            String id = principal.toString();
-	            user = userDao.findById(id);
+	            if(id.equalsIgnoreCase(SecurityConstant.USER_ALL)){
+	            	return true;
+	            }else{
+	            	user = userDao.findById(id);
+	            }
 	        } catch (Exception e) {
 	            e.printStackTrace();
 	        }
