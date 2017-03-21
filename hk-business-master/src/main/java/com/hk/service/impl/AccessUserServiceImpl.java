@@ -65,19 +65,19 @@ public class AccessUserServiceImpl implements AccessUserService {
 			}
 			
 			List<Object> listModuleL2 = new ArrayList<>();
+			int unselected2 = 0;
+			int indeterminate2 = 0;
+			int selected2 = 0;
 			for(Module moduleL2 : moduleDao.childNode(moduleL1.getId())){
 				Map<String, Object> mapL2 = new HashMap<String, Object>();
 				
 				mapL2.put("id", moduleL2.getId());
 				mapL2.put("label", moduleL2.getNama());
 				
-				if(CommonUtil.isNotNullOrEmpty(accessUserDao.findByUserIdModuleId(userId, moduleL2.getId()))){
-					mapL2.put("selected", true);
-				}else{
-					mapL2.put("selected", false);
-				}
 
 				List<Object> listModuleL3 = new ArrayList<>();
+				int unselected3 = 0;
+				int selected3 = 0;
 				for(Module moduleL3 : moduleDao.childNode(moduleL2.getId())){
 					Map<String, Object> mapL3 = new HashMap<String, Object>();
 					
@@ -86,16 +86,73 @@ public class AccessUserServiceImpl implements AccessUserService {
 					
 					if(CommonUtil.isNotNullOrEmpty(accessUserDao.findByUserIdModuleId(userId, moduleL3.getId()))){
 						mapL3.put("selected", true);
+						selected3++;
 					}else{
 						mapL3.put("selected", false);
+						unselected3++;
 					}
 					
 					listModuleL3.add(mapL3);
 				}
 				
+				
+				if((unselected3 > 0) && (selected3 > 0)){
+					mapL2.put("selected", false);
+					mapL2.put("__ivhTreeviewIndeterminate", true);
+					indeterminate2++;
+				}else if((unselected3 == 0) && (selected3 > 0)){
+					mapL2.put("selected", true);
+					mapL2.put("__ivhTreeviewIndeterminate", false);
+					selected2++;
+				}else if((unselected3 > 0) && (selected3 == 0)){
+					mapL2.put("selected", false);
+					mapL2.put("__ivhTreeviewIndeterminate", false);
+					unselected2++;
+				}else{
+					if(CommonUtil.isNotNullOrEmpty(accessUserDao.findByUserIdModuleId(userId, moduleL2.getId()))){
+						mapL2.put("selected", true);
+						selected2++;
+					}else{
+						mapL2.put("selected", false);
+						unselected2++;
+					}
+				}
+				
 				mapL2.put("children", listModuleL3);
 				
 				listModuleL2.add(mapL2);
+			}
+			
+			if((unselected2 > 0) && (selected2 > 0)){
+				mapL1.put("selected", false);
+				mapL1.put("__ivhTreeviewIndeterminate", true);
+			}else if((unselected2 == 0) && (selected2 > 0)){
+				if(indeterminate2 > 0){
+					mapL1.put("selected", false);
+					mapL1.put("__ivhTreeviewIndeterminate", true);
+				}else{
+					mapL1.put("selected", true);
+					mapL1.put("__ivhTreeviewIndeterminate", false);
+				}
+			}else if((unselected2 > 0) && (selected2 == 0)){
+				if(indeterminate2 > 0){
+					mapL1.put("selected", false);
+					mapL1.put("__ivhTreeviewIndeterminate", true);
+				}else{
+					mapL1.put("selected", false);
+					mapL1.put("__ivhTreeviewIndeterminate", false);
+				}
+			}else{
+				if(indeterminate2 > 0){
+					mapL1.put("selected", false);
+					mapL1.put("__ivhTreeviewIndeterminate", true);
+				}else{
+					if(CommonUtil.isNotNullOrEmpty(accessUserDao.findByUserIdModuleId(userId, moduleL1.getId()))){
+						mapL1.put("selected", true);
+					}else{
+						mapL1.put("selected", false);
+					}
+				}
 			}
 			
 			mapL1.put("children", listModuleL2);
@@ -139,7 +196,12 @@ public class AccessUserServiceImpl implements AccessUserService {
 					AccessUser am = new AccessUser();
 					am.setUser(model);
 					am.setModule(m);
-					if(module.getSelected()){
+					
+					if(CommonUtil.isNullOrEmpty(module.get__ivhTreeviewIndeterminate())){
+						module.set__ivhTreeviewIndeterminate(false);
+					}
+					
+					if(module.getSelected() || module.get__ivhTreeviewIndeterminate()){
 						listAccessUser.add(am);
 					}
 					
@@ -149,7 +211,12 @@ public class AccessUserServiceImpl implements AccessUserService {
 							AccessUser am2 = new AccessUser();
 							am2.setUser(model);
 							am2.setModule(m2);
-							if(module2.getSelected()){
+
+							if(CommonUtil.isNullOrEmpty(module2.get__ivhTreeviewIndeterminate())){
+								module2.set__ivhTreeviewIndeterminate(false);
+							}
+							
+							if(module2.getSelected() || module2.get__ivhTreeviewIndeterminate()){
 								listAccessUser.add(am2);
 							}
 							
@@ -159,7 +226,12 @@ public class AccessUserServiceImpl implements AccessUserService {
 									AccessUser am3 = new AccessUser();
 									am3.setUser(model);
 									am3.setModule(m3);
-									if(module3.getSelected()){
+									
+									if(CommonUtil.isNullOrEmpty(module3.get__ivhTreeviewIndeterminate())){
+										module3.set__ivhTreeviewIndeterminate(false);
+									}
+									
+									if(module3.getSelected() || module3.get__ivhTreeviewIndeterminate()){
 										listAccessUser.add(am3);
 									}
 							}

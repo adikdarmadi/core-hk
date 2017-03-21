@@ -16,6 +16,8 @@ public class AccessUserChildVO  {
 	
 	private Boolean selected;
 	
+	private Boolean __ivhTreeviewIndeterminate;
+	
 	private List<AccessUserChildVO> children;
 	
 	public String getId() {
@@ -29,6 +31,13 @@ public class AccessUserChildVO  {
 	}
 	public void setSelected(Boolean selected) {
 		this.selected = selected;
+	}
+	
+	public Boolean get__ivhTreeviewIndeterminate() {
+		return __ivhTreeviewIndeterminate;
+	}
+	public void set__ivhTreeviewIndeterminate(Boolean __ivhTreeviewIndeterminate) {
+		this.__ivhTreeviewIndeterminate = __ivhTreeviewIndeterminate;
 	}
 	public List<AccessUserChildVO> getChildren() {
 		return children;
