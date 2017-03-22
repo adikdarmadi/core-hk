@@ -35,7 +35,7 @@ public class LoginUserServiceImpl implements LoginUserService {
 	private ModelMapper modelMapper = new ModelMapper();
 	
 	@Override
-	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS)
+	@Transactional(readOnly = true, propagation = Propagation.SUPPORTS, value="transactionManager")
 	public UserVO signIn(AuthVO authVO)  {
 
 		User users = userDao.findById(authVO.getId());

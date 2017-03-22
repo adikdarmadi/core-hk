@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.hk.dao.custom.AgamaDaoCustom;
@@ -16,7 +17,8 @@ import com.hk.dao.custom.AgamaDaoCustom;
 @Repository("AgamaDaoCustom")
 public class AgamaDaoCustomImpl  implements AgamaDaoCustom {
 
-	@PersistenceContext
+	@PersistenceContext(unitName="persistenceUnit")
+	@Qualifier(value = "entityManagerFactory")
 	protected EntityManager em;
 	
 	

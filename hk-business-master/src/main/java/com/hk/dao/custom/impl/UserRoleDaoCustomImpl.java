@@ -4,6 +4,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.hk.dao.custom.UserRoleDaoCustom;
@@ -17,7 +18,8 @@ import com.hk.dao.custom.UserRoleDaoCustom;
 @Repository("UserRoleDaoCustom")
 public class UserRoleDaoCustomImpl  implements UserRoleDaoCustom {
 
-	@PersistenceContext
+	@PersistenceContext(unitName="persistenceUnit")
+	@Qualifier(value = "entityManagerFactory")
 	protected EntityManager em;
 	
 	

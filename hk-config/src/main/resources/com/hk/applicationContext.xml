@@ -13,9 +13,11 @@
 		location="	
 		classpath*:jdbc.testing.properties,
 		classpath*:jdbc.logging.properties,
+		classpath*:jdbc.auditlog-${spring.profiles.default}.properties,
 	classpath*:jdbc.${spring.profiles.default}.properties" />
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
+	<tx:annotation-driven transaction-manager="transactionManagerAuditLog" />
 
 	<!-- <bean id="flyway" class="org.flywaydb.core.Flyway" init-method="migrate">
 		<property name="baselineOnMigrate" value="true" />
@@ -41,13 +43,37 @@
 			</props>
 		</property>
 	</bean>
+	
+	<bean id="hikariConfigAuditLog" class="com.zaxxer.hikari.HikariConfig">
+		<property name="poolName" value="springHikariCP" />
+		<property name="dataSourceClassName" value="com.mysql.jdbc.jdbc2.optional.MysqlDataSource" />
+		<property name="idleTimeout" value="30000" />
+		<property name="dataSourceProperties">
+			<props>
+				<prop key="serverName">${jdbcAuditLog.serverName}</prop>
+				<prop key="databaseName">${jdbcAuditLog.databaseName}</prop>
+				<prop key="user">${jdbcAuditLog.username}</prop>
+				<prop key="password">${jdbcAuditLog.password}</prop>
+				
+				<!-- <prop key="cachePrepStmts">true</prop>
+				<prop key="prepStmtCacheSize">250</prop>
+				<prop key="prepStmtCacheSqlLimit">2048</prop>
+				<prop key="useServerPreStmts">true</prop> -->
+			</props>
+		</property>
+	</bean>
 
 	<bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
 		<constructor-arg ref="hikariConfig" />
 	</bean>
 	
+	<bean id="dataSourceAuditLog" class="com.zaxxer.hikari.HikariDataSource">
+		<constructor-arg ref="hikariConfigAuditLog" />
+	</bean>
+	
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
+		<property name="persistenceUnitName" value="persistenceUnit" />
 		<property name="packagesToScan" value="com.hk.entities" />
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
@@ -66,15 +92,43 @@
 			</map>
 		</property>
 	</bean>
+	
+	<bean id="entityManagerFactoryAuditLog" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSourceAuditLog" />
+		<property name="persistenceUnitName" value="persistenceUnitAuditLog" />
+		<property name="packagesToScan" value="com.hk.entitiesAuditLog" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="javax.persistence.validation.mode">none</prop>
+			</props>
+		</property>
+		<property name="jpaPropertyMap">
+			<map>
+				<entry key="hibernate.hbm2ddl.auto" value="${hibernateAuditLog.hbm2ddl}" />
+			</map>
+		</property>
+	</bean>
 
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
+	
+	<bean id="transactionManagerAuditLog" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactoryAuditLog" />
+	</bean>
+	
 	<bean id="persistenceExceptionTranslationPostProcessor"
       class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor" />
 
 	<context:component-scan base-package="com.hk" />
-	<jpa:repositories base-package="com.hk.dao" />
+	<jpa:repositories base-package="com.hk.dao" entity-manager-factory-ref="entityManagerFactory" transaction-manager-ref="transactionManager" />
+	<jpa:repositories base-package="com.hk.daoLog" entity-manager-factory-ref="entityManagerFactoryAuditLog" transaction-manager-ref="transactionManagerAuditLog" />
 
 	<bean id="messageSource"
 		class="org.springframework.context.support.ResourceBundleMessageSource">
