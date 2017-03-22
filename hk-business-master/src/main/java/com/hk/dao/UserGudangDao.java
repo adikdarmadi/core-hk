@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.hk.entities.Gudang;
+import com.hk.entities.User;
 import com.hk.entities.UserGudang;
 
 @Repository("UserGudangDao")
@@ -19,4 +20,7 @@ public interface UserGudangDao extends PagingAndSortingRepository<UserGudang, St
 	
 	@Query("select g from UserGudang ug left join ug.gudang g where ug.userId =:userId and g.isActive = true ")
 	List<Gudang> findGudangByUserId(@Param("userId") String userId);
+	
+	@Query("select u from UserGudang ug left join ug.user u where ug.gudangId =:gudangId and u.isActive = true ")
+	List<User> findUserByGudangId(@Param("gudangId") String gudangId);
 }

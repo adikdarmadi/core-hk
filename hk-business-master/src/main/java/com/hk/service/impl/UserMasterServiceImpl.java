@@ -371,4 +371,25 @@ public class UserMasterServiceImpl implements UserMasterService {
 		result.put("listKasBank", listMap);
 		return result;
 	}
+	
+	@Override
+	public Map<String,Object> findByGudangId(String gudangId){
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("listGudang", userGudangDao.findUserByGudangId(gudangId));
+		return result;
+	}
+	
+	@Override
+	public Map<String,Object> findByRoleId(String roleId){
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("listRole", userRoleDao.findUserByRoleId(roleId));
+		return result;
+	}
+	
+	@Override
+	public Map<String,Object> findByKasBankId(String kasBankId){
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("listKasBank", userKasBankDao.findUserByKasBankId(kasBankId));
+		return result;
+	}
 }

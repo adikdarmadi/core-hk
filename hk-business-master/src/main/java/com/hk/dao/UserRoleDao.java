@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.hk.entities.Role;
+import com.hk.entities.User;
 import com.hk.entities.UserRole;
 
 @Repository("UserRoleDao")
@@ -19,4 +20,7 @@ public interface UserRoleDao extends PagingAndSortingRepository<UserRole, String
 	
 	@Query("select g from UserRole ur left join ur.role g where ur.userId =:userId and g.isActive = true ")
 	List<Role> findRoleByUserId(@Param("userId") String userId);
+	
+	@Query("select u from UserRole ur left join ur.user u where ur.roleId =:roleId and u.isActive = true ")
+	List<User> findUserByRoleId(@Param("roleId") String roleId);
 }

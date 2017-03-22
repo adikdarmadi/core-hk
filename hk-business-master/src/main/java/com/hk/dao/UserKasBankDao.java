@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.hk.entities.KasBank;
+import com.hk.entities.User;
 import com.hk.entities.UserKasBank;
 
 @Repository("UserKasBankDao")
@@ -19,4 +20,7 @@ public interface UserKasBankDao extends PagingAndSortingRepository<UserKasBank, 
 	
 	@Query("select g from UserKasBank uk left join uk.kasBank g where uk.userId =:userId and g.isActive = true ")
 	List<KasBank> findKasBankByUserId(@Param("userId") String userId);
+	
+	@Query("select u from UserKasBank uk left join uk.user u where uk.kasBankId =:kasBankId and u.isActive = true ")
+	List<User> findUserByKasBankId(@Param("kasBankId") String kasBankId);
 }

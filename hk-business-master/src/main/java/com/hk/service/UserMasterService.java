@@ -32,5 +32,11 @@ public interface UserMasterService{
 	Map<String, Object> findRoleCheckByUserId(String userId);
 
 	Map<String, Object> findKasBankCheckByUserId(String userId);
+
+	Map<String, Object> findByGudangId(String gudangId);
+
+	Map<String, Object> findByRoleId(String roleId);
+
+	Map<String, Object> findByKasBankId(String kasBankId);
 	
 }

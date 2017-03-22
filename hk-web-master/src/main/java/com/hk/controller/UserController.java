@@ -133,4 +133,37 @@ public class UserController extends LocaleController {
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
 		return RestUtil.getJsonResponse(result, HttpStatus.OK, mapHeaderMessage);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu="/user")
+	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/gudang/{gudangId}")
+	public ResponseEntity<Map<String, Object>> FindByGudangId(@PathVariable("gudangId") String gudangId) {
+		Map<String, Object> result = userService.findByGudangId(gudangId);
+		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
+		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
+		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
+		return RestUtil.getJsonResponse(result, HttpStatus.OK, mapHeaderMessage);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu="/user")
+	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/role/{roleId}")
+	public ResponseEntity<Map<String, Object>> FindByRoleId(@PathVariable("roleId") String roleId) {
+		Map<String, Object> result = userService.findByRoleId(roleId);
+		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
+		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
+		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
+		return RestUtil.getJsonResponse(result, HttpStatus.OK, mapHeaderMessage);
+	}
+	
+	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu="/user")
+	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/kasBank/{kasBankId}")
+	public ResponseEntity<Map<String, Object>> FindByKasBankId(@PathVariable("kasBankId") String kasBankId) {
+		Map<String, Object> result = userService.findByKasBankId(kasBankId);
+		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
+		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
+		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
+		return RestUtil.getJsonResponse(result, HttpStatus.OK, mapHeaderMessage);
+	}
 }
