@@ -1,6 +1,5 @@
 package com.hk.service;
 
-import com.hk.entitiesAuditLog.AuditLog;
 
 /**
  * AuditLog Service
@@ -8,8 +7,8 @@ import com.hk.entitiesAuditLog.AuditLog;
  * @author Adhityarismawan
  */
 
-public interface AuditLogService{
+public interface AuditLogService<T>{
 	
-	void insertAuditLog(AuditLog auditLog);
+	 void insertAuditLog(T obj,String action);
 
 }

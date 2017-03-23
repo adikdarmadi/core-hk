@@ -15,6 +15,9 @@ import com.hk.dao.GudangGrupDao;
 import com.hk.entities.AkunGrup;
 import com.hk.entities.GudangGrup;
 import com.hk.entities.Widget;
+import com.hk.entitiesAuditLog.AuditLog;
+import com.hk.enumeration.ActionEnum;
+import com.hk.service.AuditLogService;
 import com.hk.service.GudangGrupService;
 import com.hk.service.UserMasterService;
 import com.hk.service.UserService;
@@ -32,6 +35,9 @@ public class GudangGrupServiceImpl implements GudangGrupService {
 	@Autowired
 	private UserService userService;
 	
+	@Autowired
+	private AuditLogService auditLogService;
+	
 	private ModelMapper modelMapper = new ModelMapper();
 
 	@Override
@@ -44,6 +50,7 @@ public class GudangGrupServiceImpl implements GudangGrupService {
 		model.setCreateDate(DateUtil.now());
 		model.setIsActive(true);
 		GudangGrup gudangGrup=gudangGrupDao.save(model);
+		auditLogService.insertAuditLog(model, ActionEnum.Saved.getVal());
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("id", gudangGrup.getId());
 		result.put("isActive", gudangGrup.getIsActive());

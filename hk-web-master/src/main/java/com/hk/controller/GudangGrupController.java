@@ -21,7 +21,6 @@ import com.hk.controller.base.LocaleController;
 import com.hk.security.AppPermission;
 import com.hk.service.GudangGrupService;
 import com.hk.util.rest.RestUtil;
-import com.hk.vo.AkunGrupVO;
 import com.hk.vo.GudangGrupVO;
 
 @SuppressWarnings("rawtypes")
