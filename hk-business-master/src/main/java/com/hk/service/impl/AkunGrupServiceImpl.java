@@ -96,7 +96,6 @@ public class AkunGrupServiceImpl implements AkunGrupService {
 	}
 	
 	@Override
-	@Transactional(readOnly=false)
 	public Map<String,Object> findAllAkunGrup() {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("listAkunGrup", akunGrupDao.findAllAkunGrup());
@@ -104,7 +103,6 @@ public class AkunGrupServiceImpl implements AkunGrupService {
 	}
 	
 	@Override
-	@Transactional(readOnly=false)
 	public Map<String,Object> findById(String id) {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		AkunGrup akunGrup=akunGrupDao.findById(id);

@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hk.dao.GudangGrupDao;
@@ -34,7 +35,7 @@ public class GudangGrupServiceImpl implements GudangGrupService {
 	private ModelMapper modelMapper = new ModelMapper();
 
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly = false)
 	public Map<String,Object> saveGudangGrup(GudangGrupVO p) {
 		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save gudangGrup execute");
 		GudangGrup model=modelMapper.map(p, GudangGrup.class);
@@ -98,7 +99,6 @@ public class GudangGrupServiceImpl implements GudangGrupService {
 	}
 	
 	@Override
-	@Transactional(readOnly=false)
 	public Map<String,Object> findAllGudangGrup() {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("listGudangGrup", gudangGrupDao.findAllGudangGrup());
@@ -106,7 +106,6 @@ public class GudangGrupServiceImpl implements GudangGrupService {
 	}
 	
 	@Override
-	@Transactional(readOnly=false)
 	public Map<String,Object> findById(String id) {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		GudangGrup gudangGrup=gudangGrupDao.findById(id);
