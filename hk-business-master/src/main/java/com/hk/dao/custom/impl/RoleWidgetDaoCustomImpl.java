@@ -18,8 +18,6 @@ import com.hk.dao.custom.RoleWidgetDaoCustom;
 @Repository("RoleWidgetDaoCustom")
 public class RoleWidgetDaoCustomImpl  implements RoleWidgetDaoCustom {
 
-	@PersistenceContext(unitName="persistenceUnit")
-	@Qualifier(value = "entityManagerFactory")
 	protected EntityManager em;
 	
 	

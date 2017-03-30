@@ -18,8 +18,6 @@ import com.hk.dao.custom.UserGudangDaoCustom;
 @Repository("UserGudangDaoCustom")
 public class UserGudangDaoCustomImpl  implements UserGudangDaoCustom {
 
-	@PersistenceContext(unitName="persistenceUnit")
-	@Qualifier(value = "entityManagerFactory")
 	protected EntityManager em;
 	
 	

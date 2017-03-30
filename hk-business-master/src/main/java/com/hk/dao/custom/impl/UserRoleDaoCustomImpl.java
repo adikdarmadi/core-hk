@@ -18,8 +18,6 @@ import com.hk.dao.custom.UserRoleDaoCustom;
 @Repository("UserRoleDaoCustom")
 public class UserRoleDaoCustomImpl  implements UserRoleDaoCustom {
 
-	@PersistenceContext(unitName="persistenceUnit")
-	@Qualifier(value = "entityManagerFactory")
 	protected EntityManager em;
 	
 	

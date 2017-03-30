@@ -18,8 +18,6 @@ import com.hk.dao.custom.UserKasBankDaoCustom;
 @Repository("UserKasBankDaoCustom")
 public class UserKasBankDaoCustomImpl  implements UserKasBankDaoCustom {
 
-	@PersistenceContext(unitName="persistenceUnit")
-	@Qualifier(value = "entityManagerFactory")
 	protected EntityManager em;
 	
 	

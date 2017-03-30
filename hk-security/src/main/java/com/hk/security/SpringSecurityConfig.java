@@ -75,6 +75,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/api-docs/**")
 				.permitAll()
 								
+				 
 				
 				// All other request need to be authenticated
 				.anyRequest()

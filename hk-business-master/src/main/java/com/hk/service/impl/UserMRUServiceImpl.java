@@ -55,8 +55,8 @@ public class UserMRUServiceImpl implements UserMRUService {
 			model.setUser(userDao.findById(p.getUserId()));
 		}
 		
-		if(CommonUtil.isNotNullOrEmpty(p.getModuleId())){
-			model.setModule(moduleDao.findById(p.getModuleId()));
+		if(CommonUtil.isNotNullOrEmpty(p.getModuleState())){
+			model.setModule(moduleDao.findByState(p.getModuleState()));
 		}
 		
 		UserMRU userMRU=userMRUDao.save(model);
@@ -64,7 +64,7 @@ public class UserMRUServiceImpl implements UserMRUService {
 		result.put("id", userMRU.getId());
 		result.put("tanggalAkses", userMRU.getTanggalAkses());
 		result.put("userId", userMRU.getUserId());
-		result.put("moduleId", userMRU.getModuleId());
+		result.put("moduleState", userMRU.getModule().getState());
 		return result;
 	}
 	

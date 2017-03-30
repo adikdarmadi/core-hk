@@ -3,6 +3,8 @@ package com.hk.service.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.persistence.Table;
+
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,13 +14,14 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hk.dao.GudangGrupDao;
+import com.hk.dao.custom.LoggingJdbcDao;
 import com.hk.entities.AkunGrup;
 import com.hk.entities.GudangGrup;
 import com.hk.entities.Widget;
 import com.hk.entitiesAuditLog.AuditLog;
 import com.hk.enumeration.ActionEnum;
-import com.hk.service.AuditLogService;
 import com.hk.service.GudangGrupService;
+import com.hk.service.LoggingService;
 import com.hk.service.UserMasterService;
 import com.hk.service.UserService;
 import com.hk.util.DateUtil;
@@ -36,7 +39,7 @@ public class GudangGrupServiceImpl implements GudangGrupService {
 	private UserService userService;
 	
 	@Autowired
-	private AuditLogService auditLogService;
+	private LoggingService loggingService;
 	
 	private ModelMapper modelMapper = new ModelMapper();
 
@@ -50,7 +53,7 @@ public class GudangGrupServiceImpl implements GudangGrupService {
 		model.setCreateDate(DateUtil.now());
 		model.setIsActive(true);
 		GudangGrup gudangGrup=gudangGrupDao.save(model);
-		auditLogService.insertAuditLog(model, ActionEnum.Saved.getVal());
+		//loggingService.insertAuditLog(ActionEnum.Saved.getVal(), model);
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("id", gudangGrup.getId());
 		result.put("isActive", gudangGrup.getIsActive());
@@ -73,6 +76,7 @@ public class GudangGrupServiceImpl implements GudangGrupService {
 		model.setVersion(version);
 		
 		GudangGrup gudangGrup=gudangGrupDao.save(model);
+		//loggingService.insertAuditLog(ActionEnum.Updated.getVal(), model);
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("id", gudangGrup.getId());
 		result.put("isActive", gudangGrup.getIsActive());
@@ -99,6 +103,11 @@ public class GudangGrupServiceImpl implements GudangGrupService {
 		model.setVersion(version);
 		
 		GudangGrup gudangGrup=gudangGrupDao.save(model);
+		/*if(model.getIsActive()){
+			loggingService.insertAuditLog(ActionEnum.Actived.getVal(), model);
+		}else{
+			loggingService.insertAuditLog(ActionEnum.NonActived.getVal(), model);
+		}*/
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("id", gudangGrup.getId());
 		result.put("isActive", gudangGrup.getIsActive());

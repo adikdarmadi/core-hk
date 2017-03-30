@@ -17,8 +17,6 @@ import com.hk.dao.custom.AgamaDaoCustom;
 @Repository("AgamaDaoCustom")
 public class AgamaDaoCustomImpl  implements AgamaDaoCustom {
 
-	@PersistenceContext(unitName="persistenceUnit")
-	@Qualifier(value = "entityManagerFactory")
 	protected EntityManager em;
 	
 	

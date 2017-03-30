@@ -13,8 +13,8 @@ public class UserMRUVO {
 	@NotEmpty(message = "User tidak boleh kosong")
 	private String userId;
 	
-	@NotEmpty(message = "Module tidak boleh kosong")
-	private String moduleId;
+	@NotEmpty(message = "Module State tidak boleh kosong")
+	private String moduleState;
 
 	public String getUserId() {
 		return userId;
@@ -24,12 +24,13 @@ public class UserMRUVO {
 		this.userId = userId;
 	}
 
-	public String getModuleId() {
-		return moduleId;
+	public String getModuleState() {
+		return moduleState;
 	}
 
-	public void setModuleId(String moduleId) {
-		this.moduleId = moduleId;
+	public void setModuleState(String moduleState) {
+		this.moduleState = moduleState;
 	}
+
 	
 }

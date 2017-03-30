@@ -25,7 +25,7 @@
 		<java.version>1.7</java.version>
 		<sqlserver.version>4.0.2206.100</sqlserver.version>
 		<!-- versi library dan framework -->
-		<org.springframework.version>4.3.3.RELEASE</org.springframework.version>
+		<org.springframework.version>4.1.4.RELEASE</org.springframework.version>
 		<org.springframework.data.version>1.4.2.RELEASE</org.springframework.data.version>
 		<org.springframework.security.version>3.2.5.RELEASE</org.springframework.security.version>
 		<org.hibernate.version>4.2.6.Final</org.hibernate.version>

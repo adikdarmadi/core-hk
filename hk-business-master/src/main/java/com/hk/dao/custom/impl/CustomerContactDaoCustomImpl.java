@@ -18,8 +18,6 @@ import com.hk.dao.custom.CustomerContactDaoCustom;
 @Repository("CustomerContactDaoCustom")
 public class CustomerContactDaoCustomImpl  implements CustomerContactDaoCustom {
 
-	@PersistenceContext(unitName="persistenceUnit")
-	@Qualifier(value = "entityManagerFactory")
 	protected EntityManager em;
 	
 	

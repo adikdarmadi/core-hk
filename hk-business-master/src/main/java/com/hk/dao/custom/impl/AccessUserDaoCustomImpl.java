@@ -18,8 +18,6 @@ import com.hk.dao.custom.AccessUserDaoCustom;
 @Repository("AccessUserDaoCustom")
 public class AccessUserDaoCustomImpl  implements AccessUserDaoCustom {
 
-	@PersistenceContext(unitName="persistenceUnit")
-	@Qualifier(value = "entityManagerFactory")
 	protected EntityManager em;
 	
 	

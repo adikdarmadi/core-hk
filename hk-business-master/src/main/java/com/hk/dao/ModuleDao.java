@@ -20,6 +20,8 @@ public interface ModuleDao extends PagingAndSortingRepository<Module, String> {
 	List<Map<String,Object>> findAllModule();
 	
 	Module findById(String id);
+	
+	Module findByState(String state);
 
 	@Query("select x from Module x where x.status = '0' and x.moduleParentId is null and x.isActive =true order by x.urutan asc")
 	List<Module> parentNode();
@@ -29,4 +31,7 @@ public interface ModuleDao extends PagingAndSortingRepository<Module, String> {
 	
 	@Query("select x from Module x where x.status = '0' and x.isActive =true order by x.urutan asc")
 	List<Module> findParent();
+	
+	@Query("select m from Module m where m.pathMap = :pathMap ")
+	Module findByPathMap(@Param("pathMap") String pathMap);
 }

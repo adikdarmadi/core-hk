@@ -46,6 +46,10 @@ public class MataUangServiceImpl implements MataUangService {
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("id", mataUang.getId());
 		result.put("isActive", mataUang.getIsActive());
+		if(true){
+			throw new RuntimeException("test");
+		}
+		
 		return result;
 	}
 	
