@@ -37,4 +37,6 @@ public interface SupplierService {
 
 	Map<String, Object> isActiveSupplierContact(String id, Integer version);
 
+	Map<String, Object> findDistinctGroup();
+
 }

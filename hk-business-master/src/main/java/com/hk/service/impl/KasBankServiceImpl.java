@@ -58,7 +58,10 @@ public class KasBankServiceImpl implements KasBankService {
 		model.setCreateBy(userService.getUser().getId());
 		model.setCreateDate(DateUtil.now());
 		model.setIsActive(true);
-		model.setTanggalRegistrasi(DateUtil.toDate(DateUtil.defaultFormatDate(model.getTanggalRegistrasi())));
+		
+		if(CommonUtil.isNotNullOrEmpty(model.getTanggalRegistrasi())){
+			model.setTanggalRegistrasi(DateUtil.toDate(DateUtil.defaultFormatDate(model.getTanggalRegistrasi())));
+		}
 
 		if(CommonUtil.isNotNullOrEmpty(model.getAkunId())){
 			model.setAkun(akunDao.findById(model.getAkunId()));
@@ -93,7 +96,9 @@ public class KasBankServiceImpl implements KasBankService {
 		model.setLastUpdateDate(DateUtil.now());
 		model.setVersion(version);
 		
-		model.setTanggalRegistrasi(DateUtil.toDate(DateUtil.defaultFormatDate(model.getTanggalRegistrasi())));
+		if(CommonUtil.isNotNullOrEmpty(model.getTanggalRegistrasi())){
+			model.setTanggalRegistrasi(DateUtil.toDate(DateUtil.defaultFormatDate(model.getTanggalRegistrasi())));
+		}
 
 		if(CommonUtil.isNotNullOrEmpty(model.getAkunId())){
 			model.setAkun(akunDao.findById(model.getAkunId()));

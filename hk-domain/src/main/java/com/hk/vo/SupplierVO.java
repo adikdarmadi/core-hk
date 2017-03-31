@@ -44,9 +44,6 @@ public class SupplierVO {
 	@NotNull(message = "Lama Bayar tidak boleh kosong")
 	private Integer lamaBayar;
 
-	@NotNull(message = "Kode PO tidak boleh kosong")
-	private Integer kodePo;
-
 	@NotNull(message = "Saldo Awal tidak boleh kosong")
 	private BigDecimal saldoAwal;
 
@@ -73,7 +70,7 @@ public class SupplierVO {
 	@NotEmpty(message = "Mata Uang tidak boleh kosong")
 	private String mataUangId;
 
-	@NotEmpty(message="Detail Kontak harus diisi")
+	//@NotEmpty(message="Detail Kontak harus diisi")
 	//@Valid
 	private List<SupplierContactVO> listSupplierContactVO = new ArrayList<SupplierContactVO>();
 	
@@ -149,13 +146,6 @@ public class SupplierVO {
 		this.lamaBayar = lamaBayar;
 	}
 
-	public Integer getKodePo() {
-		return kodePo;
-	}
-
-	public void setKodePo(Integer kodePo) {
-		this.kodePo = kodePo;
-	}
 
 	public BigDecimal getSaldoAwal() {
 		return saldoAwal;

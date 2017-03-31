@@ -77,10 +77,6 @@ public class Supplier extends BaseModel{
 	@Column(name = "LAMA_BAYAR", nullable = false,length=3)
 	private Integer lamaBayar;
 
-	@NotNull(message = "Kode PO tidak boleh kosong")
-	@Column(name = "KODE_PO", nullable = false,length=3)
-	private Integer kodePo;
-
 	@NotNull(message = "Saldo Awal tidak boleh kosong")
 	@Column(name = "SALDO_AWAL", nullable = false)
 	private BigDecimal saldoAwal;
@@ -220,13 +216,6 @@ public class Supplier extends BaseModel{
 		this.lamaBayar = lamaBayar;
 	}
 
-	public Integer getKodePo() {
-		return kodePo;
-	}
-
-	public void setKodePo(Integer kodePo) {
-		this.kodePo = kodePo;
-	}
 
 	public BigDecimal getSaldoAwal() {
 		return saldoAwal;

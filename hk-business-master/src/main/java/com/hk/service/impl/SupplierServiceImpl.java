@@ -283,4 +283,11 @@ public class SupplierServiceImpl implements SupplierService {
 		lastIndexCount++;
 		return lastIndexCount;
 	}
+	
+	@Override
+	public Map<String,Object> findDistinctGroup() {
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("listDistinctGroup", supplierDao.findDistinctGroup());
+		return result;
+	}
 }
