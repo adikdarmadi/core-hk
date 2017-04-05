@@ -22,6 +22,8 @@ public class SalesVO {
 	
 	@NotEmpty(message = "User tidak boleh kosong")
 	private String userId;
+	
+	private String salesParentId;
 
 	public String getId() {
 		return id;
@@ -53,6 +55,14 @@ public class SalesVO {
 
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+
+	public String getSalesParentId() {
+		return salesParentId;
+	}
+
+	public void setSalesParentId(String salesParentId) {
+		this.salesParentId = salesParentId;
 	}
 
 	

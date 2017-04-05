@@ -88,8 +88,8 @@ public class CustomerVO {
 	@NotEmpty(message = "Follow Up / Sales tidak boleh kosong")
 	private String salesId;
 	
-	@NotEmpty(message = "Prospek tidak boleh kosong")
-	private String prospekId;
+	/*@NotEmpty(message = "Prospek tidak boleh kosong")
+	private String prospekId;*/
 	
 	@NotEmpty(message = "Kas Bank tidak boleh kosong")
 	private String kasBankId;
@@ -309,13 +309,13 @@ public class CustomerVO {
 		this.salesId = salesId;
 	}
 
-	public String getProspekId() {
+	/*public String getProspekId() {
 		return prospekId;
 	}
 
 	public void setProspekId(String prospekId) {
 		this.prospekId = prospekId;
-	}
+	}*/
 
 	public String getKasBankId() {
 		return kasBankId;

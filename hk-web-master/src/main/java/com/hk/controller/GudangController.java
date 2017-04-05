@@ -33,7 +33,7 @@ public class GudangController extends LocaleController {
 	private GudangService gudangService;
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.CREATE,hakMenu="/gudang")
+	@AppPermission(hakAkses = HakAksesConstant.CREATE, hakMenu = "/gudang")
 	@RequestMapping(value = "/save", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> Save(@Valid @RequestBody GudangVO entity, HttpServletRequest request) {
 		Map<String, Object> result = gudangService.saveGudang(entity);
@@ -45,21 +45,11 @@ public class GudangController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.UPDATE,hakMenu="/gudang")
+	@AppPermission(hakAkses = HakAksesConstant.UPDATE, hakMenu = "/gudang")
 	@RequestMapping(value = "/edit/{version}", method = RequestMethod.PUT, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Map<String, Object>> Edit(@PathVariable("version") Integer version, @Valid @RequestBody GudangVO entity, HttpServletRequest request) {
-		Map<String, Object> result = gudangService.editGudang(entity,version);
-		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
-		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.CREATED.toString());
-		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
-		return RestUtil.getJsonResponse(result, HttpStatus.CREATED, mapHeaderMessage);
-	}
-	
-	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.SUPERVISOR,hakMenu="/gudang")
-	@RequestMapping(value = "/active/{id}/version/{version}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Map<String, Object>> Activation(@PathVariable("id") String id, @PathVariable("version") Integer version,HttpServletRequest request) {
-		Map<String, Object> result = gudangService.isActiveGudang(id,version);
+	public ResponseEntity<Map<String, Object>> Edit(@PathVariable("version") Integer version,
+			@Valid @RequestBody GudangVO entity, HttpServletRequest request) {
+		Map<String, Object> result = gudangService.editGudang(entity, version);
 		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
 		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.CREATED.toString());
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
@@ -67,7 +57,19 @@ public class GudangController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakAkses = HakAksesConstant.DELETE,hakMenu="/gudang")
+	@AppPermission(hakAkses = HakAksesConstant.SUPERVISOR, hakMenu = "/gudang")
+	@RequestMapping(value = "/active/{id}/version/{version}", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, Object>> Activation(@PathVariable("id") String id,
+			@PathVariable("version") Integer version, HttpServletRequest request) {
+		Map<String, Object> result = gudangService.isActiveGudang(id, version);
+		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.CREATED.name());
+		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.CREATED.toString());
+		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
+		return RestUtil.getJsonResponse(result, HttpStatus.CREATED, mapHeaderMessage);
+	}
+
+	@SuppressWarnings("unchecked")
+	@AppPermission(hakAkses = HakAksesConstant.DELETE, hakMenu = "/gudang")
 	@RequestMapping(method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE, value = "/del/{id}")
 	public ResponseEntity<Map<String, Object>> DeleteById(@PathVariable("id") String id) {
 		Map<String, Object> result = gudangService.deleteGudang(id);
@@ -78,7 +80,7 @@ public class GudangController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakMenu="/gudang")
+	@AppPermission(hakMenu = "/gudang")
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/all")
 	public ResponseEntity<Map<String, Object>> FindAll() {
 		Map<String, Object> result = gudangService.findAllGudang();
@@ -89,7 +91,7 @@ public class GudangController extends LocaleController {
 	}
 
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakMenu="/gudang")
+	@AppPermission(hakMenu = "/gudang")
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Map<String, Object>> FindById(@PathVariable("id") String id) {
 		Map<String, Object> result = gudangService.findById(id);
@@ -98,12 +100,23 @@ public class GudangController extends LocaleController {
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
 		return RestUtil.getJsonResponse(result, HttpStatus.OK, mapHeaderMessage);
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	@AppPermission(hakMenu="/gudang")
+	@AppPermission(hakMenu = "/gudang")
 	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/user/{userId}")
 	public ResponseEntity<Map<String, Object>> FindByUserId(@PathVariable("userId") String userId) {
 		Map<String, Object> result = gudangService.findByUserId(userId);
+		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
+		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
+		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
+		return RestUtil.getJsonResponse(result, HttpStatus.OK, mapHeaderMessage);
+	}
+
+	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu = "/gudang")
+	@RequestMapping(value = "/edit/{gudangId}/user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, Object>> FindUserCheckByGudangId(@PathVariable("gudangId") String gudangId) {
+		Map<String, Object> result = gudangService.findUserCheckByGudangId(gudangId);
 		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
 		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);

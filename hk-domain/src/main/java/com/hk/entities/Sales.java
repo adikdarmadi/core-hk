@@ -4,14 +4,18 @@
  */
 package com.hk.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -61,6 +65,18 @@ public class Sales extends BaseModel {
 
 	@Column(name = "USER_FK", nullable=false, insertable = false, updatable = false)
 	private String userId;
+	
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "SALES_FK")
+	private Sales salesParent;
+	
+	@Column(name = "SALES_FK", insertable = false, updatable = false)
+	private String salesParentId;
+	
+	@JsonIgnore
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "salesParent", cascade = CascadeType.ALL)
+	private List<Sales> listSales = new ArrayList<Sales>();
 
 	public String getId() {
 		return id;
@@ -118,6 +134,30 @@ public class Sales extends BaseModel {
 		this.userId = userId;
 	}
 
+	public Sales getSalesParent() {
+		return salesParent;
+	}
 
+	public void setSalesParent(Sales salesParent) {
+		this.salesParent = salesParent;
+	}
+
+	public String getSalesParentId() {
+		return salesParentId;
+	}
+
+	public void setSalesParentId(String salesParentId) {
+		this.salesParentId = salesParentId;
+	}
+
+	public List<Sales> getListSales() {
+		return listSales;
+	}
+
+	public void setListSales(List<Sales> listSales) {
+		this.listSales = listSales;
+	}
+
+	
 
 }

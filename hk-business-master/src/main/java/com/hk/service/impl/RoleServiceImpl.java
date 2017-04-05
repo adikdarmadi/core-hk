@@ -15,12 +15,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.hk.dao.RoleDao;
+import com.hk.dao.UserDao;
 import com.hk.dao.UserRoleDao;
 import com.hk.dao.WidgetDao;
 import com.hk.dao.custom.RoleWidgetDaoCustom;
+import com.hk.dao.custom.UserRoleDaoCustom;
 import com.hk.entities.AkunGrup;
 import com.hk.entities.Role;
 import com.hk.entities.RoleWidget;
+import com.hk.entities.User;
+import com.hk.entities.UserGudang;
+import com.hk.entities.UserRole;
 import com.hk.entities.Widget;
 import com.hk.service.RoleService;
 import com.hk.service.UserMasterService;
@@ -41,10 +46,16 @@ public class RoleServiceImpl implements RoleService {
 	private WidgetDao widgetDao;
 	
 	@Autowired
+	private UserDao userDao;
+	
+	@Autowired
 	private UserRoleDao userRoleDao;
 	
 	@Autowired
 	private RoleWidgetDaoCustom roleWidgetDaoCustom;
+	
+	@Autowired
+	private UserRoleDaoCustom userRoleDaoCustom;
 	
 	@Autowired
 	private UserService userService;
@@ -74,7 +85,21 @@ public class RoleServiceImpl implements RoleService {
 			model.setListRoleWidget(listRoleWidget);
 		}
 		
-		
+		if(p.getUsers() != null){
+			List<UserRole> listUserRole = new ArrayList<UserRole>();
+			
+			for(String user : p.getUsers()){
+				UserRole userRole=new UserRole();
+				if(CommonUtil.isNotNullOrEmpty(user)){
+					userRole.setUser(userDao.findById(user));
+					userRole.setRole(model);
+					listUserRole.add(userRole);
+				}
+			}
+			
+			model.getListUserRole().clear();
+			model.setListUserRole(listUserRole);
+		}
 		
 		Role role=roleDao.save(model);
 		Map<String,Object> result=new HashMap<String,Object>(); 
@@ -110,6 +135,22 @@ public class RoleServiceImpl implements RoleService {
 			roleWidgetDaoCustom.deleteByRoleId(model.getId());
 			model.getListRoleWidget().clear();
 			model.setListRoleWidget(listRoleWidget);
+		}
+		
+		if(p.getUsers() != null){
+			List<UserRole> listUserRole = new ArrayList<UserRole>();
+			for(String user : p.getUsers()){
+				UserRole userRole=new UserRole();
+				if(CommonUtil.isNotNullOrEmpty(user)){
+					userRole.setUser(userDao.findById(user));
+					userRole.setRole(model);
+					listUserRole.add(userRole);
+				}
+			}
+			
+			userRoleDaoCustom.deleteByRoleId(model.getId());
+			model.getListUserRole().clear();
+			model.setListUserRole(listUserRole);
 		}
 		
 		Role role=roleDao.save(model);
@@ -175,6 +216,25 @@ public class RoleServiceImpl implements RoleService {
 	public Map<String,Object> findByUserId(String userId){
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("listRole", userRoleDao.findRoleByUserId(userId));
+		return result;
+	}
+	
+	@Override
+	public Map<String,Object> findUserCheckByRoleId(String roleId){
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		List<Object> listMap = new ArrayList<Object>();
+		for(User user : userDao.findByIsActive(true)){
+			Map<String,Object> map=new HashMap<String,Object>(); 
+			map.put("id", user.getId());
+			map.put("nama", user.getNama());
+			if(CommonUtil.isNotNullOrEmpty(userRoleDao.findByUserIdRoleId(user.getId(), roleId))){
+				map.put("isSelected", true);
+			}else{
+				map.put("isSelected", false);
+			}
+			listMap.add(map);
+		}
+		result.put("listRole", listMap);
 		return result;
 	}
 }

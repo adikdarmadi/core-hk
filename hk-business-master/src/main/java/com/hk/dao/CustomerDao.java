@@ -20,7 +20,7 @@ public interface CustomerDao extends PagingAndSortingRepository<Customer, String
 			+ "m.hariRaya as hariRaya,m.statusProperty as statusProperty,m.tanggalDidirikan as tanggalDidirikan,"
 			+ "s.id as salesId,s.nama as salesNama,"
 			+ "m.isActive as isActive, m.version as version, m.createBy as createBy, "
-			+ "m.createDate as createDate) from Customer m left join m.sales s left join m.prospek p left join m.kasBank k "
+			+ "m.createDate as createDate) from Customer m left join m.sales s left join m.kasBank k "
 			+ "left join m.akun a")
 	List<Map<String,Object>> findAllCustomer();
 	

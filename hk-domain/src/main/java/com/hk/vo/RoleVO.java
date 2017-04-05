@@ -21,6 +21,8 @@ public class RoleVO {
 	
 	private List<String> widgets;
 	
+	private List<String> users;
+	
 	public String getId() {
 		return id;
 	}
@@ -43,6 +45,14 @@ public class RoleVO {
 
 	public void setWidgets(List<String> widgets) {
 		this.widgets = widgets;
+	}
+
+	public List<String> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<String> users) {
+		this.users = users;
 	}
 
 	

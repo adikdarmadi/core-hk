@@ -4,7 +4,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import com.hk.dao.custom.CustomerContactDaoCustom;
@@ -18,6 +20,7 @@ import com.hk.dao.custom.CustomerContactDaoCustom;
 @Repository("CustomerContactDaoCustom")
 public class CustomerContactDaoCustomImpl  implements CustomerContactDaoCustom {
 
+	@PersistenceContext(name="dataSource")
 	protected EntityManager em;
 	
 	

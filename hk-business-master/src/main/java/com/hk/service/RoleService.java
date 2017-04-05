@@ -25,4 +25,6 @@ public interface RoleService {
 
 	Map<String, Object> findByUserId(String userId);
 
+	Map<String, Object> findUserCheckByRoleId(String roleId);
+
 }

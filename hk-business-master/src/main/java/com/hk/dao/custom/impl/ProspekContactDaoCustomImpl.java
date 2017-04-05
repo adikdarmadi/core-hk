@@ -18,6 +18,7 @@ import com.hk.dao.custom.ProspekContactDaoCustom;
 @Repository("ProspekContactDaoCustom")
 public class ProspekContactDaoCustomImpl  implements ProspekContactDaoCustom {
 
+	@PersistenceContext(name="dataSource")
 	protected EntityManager em;
 	
 	

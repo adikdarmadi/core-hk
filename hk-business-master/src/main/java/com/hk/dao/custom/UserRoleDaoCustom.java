@@ -7,5 +7,7 @@ package com.hk.dao.custom;
 public interface UserRoleDaoCustom  {
 
 	void deleteByUserId(String userId);
+
+	void deleteByRoleId(String id);
 	
 }

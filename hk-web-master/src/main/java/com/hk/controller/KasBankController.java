@@ -109,4 +109,15 @@ public class KasBankController extends LocaleController {
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
 		return RestUtil.getJsonResponse(result, HttpStatus.OK, mapHeaderMessage);
 	}
+	
+	@SuppressWarnings("unchecked")
+	@AppPermission(hakMenu = "/kasBank")
+	@RequestMapping(value = "/edit/{kasBankId}/user", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, Object>> FindUserCheckByKasBankId(@PathVariable("kasBankId") String kasBankId) {
+		Map<String, Object> result = kasBankService.findUserCheckByKasBankId(kasBankId);
+		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
+		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
+		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);
+		return RestUtil.getJsonResponse(result, HttpStatus.OK, mapHeaderMessage);
+	}
 }

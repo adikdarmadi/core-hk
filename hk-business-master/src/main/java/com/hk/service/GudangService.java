@@ -25,4 +25,6 @@ public interface GudangService {
 
 	Map<String, Object> findByUserId(String userId);
 
+	Map<String, Object> findUserCheckByGudangId(String gudangId);
+
 }

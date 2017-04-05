@@ -19,6 +19,7 @@ import com.hk.dao.UserGudangDao;
 import com.hk.dao.custom.UserGudangDaoCustom;
 import com.hk.entities.AkunGrup;
 import com.hk.entities.Gudang;
+import com.hk.entities.User;
 import com.hk.entities.UserGudang;
 import com.hk.entities.Widget;
 import com.hk.service.GudangService;
@@ -190,6 +191,25 @@ public class GudangServiceImpl implements GudangService {
 	public Map<String,Object> findByUserId(String userId){
 		Map<String,Object> result=new HashMap<String,Object>(); 
 		result.put("listGudang", userGudangDao.findGudangByUserId(userId));
+		return result;
+	}
+	
+	@Override
+	public Map<String,Object> findUserCheckByGudangId(String gudangId){
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		List<Object> listMap = new ArrayList<Object>();
+		for(User user : userDao.findByIsActive(true)){
+			Map<String,Object> map=new HashMap<String,Object>(); 
+			map.put("id", user.getId());
+			map.put("nama", user.getNama());
+			if(CommonUtil.isNotNullOrEmpty(userGudangDao.findByUserIdGudangId(user.getId(), gudangId))){
+				map.put("isSelected", true);
+			}else{
+				map.put("isSelected", false);
+			}
+			listMap.add(map);
+		}
+		result.put("listGudang", listMap);
 		return result;
 	}
 }

@@ -7,4 +7,6 @@ package com.hk.dao.custom;
 public interface UserKasBankDaoCustom  {
 
 	void deleteByUserId(String userId);
+
+	void deleteByKasBankId(String kasBankId);
 }

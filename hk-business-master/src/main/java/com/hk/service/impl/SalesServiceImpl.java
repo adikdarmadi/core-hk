@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,7 @@ public class SalesServiceImpl implements SalesService {
 	@Transactional(readOnly=false)
 	public Map<String,Object> saveSales(SalesVO p) {
 		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save sales execute");
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		Sales model=modelMapper.map(p, Sales.class);
 		model.setId(model.getId().toUpperCase());
 		model.setCreateBy(userService.getUser().getId());
@@ -49,6 +51,10 @@ public class SalesServiceImpl implements SalesService {
 		
 		if(CommonUtil.isNotNullOrEmpty(model.getUserId())){
 			model.setUser(userDao.findById(model.getUserId()));
+		}
+		
+		if(CommonUtil.isNotNullOrEmpty(model.getSalesParentId())){
+			model.setSalesParent(salesDao.findById(model.getSalesParentId()));
 		}
 		
 		Sales sales=salesDao.save(model);
@@ -62,6 +68,8 @@ public class SalesServiceImpl implements SalesService {
 	@Transactional(readOnly=false)
 	public Map<String,Object> editSales(SalesVO p, Integer version){
 		//LOGGER.info(userService.getLoginUser().getNamaUser() +" save sales execute");
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+
 		Sales model=modelMapper.map(p, Sales.class);
 
 		Sales obj = salesDao.findById(p.getId());
@@ -75,6 +83,10 @@ public class SalesServiceImpl implements SalesService {
 		
 		if(CommonUtil.isNotNullOrEmpty(model.getUserId())){
 			model.setUser(userDao.findById(model.getUserId()));
+		}
+		
+		if(CommonUtil.isNotNullOrEmpty(model.getSalesParentId())){
+			model.setSalesParent(salesDao.findById(model.getSalesParentId()));
 		}
 		
 		Sales sales=salesDao.save(model);

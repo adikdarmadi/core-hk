@@ -72,9 +72,9 @@ public class CustomerServiceImpl implements CustomerService {
 		model.setCreateDate(DateUtil.now());
 		model.setIsActive(true);
 
-		if(CommonUtil.isNotNullOrEmpty(model.getProspekId())){
+		/*if(CommonUtil.isNotNullOrEmpty(model.getProspekId())){
 			model.setProspek(prospekDao.findById(model.getProspekId()));
-		}
+		}*/
 		
 		if(CommonUtil.isNotNullOrEmpty(model.getKasBankId())){
 			model.setKasBank(kasBankDao.findById(model.getKasBankId()));
@@ -126,9 +126,9 @@ public class CustomerServiceImpl implements CustomerService {
 		model.setLastUpdateDate(DateUtil.now());
 		model.setVersion(version);
 
-		if(CommonUtil.isNotNullOrEmpty(model.getProspekId())){
+		/*if(CommonUtil.isNotNullOrEmpty(model.getProspekId())){
 			model.setProspek(prospekDao.findById(model.getProspekId()));
-		}
+		}*/
 		
 		if(CommonUtil.isNotNullOrEmpty(model.getKasBankId())){
 			model.setKasBank(kasBankDao.findById(model.getKasBankId()));

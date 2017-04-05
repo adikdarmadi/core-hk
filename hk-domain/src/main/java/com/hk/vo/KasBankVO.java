@@ -2,6 +2,7 @@ package com.hk.vo;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
@@ -58,6 +59,8 @@ public class KasBankVO {
 	
 	@NotEmpty(message = "Akun tidak boleh kosong")
 	private String akunId;
+	
+	private List<String> users;
 	
 	public String getId() {
 		return id;
@@ -185,6 +188,14 @@ public class KasBankVO {
 
 	public void setAkunId(String akunId) {
 		this.akunId = akunId;
+	}
+
+	public List<String> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<String> users) {
+		this.users = users;
 	}
 
 	

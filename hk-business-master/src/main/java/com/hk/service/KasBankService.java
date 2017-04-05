@@ -25,4 +25,6 @@ public interface KasBankService {
 
 	Map<String, Object> findByUserId(String userId);
 
+	Map<String, Object> findUserCheckByKasBankId(String kasBankId);
+
 }

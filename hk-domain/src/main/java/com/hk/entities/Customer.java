@@ -149,14 +149,14 @@ public class Customer extends BaseModel {
 	@Column(name = "SALES_FK",nullable = false, insertable = false, updatable = false)
 	private String salesId;
 	
-	@JsonIgnore
+	/*@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PROSPEK_FK")
 	@NotEmpty(message = "Prospek tidak boleh kosong")
 	private Prospek prospek;
 
 	@Column(name = "PROSPEK_FK",nullable = false, insertable = false, updatable = false)
-	private String prospekId;
+	private String prospekId;*/
 	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -412,7 +412,7 @@ public class Customer extends BaseModel {
 		this.salesId = salesId;
 	}
 
-	public Prospek getProspek() {
+	/*public Prospek getProspek() {
 		return prospek;
 	}
 
@@ -426,7 +426,7 @@ public class Customer extends BaseModel {
 
 	public void setProspekId(String prospekId) {
 		this.prospekId = prospekId;
-	}
+	}*/
 
 	public KasBank getKasBank() {
 		return kasBank;

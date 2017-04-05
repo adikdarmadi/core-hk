@@ -18,8 +18,22 @@ import com.hk.dao.custom.UserKasBankDaoCustom;
 @Repository("UserKasBankDaoCustom")
 public class UserKasBankDaoCustomImpl  implements UserKasBankDaoCustom {
 
+	@PersistenceContext(name="dataSource")
 	protected EntityManager em;
 	
+	@Override
+	public void deleteByKasBankId(String kasBankId) {
+
+		StringBuffer buffer = new StringBuffer();
+
+		buffer.append("delete from UserKasBank x where x.kasBankId =:kasBankId");
+
+		Query query = em.createQuery(buffer.toString());
+
+		query.setParameter("kasBankId", kasBankId);
+		
+		query.executeUpdate();
+	}
 	
 	@Override
 	public void deleteByUserId(String userId) {

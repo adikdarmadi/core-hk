@@ -19,6 +19,7 @@ import com.hk.dao.custom.SupplierContactDaoCustom;
 @Repository("SupplierContactDaoCustom")
 public class SupplierContactDaoCustomImpl  implements SupplierContactDaoCustom {
 
+	@PersistenceContext(name="dataSource")
 	protected EntityManager em;
 	
 	
@@ -27,7 +28,7 @@ public class SupplierContactDaoCustomImpl  implements SupplierContactDaoCustom {
 
 		StringBuffer buffer = new StringBuffer();
 
-		buffer.append("select model.indexCount from SupplierContact model where model.supplierId =:supplierId order by model.indexCount desc ");
+		buffer.append("select coalesce(model.indexCount,0) from SupplierContact model where model.supplierId =:supplierId order by model.indexCount desc ");
 
 		Query query = em.createQuery(buffer.toString());
 		query.setParameter("supplierId", supplierId);
