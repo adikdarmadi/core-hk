@@ -11,7 +11,7 @@ import com.hk.vo.BarangVO;
  */
 public interface BarangService {
 
-	Map<String, Object> findAllBarang();
+	Map<String, Object> findAllBarang(Map<String, String> pathVariables);
 
 	Map<String, Object> saveBarang(BarangVO p);
 

@@ -164,9 +164,28 @@ public class GudangServiceImpl implements GudangService {
 	}
 	
 	@Override
-	public Map<String,Object> findAllGudang() {
+	public Map<String,Object> findAllGudang(Map<String, String> pathVariables) {
 		Map<String,Object> result=new HashMap<String,Object>(); 
-		result.put("listGudang", gudangDao.findAllGudang());
+		
+		List<Object> listMap = new ArrayList<Object>();
+		for(Map<String, Object> map : gudangDao.findAllGudang()){
+			int notAdd = 0;
+			
+			for(Map.Entry<String, String> filter : pathVariables.entrySet()){
+				if(!filter.getValue().equalsIgnoreCase("all")){
+					if(!filter.getValue().equalsIgnoreCase(map.get(filter.getKey()).toString())){
+						notAdd++;
+					}
+				}
+			}
+			
+			if(notAdd == 0){
+				listMap.add(map);
+			}
+			
+		}
+		
+		result.put("listGudang", listMap);
 		return result;
 	}
 	

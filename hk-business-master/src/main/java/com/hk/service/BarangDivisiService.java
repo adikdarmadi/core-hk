@@ -12,7 +12,7 @@ import com.hk.vo.BarangDivisiVO;
 
 public interface BarangDivisiService {
 
-	Map<String, Object> findAllBarangDivisi();
+	Map<String, Object> findAllBarangDivisi(Map<String, String> pathVariables);
 
 	Map<String, Object> saveBarangDivisi(BarangDivisiVO p);
 

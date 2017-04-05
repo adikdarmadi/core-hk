@@ -11,7 +11,7 @@ import com.hk.vo.KasBankVO;
  */
 public interface KasBankService {
 
-	Map<String, Object> findAllKasBank();
+	Map<String, Object> findAllKasBank(Map<String, String> pathVariables);
 
 	Map<String, Object> saveKasBank(KasBankVO p);
 

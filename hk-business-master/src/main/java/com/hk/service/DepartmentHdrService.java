@@ -13,7 +13,7 @@ import com.hk.vo.DepartmentHdrVO;
 
 public interface DepartmentHdrService {
 
-	Map<String, Object> findAllDepartmentHdr();
+	Map<String, Object> findAllDepartmentHdr(Map<String, String> pathVariables);
 
 	Map<String, Object> saveDepartmentHdr(DepartmentHdrVO p);
 

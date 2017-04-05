@@ -11,7 +11,7 @@ import com.hk.vo.AkunGrupVO;
  */
 public interface AkunGrupService {
 
-	Map<String, Object> findAllAkunGrup();
+	Map<String, Object> findAllAkunGrup(Map<String, String> pathVariables);
 
 	Map<String, Object> saveAkunGrup(AkunGrupVO p);
 

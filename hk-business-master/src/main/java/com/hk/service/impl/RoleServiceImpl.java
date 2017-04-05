@@ -188,9 +188,28 @@ public class RoleServiceImpl implements RoleService {
 	
 	@Override
 	@Transactional(readOnly=false)
-	public Map<String,Object> findAllRole() {
+	public Map<String,Object> findAllRole(Map<String, String> pathVariables) {
 		Map<String,Object> result=new HashMap<String,Object>(); 
-		result.put("listRole", roleDao.findAllRole());
+		
+		List<Object> listMap = new ArrayList<Object>();
+		for(Map<String, Object> map : roleDao.findAllRole()){
+			int notAdd = 0;
+			
+			for(Map.Entry<String, String> filter : pathVariables.entrySet()){
+				if(!filter.getValue().equalsIgnoreCase("all")){
+					if(!filter.getValue().equalsIgnoreCase(map.get(filter.getKey()).toString())){
+						notAdd++;
+					}
+				}
+			}
+			
+			if(notAdd == 0){
+				listMap.add(map);
+			}
+			
+		}
+		
+		result.put("listRole", listMap);
 		return result;
 	}
 	

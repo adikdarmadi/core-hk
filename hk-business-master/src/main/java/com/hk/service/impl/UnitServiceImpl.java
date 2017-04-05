@@ -1,6 +1,8 @@
 package com.hk.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.modelmapper.ModelMapper;
@@ -98,9 +100,28 @@ public class UnitServiceImpl implements UnitService {
 	
 	@Override
 	@Transactional(readOnly=false)
-	public Map<String,Object> findAllUnit() {
+	public Map<String,Object> findAllUnit(Map<String, String> pathVariables) {
 		Map<String,Object> result=new HashMap<String,Object>(); 
-		result.put("listUnit", unitDao.findAllUnit());
+		
+		List<Object> listMap = new ArrayList<Object>();
+		for(Map<String, Object> map : unitDao.findAllUnit()){
+			int notAdd = 0;
+			
+			for(Map.Entry<String, String> filter : pathVariables.entrySet()){
+				if(!filter.getValue().equalsIgnoreCase("all")){
+					if(!filter.getValue().equalsIgnoreCase(map.get(filter.getKey()).toString())){
+						notAdd++;
+					}
+				}
+			}
+			
+			if(notAdd == 0){
+				listMap.add(map);
+			}
+			
+		}
+		
+		result.put("listUnit", listMap);
 		return result;
 	}
 	

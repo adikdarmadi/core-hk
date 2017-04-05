@@ -12,7 +12,7 @@ import com.hk.vo.BarangTipeVO;
 
 public interface BarangTipeService {
 
-	Map<String, Object> findAllBarangTipe();
+	Map<String, Object> findAllBarangTipe(Map<String, String> pathVariables);
 
 	Map<String, Object> saveBarangTipe(BarangTipeVO p);
 

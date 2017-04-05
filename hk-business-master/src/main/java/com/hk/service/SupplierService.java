@@ -13,7 +13,7 @@ import com.hk.vo.SupplierVO;
 
 public interface SupplierService {
 
-	Map<String, Object> findAllSupplier();
+	Map<String, Object> findAllSupplier(Map<String, String> pathVariables);
 
 	Map<String, Object> saveSupplier(SupplierVO p);
 

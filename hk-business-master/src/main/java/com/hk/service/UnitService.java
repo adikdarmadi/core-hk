@@ -11,7 +11,7 @@ import com.hk.vo.UnitVO;
  */
 public interface UnitService {
 
-	Map<String, Object> findAllUnit();
+	Map<String, Object> findAllUnit(Map<String, String> pathVariables);
 
 	Map<String, Object> saveUnit(UnitVO p);
 

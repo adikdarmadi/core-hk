@@ -143,9 +143,28 @@ public class WidgetServiceImpl implements WidgetService {
 	
 	@Override
 	@Transactional(readOnly=false)
-	public Map<String,Object> findAllWidget() {
+	public Map<String,Object> findAllWidget(Map<String, String> pathVariables) {
 		Map<String,Object> result=new HashMap<String,Object>(); 
-		result.put("listWidget", widgetDao.findAllWidget());
+		
+		List<Object> listMap = new ArrayList<Object>();
+		for(Map<String, Object> map : widgetDao.findAllWidget()){
+			int notAdd = 0;
+			
+			for(Map.Entry<String, String> filter : pathVariables.entrySet()){
+				if(!filter.getValue().equalsIgnoreCase("all")){
+					if(!filter.getValue().equalsIgnoreCase(map.get(filter.getKey()).toString())){
+						notAdd++;
+					}
+				}
+			}
+			
+			if(notAdd == 0){
+				listMap.add(map);
+			}
+			
+		}
+		
+		result.put("listWidget", listMap);
 		return result;
 	}
 	

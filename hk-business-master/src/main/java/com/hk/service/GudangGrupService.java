@@ -11,7 +11,7 @@ import com.hk.vo.GudangGrupVO;
  */
 public interface GudangGrupService {
 
-	Map<String, Object> findAllGudangGrup();
+	Map<String, Object> findAllGudangGrup(Map<String, String> pathVariables);
 
 	Map<String, Object> saveGudangGrup(GudangGrupVO p);
 

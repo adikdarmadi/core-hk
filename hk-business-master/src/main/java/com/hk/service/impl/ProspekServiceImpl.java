@@ -141,9 +141,28 @@ public class ProspekServiceImpl implements ProspekService {
 	
 	@Override
 	@Transactional(readOnly=false)
-	public Map<String,Object> findAllProspek() {
+	public Map<String,Object> findAllProspek(Map<String, String> pathVariables) {
 		Map<String,Object> result=new HashMap<String,Object>(); 
-		result.put("listProspek", prospekDao.findAllProspek());
+		
+		List<Object> listMap = new ArrayList<Object>();
+		for(Map<String, Object> map : prospekDao.findAllProspek()){
+			int notAdd = 0;
+			
+			for(Map.Entry<String, String> filter : pathVariables.entrySet()){
+				if(!filter.getValue().equalsIgnoreCase("all")){
+					if(!filter.getValue().equalsIgnoreCase(map.get(filter.getKey()).toString())){
+						notAdd++;
+					}
+				}
+			}
+			
+			if(notAdd == 0){
+				listMap.add(map);
+			}
+			
+		}
+		
+		result.put("listProspek", listMap);
 		return result;
 	}
 	

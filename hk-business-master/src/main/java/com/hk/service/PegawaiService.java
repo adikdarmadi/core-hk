@@ -11,7 +11,7 @@ import com.hk.vo.PegawaiVO;
  */
 public interface PegawaiService {
 
-	Map<String, Object> findAllPegawai();
+	Map<String, Object> findAllPegawai(Map<String, String> pathVariables);
 
 	Map<String, Object> savePegawai(PegawaiVO p);
 

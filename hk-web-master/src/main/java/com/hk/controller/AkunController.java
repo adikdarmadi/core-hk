@@ -79,9 +79,9 @@ public class AkunController extends LocaleController {
 
 	@SuppressWarnings("unchecked")
 	@AppPermission(hakMenu="/akun")
-	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value = "/all")
-	public ResponseEntity<Map<String, Object>> FindAll() {
-		Map<String, Object> result = akunService.findAllAkun();
+	@RequestMapping(method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE, value={ "/active/{isActive}", "/all" })
+	public ResponseEntity<Map<String, Object>> FindAll(@PathVariable Map<String, String> pathVariables) {
+		Map<String, Object> result = akunService.findAllAkun(pathVariables);
 		mapHeaderMessage.put(BaseConstant.STATUS, HttpStatus.OK.name());
 		mapHeaderMessage.put(BaseConstant.STATUS_CODE, HttpStatus.OK.toString());
 		mapHeaderMessage.put(BaseConstant.MESSAGE, BaseConstant.HttpHeaderInfo.LABEL_SUCCESS);

@@ -12,7 +12,7 @@ import com.hk.vo.ModuleVO;
 
 public interface ModuleService {
 
-	Map<String, Object> findAllModule();
+	Map<String, Object> findAllModule(Map<String, String> pathVariables);
 
 	Map<String, Object> saveModule(ModuleVO p);
 

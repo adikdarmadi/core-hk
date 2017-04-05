@@ -154,9 +154,28 @@ public class SupplierServiceImpl implements SupplierService {
 	
 	@Override
 	@Transactional(readOnly=false)
-	public Map<String,Object> findAllSupplier() {
+	public Map<String,Object> findAllSupplier(Map<String, String> pathVariables) {
 		Map<String,Object> result=new HashMap<String,Object>(); 
-		result.put("listSupplier", supplierDao.findAllSupplier());
+		
+		List<Object> listMap = new ArrayList<Object>();
+		for(Map<String, Object> map : supplierDao.findAllSupplier()){
+			int notAdd = 0;
+			
+			for(Map.Entry<String, String> filter : pathVariables.entrySet()){
+				if(!filter.getValue().equalsIgnoreCase("all")){
+					if(!filter.getValue().equalsIgnoreCase(map.get(filter.getKey()).toString())){
+						notAdd++;
+					}
+				}
+			}
+			
+			if(notAdd == 0){
+				listMap.add(map);
+			}
+			
+		}
+		
+		result.put("listSupplier", listMap);
 		return result;
 	}
 	

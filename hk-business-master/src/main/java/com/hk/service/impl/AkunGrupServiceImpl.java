@@ -1,6 +1,8 @@
 package com.hk.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.modelmapper.ModelMapper;
@@ -96,9 +98,28 @@ public class AkunGrupServiceImpl implements AkunGrupService {
 	}
 	
 	@Override
-	public Map<String,Object> findAllAkunGrup() {
+	public Map<String,Object> findAllAkunGrup(Map<String, String> pathVariables) {
 		Map<String,Object> result=new HashMap<String,Object>(); 
-		result.put("listAkunGrup", akunGrupDao.findAllAkunGrup());
+		
+		List<Object> listMap = new ArrayList<Object>();
+		for(Map<String, Object> map : akunGrupDao.findAllAkunGrup()){
+			int notAdd = 0;
+			
+			for(Map.Entry<String, String> filter : pathVariables.entrySet()){
+				if(!filter.getValue().equalsIgnoreCase("all")){
+					if(!filter.getValue().equalsIgnoreCase(map.get(filter.getKey()).toString())){
+						notAdd++;
+					}
+				}
+			}
+			
+			if(notAdd == 0){
+				listMap.add(map);
+			}
+			
+		}
+		
+		result.put("listAkunGrup", listMap);
 		return result;
 	}
 	

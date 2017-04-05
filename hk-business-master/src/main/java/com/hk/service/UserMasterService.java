@@ -15,7 +15,7 @@ import com.hk.vo.UserVO;
  */
 public interface UserMasterService{
 	
-	Map<String, Object> findAllUser();
+	Map<String, Object> findAllUser(Map<String, String> pathVariables);
 
 	Map<String, Object> saveUser(UserVO p) throws NoSuchAlgorithmException, UnsupportedEncodingException;
 

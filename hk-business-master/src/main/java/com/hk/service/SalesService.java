@@ -11,7 +11,7 @@ import com.hk.vo.SalesVO;
  */
 public interface SalesService {
 
-	Map<String, Object> findAllSales();
+	Map<String, Object> findAllSales(Map<String, String> pathVariables);
 
 	Map<String, Object> saveSales(SalesVO p);
 

@@ -190,9 +190,28 @@ public class KasBankServiceImpl implements KasBankService {
 	
 	@Override
 	@Transactional(readOnly=false)
-	public Map<String,Object> findAllKasBank() {
+	public Map<String,Object> findAllKasBank(Map<String, String> pathVariables) {
 		Map<String,Object> result=new HashMap<String,Object>(); 
-		result.put("listKasBank", kasBankDao.findAllKasBank());
+		
+		List<Object> listMap = new ArrayList<Object>();
+		for(Map<String, Object> map : kasBankDao.findAllKasBank()){
+			int notAdd = 0;
+			
+			for(Map.Entry<String, String> filter : pathVariables.entrySet()){
+				if(!filter.getValue().equalsIgnoreCase("all")){
+					if(!filter.getValue().equalsIgnoreCase(map.get(filter.getKey()).toString())){
+						notAdd++;
+					}
+				}
+			}
+			
+			if(notAdd == 0){
+				listMap.add(map);
+			}
+			
+		}
+		
+		result.put("listKasBank", listMap);
 		return result;
 	}
 	

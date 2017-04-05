@@ -12,7 +12,7 @@ import com.hk.vo.BarangGrupVO;
 
 public interface BarangGrupService {
 
-	Map<String, Object> findAllBarangGrup();
+	Map<String, Object> findAllBarangGrup(Map<String, String> pathVariables);
 
 	Map<String, Object> saveBarangGrup(BarangGrupVO p);
 

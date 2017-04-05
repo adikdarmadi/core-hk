@@ -13,7 +13,7 @@ import com.hk.vo.ProspekVO;
 
 public interface ProspekService {
 
-	Map<String, Object> findAllProspek();
+	Map<String, Object> findAllProspek(Map<String, String> pathVariables);
 
 	Map<String, Object> saveProspek(ProspekVO p);
 

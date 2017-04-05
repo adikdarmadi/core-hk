@@ -13,7 +13,7 @@ import com.hk.vo.CustomerVO;
 
 public interface CustomerService {
 
-	Map<String, Object> findAllCustomer();
+	Map<String, Object> findAllCustomer(Map<String, String> pathVariables);
 
 	Map<String, Object> saveCustomer(CustomerVO p);
 

@@ -11,7 +11,7 @@ import com.hk.vo.AkunVO;
  */
 public interface AkunService {
 
-	Map<String, Object> findAllAkun();
+	Map<String, Object> findAllAkun(Map<String, String> pathVariables);
 
 	Map<String, Object> saveAkun(AkunVO p);
 

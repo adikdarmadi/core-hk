@@ -11,7 +11,7 @@ import com.hk.vo.GudangVO;
  */
 public interface GudangService {
 
-	Map<String, Object> findAllGudang();
+	Map<String, Object> findAllGudang(Map<String, String> pathVariables);
 
 	Map<String, Object> saveGudang(GudangVO p);
 

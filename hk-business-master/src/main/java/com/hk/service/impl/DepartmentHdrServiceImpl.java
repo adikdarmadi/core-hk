@@ -95,9 +95,28 @@ public class DepartmentHdrServiceImpl implements DepartmentHdrService {
 	
 	@Override
 	@Transactional(readOnly=false)
-	public Map<String,Object> findAllDepartmentHdr() {
+	public Map<String,Object> findAllDepartmentHdr(Map<String, String> pathVariables) {
 		Map<String,Object> result=new HashMap<String,Object>(); 
-		result.put("listDepartmentHdr", departmentHdrDao.findAllDepartmentHdr());
+		
+		List<Object> listMap = new ArrayList<Object>();
+		for(Map<String, Object> map : departmentHdrDao.findAllDepartmentHdr()){
+			int notAdd = 0;
+			
+			for(Map.Entry<String, String> filter : pathVariables.entrySet()){
+				if(!filter.getValue().equalsIgnoreCase("all")){
+					if(!filter.getValue().equalsIgnoreCase(map.get(filter.getKey()).toString())){
+						notAdd++;
+					}
+				}
+			}
+			
+			if(notAdd == 0){
+				listMap.add(map);
+			}
+			
+		}
+		
+		result.put("listDepartmentHdr", listMap);
 		return result;
 	}
 	

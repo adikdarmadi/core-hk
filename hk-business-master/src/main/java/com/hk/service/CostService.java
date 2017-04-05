@@ -11,7 +11,7 @@ import com.hk.vo.CostVO;
  */
 public interface CostService {
 
-	Map<String, Object> findAllCost();
+	Map<String, Object> findAllCost(Map<String, String> pathVariables);
 
 	Map<String, Object> saveCost(CostVO p);
 

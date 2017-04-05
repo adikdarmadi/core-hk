@@ -12,7 +12,7 @@ import com.hk.vo.BarangMerkVO;
 
 public interface BarangMerkService {
 
-	Map<String, Object> findAllBarangMerk();
+	Map<String, Object> findAllBarangMerk(Map<String, String> pathVariables);
 
 	Map<String, Object> saveBarangMerk(BarangMerkVO p);
 

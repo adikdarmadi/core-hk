@@ -203,9 +203,28 @@ public class CustomerServiceImpl implements CustomerService {
 	
 	@Override
 	@Transactional(readOnly=false)
-	public Map<String,Object> findAllCustomer() {
-		Map<String,Object> result=new HashMap<String,Object>(); 
-		result.put("listCustomer", customerDao.findAllCustomer());
+	public Map<String,Object> findAllCustomer(Map<String, String> pathVariables) {
+		Map<String,Object> result=new HashMap<String,Object>();
+		
+		List<Object> listMap = new ArrayList<Object>();
+		for(Map<String, Object> map : customerDao.findAllCustomer()){
+			int notAdd = 0;
+			
+			for(Map.Entry<String, String> filter : pathVariables.entrySet()){
+				if(!filter.getValue().equalsIgnoreCase("all")){
+					if(!filter.getValue().equalsIgnoreCase(map.get(filter.getKey()).toString())){
+						notAdd++;
+					}
+				}
+			}
+			
+			if(notAdd == 0){
+				listMap.add(map);
+			}
+			
+		}
+		
+		result.put("listCustomer", listMap);
 		return result;
 	}
 	

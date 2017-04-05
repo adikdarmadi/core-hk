@@ -11,7 +11,7 @@ import com.hk.vo.RoleVO;
  */
 public interface RoleService {
 
-	Map<String, Object> findAllRole();
+	Map<String, Object> findAllRole(Map<String, String> pathVariables);
 
 	Map<String, Object> saveRole(RoleVO p);
 

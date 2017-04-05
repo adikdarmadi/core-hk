@@ -13,7 +13,7 @@ import com.hk.vo.ProdukVO;
  */
 public interface MataUangService {
 
-	Map<String, Object> findAllMataUang();
+	Map<String, Object> findAllMataUang(Map<String, String> pathVariables);
 
 	Map<String, Object> saveMataUang(MataUangVO p);
 

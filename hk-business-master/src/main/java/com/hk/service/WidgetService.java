@@ -11,7 +11,7 @@ import com.hk.vo.WidgetVO;
  */
 public interface WidgetService {
 
-	Map<String, Object> findAllWidget();
+	Map<String, Object> findAllWidget(Map<String, String> pathVariables);
 
 	Map<String, Object> saveWidget(WidgetVO p);
 
