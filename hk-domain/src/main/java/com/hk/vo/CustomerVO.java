@@ -97,7 +97,7 @@ public class CustomerVO {
 	@NotEmpty(message = "Akun tidak boleh kosong")
 	private String akunId;
 
-	@NotEmpty(message="Detail Kontak harus diisi")
+	//@NotEmpty(message="Detail Kontak harus diisi")
 	//@Valid
 	private List<CustomerContactVO> listCustomerContactVO = new ArrayList<CustomerContactVO>();
 
