@@ -105,6 +105,15 @@ public class Barang extends BaseModel {
 	
 	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "BARANG_TIPE_FK")
+	@NotEmpty(message = "Tipe tidak boleh kosong")
+	private BarangTipe barangTipe;
+
+	@Column(name = "BARANG_TIPE_FK",nullable=false, insertable = false, updatable = false)
+	private String barangTipeId;
+	
+	@JsonIgnore
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "SUPPLIER_FK")
 	@NotEmpty(message = "Supplier tidak boleh kosong")
 	private Supplier supplier;
@@ -413,6 +422,23 @@ public class Barang extends BaseModel {
 	public void setUnitBeliId(String unitBeliId) {
 		this.unitBeliId = unitBeliId;
 	}
+
+	public BarangTipe getBarangTipe() {
+		return barangTipe;
+	}
+
+	public void setBarangTipe(BarangTipe barangTipe) {
+		this.barangTipe = barangTipe;
+	}
+
+	public String getBarangTipeId() {
+		return barangTipeId;
+	}
+
+	public void setBarangTipeId(String barangTipeId) {
+		this.barangTipeId = barangTipeId;
+	}
+	
 	
 	/*@ManyToOne
 	@JoinColumn(name = "MATA_UANG_BELI_FK")

@@ -50,6 +50,9 @@ public class BarangVO {
 	@NotEmpty(message = "Merk tidak boleh kosong")
 	private String barangMerkId;
 	
+	@NotEmpty(message = "Tipe tidak boleh kosong")
+	private String barangTipeId;
+	
 	@NotEmpty(message = "Supplier tidak boleh kosong")
 	private String supplierId;
 	
@@ -221,6 +224,14 @@ public class BarangVO {
 
 	public void setUnitBeliId(String unitBeliId) {
 		this.unitBeliId = unitBeliId;
+	}
+
+	public String getBarangTipeId() {
+		return barangTipeId;
+	}
+
+	public void setBarangTipeId(String barangTipeId) {
+		this.barangTipeId = barangTipeId;
 	}
 	
 	

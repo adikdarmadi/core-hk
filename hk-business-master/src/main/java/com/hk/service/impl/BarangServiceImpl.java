@@ -17,6 +17,7 @@ import com.hk.dao.BarangDao;
 import com.hk.dao.BarangDivisiDao;
 import com.hk.dao.BarangGrupDao;
 import com.hk.dao.BarangMerkDao;
+import com.hk.dao.BarangTipeDao;
 import com.hk.dao.GudangDao;
 import com.hk.dao.SupplierDao;
 import com.hk.dao.UnitDao;
@@ -45,6 +46,9 @@ public class BarangServiceImpl implements BarangService {
 	
 	@Autowired
 	private BarangGrupDao barangGrupDao;
+	
+	@Autowired
+	private BarangTipeDao barangTipeDao;
 	
 	@Autowired
 	private SupplierDao supplierDao;
@@ -87,6 +91,9 @@ public class BarangServiceImpl implements BarangService {
 		}
 		if(CommonUtil.isNotNullOrEmpty(model.getBarangGrupId())){
 			model.setBarangGrup(barangGrupDao.findById(model.getBarangGrupId()));
+		}
+		if(CommonUtil.isNotNullOrEmpty(model.getBarangTipeId())){
+			model.setBarangTipe(barangTipeDao.findById(model.getBarangTipeId()));
 		}
 		if(CommonUtil.isNotNullOrEmpty(model.getSupplierId())){
 			model.setSupplier(supplierDao.findById(model.getSupplierId()));
@@ -140,6 +147,9 @@ public class BarangServiceImpl implements BarangService {
 		}
 		if(CommonUtil.isNotNullOrEmpty(model.getBarangGrupId())){
 			model.setBarangGrup(barangGrupDao.findById(model.getBarangGrupId()));
+		}
+		if(CommonUtil.isNotNullOrEmpty(model.getBarangTipeId())){
+			model.setBarangTipe(barangTipeDao.findById(model.getBarangTipeId()));
 		}
 		if(CommonUtil.isNotNullOrEmpty(model.getSupplierId())){
 			model.setSupplier(supplierDao.findById(model.getSupplierId()));
