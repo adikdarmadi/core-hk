@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import com.hk.entities.AccessUser;
 import com.hk.entities.User;
+import com.hk.entities.v_user;
 
 
 /**
@@ -34,4 +35,7 @@ public interface UserDao extends PagingAndSortingRepository<User, String> {
 	AccessUser findByUserIdPathMap(@Param("userId") String userId,@Param("pathMap") String pathMap);
 
 	List<User>  findByIsActive(Boolean isActive);
+	
+	@Query("select vu from v_user vu ")
+	List<v_user> findvUser();
 }

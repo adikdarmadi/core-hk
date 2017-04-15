@@ -39,4 +39,6 @@ public interface UserMasterService{
 
 	Map<String, Object> findByKasBankId(String kasBankId);
 	
+	Map<String, Object> findvUser();
+	
 }

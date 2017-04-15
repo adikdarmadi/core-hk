@@ -119,7 +119,7 @@ public class GudangGrupServiceImpl implements GudangGrupService {
 	@Override
 	public Map<String,Object> findAllGudangGrup(Map<String, String> pathVariables) {
 		Map<String,Object> result=new HashMap<String,Object>(); 
-		
+
 		List<Object> listMap = new ArrayList<Object>();
 		for(Map<String, Object> map : gudangGrupDao.findAllGudangGrup()){
 			int notAdd = 0;

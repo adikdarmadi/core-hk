@@ -66,7 +66,6 @@ public class CustomerVO {
 	@NotNull(message = "Hari Tagih tidak boleh kosong")
 	private String hariTagih;
 	
-	@NotNull(message = "Nama Di Faktur tidak boleh kosong")
 	private String namaFaktur;
 	
 	private String namaPkp;

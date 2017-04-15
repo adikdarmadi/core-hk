@@ -112,8 +112,7 @@ public class Customer extends BaseModel {
 	@Column(name = "HARI_TAGIH", nullable = false,length=10)
 	private String hariTagih;
 	
-	@NotNull(message = "Nama Di Faktur tidak boleh kosong")
-	@Column(name = "NAMA_DI_FAKTUR", nullable = false,length=50)
+	@Column(name = "NAMA_DI_FAKTUR",length=50)
 	private String namaFaktur;
 	
 	@Column(name = "NAMA_PKP",length=50)

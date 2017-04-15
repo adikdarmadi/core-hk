@@ -407,4 +407,12 @@ public class UserMasterServiceImpl implements UserMasterService {
 		result.put("listKasBank", userKasBankDao.findUserByKasBankId(kasBankId));
 		return result;
 	}
+	
+
+	@Override
+	public Map<String,Object> findvUser(){
+		Map<String,Object> result=new HashMap<String,Object>(); 
+		result.put("listvUser", userDao.findvUser());
+		return result;
+	}
 }
